@@ -27,32 +27,267 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
     <style>
-        .display-none {
-            display: none;
+        .display-none { display: none; }
+        .select2-container { width: 100% !important; }
+        .m-b-10 { margin-bottom: 10px; }
+        .m-t-10 { margin-top: 10px; }
+        .modal-header { background: linear-gradient(135deg, #0089b3, #006d8f); color: #fff; border-radius: 4px 4px 0 0; }
+        .modal-header .close { color: #fff; opacity: .8; text-shadow: none; }
+        .modal-header .modal-title { color: #fff; }
+
+        .top-nav .dropdown-menu { border: none; border-radius: 10px; box-shadow: 0 8px 30px rgba(0,0,0,0.15); padding: 8px; min-width: 190px; margin-top: 10px; }
+        .top-nav .dropdown-menu > li > a { padding: 10px 14px; border-radius: 8px; font-size: 14px; color: #2d3748; display: flex; align-items: center; transition: all .15s ease; }
+        .top-nav .dropdown-menu > li > a i { font-size: 16px; width: 22px; text-align: center; margin-right: 12px; color: #718096; transition: color .15s; }
+        .top-nav .dropdown-menu > li > a:hover { background: #f0f4f8; color: #0089b3; }
+        .top-nav .dropdown-menu > li > a:hover i { color: #0089b3; }
+        .top-nav .dropdown-menu > li:not(:last-child) > a { border-bottom: 1px solid #f0f4f8; margin-bottom: 2px; }
+
+        .top-nav img { border-radius: 50%; width: 36px; height: 36px; object-fit: cover; border: 2px solid rgba(255,255,255,0.3); }
+        .top-nav .username { font-size: 14px; font-weight: 500; color: #fff; margin-left: 6px; }
+        .top-nav .caret { border-top-color: rgba(255,255,255,0.7); }
+
+        /* ===== Global Font ===== */
+        body, .wrapper, #main-content, .container, .container-fluid,
+        table, input, select, textarea, button, .btn,
+        .modal-content, .panel, .well, .form-control,
+        .dropdown-menu, .nav, .navbar, .breadcrumb, .pagination,
+        .label, .badge, .alert, .list-group, .progress,
+        .panel-heading, .panel-body, .panel-footer,
+        .modal-header, .modal-body, .modal-footer {
+            font-family: 'Roboto', sans-serif !important;
         }
 
-        .select2-container {
-            width: 100% !important;
+        /* ===== Sidebar Professional ===== */
+        #sidebar, #sidebar :not(i) {
+            font-family: 'Roboto', sans-serif !important;
         }
-
-        .m-b-10 {
-            margin-bottom: 10px;
+        #sidebar {
+            background: linear-gradient(180deg, #0a2b3c 0%, #0f3a4f 100%) !important;
+            box-shadow: 2px 0 20px rgba(0,0,0,0.15);
+            width: 240px;
+            z-index: 100;
         }
-
-        .m-t-10 {
-            margin-top: 10px;
+        #sidebar::-webkit-scrollbar { width: 4px; }
+        #sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+        .leftside-navigation { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.15) transparent; }
+        ul.sidebar-menu { padding-top: 70px; }
+        ul.sidebar-menu > li { border-bottom: 1px solid rgba(255,255,255,0.04); }
+        ul.sidebar-menu > li:last-child { border-bottom: none; }
+        ul.sidebar-menu li a {
+            padding: 14px 16px 14px 20px;
+            font-size: 13px;
+            font-weight: 400;
+            color: rgba(255,255,255,0.75);
+            transition: all .25s ease;
+            position: relative;
+            border-left: 3px solid transparent;
         }
-
-        .modal-header {
-            background: rgb(240, 188, 180);
+        ul.sidebar-menu li a:hover,
+        ul.sidebar-menu li a:focus {
+            background: rgba(255,255,255,0.06);
+            color: #fff;
+            border-left-color: #f0bcb4;
         }
+        ul.sidebar-menu li a.active {
+            background: rgba(0,137,179,0.15);
+            color: #fff;
+            border-left-color: #0089b3;
+            font-weight: 500;
+        }
+        ul.sidebar-menu li a i {
+            font-size: 15px;
+            width: 22px;
+            text-align: center;
+            margin-right: 10px;
+            color: rgba(255,255,255,0.5);
+            transition: color .25s;
+        }
+        ul.sidebar-menu li a:hover i,
+        ul.sidebar-menu li a.active i { color: #f0bcb4; }
+        ul.sidebar-menu li a.active i { color: #0089b3; }
 
-        i.fa {
-            color: black;
-            font-size: 16px;
-            margin-right: 5px;
+        /* Sub-menu */
+        ul.sidebar-menu li ul.sub { background: rgba(0,0,0,0.15); padding: 4px 0; }
+        ul.sidebar-menu li ul.sub li { background: transparent !important; }
+        ul.sidebar-menu li ul.sub li a {
+            padding: 9px 16px 9px 20px;
+            font-size: 12.5px;
+            color: rgba(255,255,255,0.6);
+            border-left: 2px solid transparent;
+            transition: all .25s ease;
+            display: flex;
+            align-items: center;
+        }
+        ul.sidebar-menu li ul.sub li a i.sub-icon {
+            font-size: 11px;
+            width: 18px;
+            text-align: center;
+            margin-right: 8px;
+            color: rgba(255,255,255,0.3);
+            transition: color .25s;
+        }
+        ul.sidebar-menu li ul.sub li a:hover {
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            border-left-color: #8b5c7e;
+        }
+        ul.sidebar-menu li ul.sub li a:hover i.sub-icon { color: #f0bcb4; }
+        ul.sidebar-menu li ul.sub li.active a {
+            color: #fff;
+            background: rgba(139,92,126,0.12);
+            border-left-color: #8b5c7e;
+        }
+        ul.sidebar-menu li ul.sub li.active a i.sub-icon { color: #8b5c7e; }
+
+        /* dcjq accordion arrow */
+        #sidebar .dcjq-icon {
+            background: rgba(255,255,255,0.08);
+            border-radius: 3px;
+            height: 18px;
+            width: 18px;
+            line-height: 18px;
+            text-align: center;
+            top: 14px;
+            right: 12px;
+            background-image: none !important;
+            font-family: 'FontAwesome' !important;
+            font-size: 10px;
+            color: rgba(255,255,255,0.4);
+            transition: all .25s;
+        }
+        #sidebar .dcjq-icon::before { content: "\f105"; }
+        #sidebar .active .dcjq-icon { background-image: none !important; background: rgba(0,137,179,0.2); color: #0089b3; }
+        #sidebar .active .dcjq-icon::before { content: "\f107"; }
+        #sidebar li.sub-menu:hover > a > .dcjq-icon { color: #f0bcb4; }
+
+        /* Logout special */
+        ul.sidebar-menu li a[href*="Logout"] { border-top: 1px solid rgba(255,255,255,0.06); margin-top: 4px; }
+        ul.sidebar-menu li a[href*="Logout"] i { color: rgba(240,188,180,0.6); }
+        ul.sidebar-menu li a[href*="Logout"]:hover i { color: #f0bcb4; }
+
+        /* ===== Header Professional ===== */
+        .header {
+            background: linear-gradient(135deg, #0089b3 0%, #006080 100%) !important;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+            height: 64px;
+        }
+        .brand {
+            background: linear-gradient(135deg, #8b5c7e 0%, #6d4662 100%) !important;
+            width: 240px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        a.logo {
+            font-size: 20px !important;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: capitalize;
+            color: #fff;
+            margin: 0 !important;
+            float: none !important;
+        }
+        .sidebar-toggle-box {
+            position: absolute;
+            right: -14px;
+            top: 50%;
+            margin: 0;
+            -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+            width: 28px;
+            height: 28px;
+            background: #f0bcb4;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
+            transition: all .2s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            border: 2px solid #fff;
         }
+        .sidebar-toggle-box .fa-bars {
+            font-size: 12px;
+            color: #fff;
+            padding: 0;
+        }
+        .sidebar-toggle-box:hover {
+            background: #e8a89e;
+            -webkit-transform: translateY(-50%) scale(1.08);
+            transform: translateY(-50%) scale(1.08);
+        }
+        .top-nav {
+            height: 64px;
+            display: flex;
+            align-items: center;
+            margin-top: 0 !important;
+            padding: 0 20px;
+        }
+        .top-nav #sch {
+            margin: 0 auto 0 0 !important;
+            padding: 0;
+            font-size: 14px !important;
+            font-weight: 500 !important;
+            color: rgba(255,255,255,0.9) !important;
+            letter-spacing: .3px;
+            display: inline-flex;
+            align-items: center;
+            line-height: 1;
+            background: none !important;
+        }
+        .top-nav ul.pull-right {
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+        .top-nav ul.top-menu > li { margin-left: 6px; }
+        .top-nav ul.top-menu > li > a {
+            border: none !important;
+            background: rgba(255,255,255,0.12) !important;
+            border-radius: 30px !important;
+            padding: 5px 14px 5px 10px !important;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background .2s;
+        }
+        .top-nav ul.top-menu > li > a:hover,
+        .top-nav ul.top-menu > li > a:focus {
+            background: rgba(255,255,255,0.22) !important;
+            border: none !important;
+        }
+        .top-nav img {
+            width: 32px !important;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255,255,255,0.4);
+        }
+        .top-nav .username {
+            font-size: 13px;
+            font-weight: 500;
+            color: #fff !important;
+        }
+        .top-nav .caret {
+            border-top-color: rgba(255,255,255,0.7) !important;
+            border-bottom-color: rgba(255,255,255,0.7) !important;
+        }
+        .top-nav .dropdown-menu.extended.logout { top: 48px; right: 0 !important; left: auto !important; }
+
+        .monthly { border: none !important; background: transparent !important; }
+        .monthly-header { background: linear-gradient(135deg, #0089b3, #006d8f) !important; border-radius: 10px 10px 0 0 !important; padding: 14px 16px !important; min-height: 50px !important; }
+        .monthly-header-title { color: #fff !important; font-size: 15px !important; font-weight: 600 !important; }
+        .monthly-prev, .monthly-next { background: rgba(255,255,255,0.2) !important; border-radius: 6px !important; color: #fff !important; width: 28px !important; height: 28px !important; line-height: 28px !important; text-align: center !important; font-size: 13px !important; transition: background .2s; }
+        .monthly-prev:hover, .monthly-next:hover { background: rgba(255,255,255,0.35) !important; }
+        .monthly-day { border-radius: 6px !important; transition: background .2s; }
+        .monthly-day-title { font-size: 11px !important; font-weight: 600 !important; color: #718096 !important; text-transform: uppercase !important; padding: 6px 0 !important; }
+        .monthly-day.monthly-today { background: rgba(0,137,179,0.1) !important; color: #0089b3 !important; font-weight: 700 !important; }
+        .monthly-day.monthly-today span { background: #0089b3 !important; color: #fff !important; border-radius: 50% !important; width: 28px !important; height: 28px !important; line-height: 28px !important; display: inline-block !important; }
+        .monthly-day span { font-size: 13px !important; }
+        .monthly-day-event { background: rgba(0,137,179,0.08) !important; border-radius: 6px !important; }
+        .monthly-day-pick span { color: #a0aec0 !important; }
+        .monthly-reset { background: transparent !important; }
     </style>
 </head>
 <body>
@@ -60,14 +295,14 @@
         <!--header start-->
         <header class="header fixed-top clearfix">
             <div class="brand">
-                <a href="~/Dashboard/SuperAdmin" style="font-size:22px!important;" class="logo">Meetup School</a>
+                <a href="~/Dashboard/SuperAdmin" class="logo">Meetup School</a>
                 <div class="sidebar-toggle-box">
                     <div class="fa fa-bars"></div>
                 </div>
             </div>
             <div class="top-nav clearfix">
 
-                <ul id="sch" class="nav pull-left top-menu" style="margin-left: 30px;margin-top: 8px;font-size: large;font-weight:600; color:white;">
+                <ul id="sch" class="nav pull-left top-menu">
                     Welcome to  @Session["SchNameDashboard"]
                 </ul>
                 <ul class="nav pull-right top-menu">
@@ -113,20 +348,20 @@
                                 <span>Master</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="@Url.Action("SessionMaster", "MasterERP")">Session Master</a></li>
-                                <li><a href="@Url.Action("ClassMaster", "MasterERP")">Class Master</a></li>
-                                <li><a href="@Url.Action("SectionMaster", "MasterERP")">Section Master</a></li>
-                                <li><a href="@Url.Action("ClassSectionMapping", "MasterERP")">Class Wise Section</a></li>
-                                <li><a href="@Url.Action("StreamMaster", "MasterERP")">Stream Master</a></li>
-                                <li><a href="@Url.Action("ClassStreamMapping", "MasterERP")">Class Wise Stream</a></li>
-                                <li><a href="@Url.Action("RouteMaster", "MasterERP")">Route Master</a></li>
-                                <li><a href="@Url.Action("HolidayMaster", "MasterERP")">Holiday Master</a></li>
-                                <li><a href="@Url.Action("Shift", "MasterERP")">Class Wise Shift</a></li>
-                                <li><a href="@Url.Action("Desgination", "MasterERP")">Designation</a></li>
-                                <li><a href="@Url.Action("EventsMaster", "MasterERP")">Notice Board</a></li>
-                                <li><a href="@Url.Action("RouteWiseFees", "FeeSettingsERP")">Route Wise Fees</a></li>
-                                <li><a href="@Url.Action("FeesHeadMaster", "FeeSettingsERP")">Fees Head Master</a></li>
-                                <li><a href="@Url.Action("AddClasswiseFees", "FeeSettingsERP")">Class wise Fees</a></li>
+                                <li><a href="@Url.Action("SessionMaster", "MasterERP")"><i class="sub-icon fa fa-calendar"></i>Session Master</a></li>
+                                <li><a href="@Url.Action("ClassMaster", "MasterERP")"><i class="sub-icon fa fa-building"></i>Class Master</a></li>
+                                <li><a href="@Url.Action("SectionMaster", "MasterERP")"><i class="sub-icon fa fa-columns"></i>Section Master</a></li>
+                                <li><a href="@Url.Action("ClassSectionMapping", "MasterERP")"><i class="sub-icon fa fa-th-large"></i>Class Wise Section</a></li>
+                                <li><a href="@Url.Action("StreamMaster", "MasterERP")"><i class="sub-icon fa fa-random"></i>Stream Master</a></li>
+                                <li><a href="@Url.Action("ClassStreamMapping", "MasterERP")"><i class="sub-icon fa fa-sitemap"></i>Class Wise Stream</a></li>
+                                <li><a href="@Url.Action("RouteMaster", "MasterERP")"><i class="sub-icon fa fa-road"></i>Route Master</a></li>
+                                <li><a href="@Url.Action("HolidayMaster", "MasterERP")"><i class="sub-icon fa fa-sun-o"></i>Holiday Master</a></li>
+                                <li><a href="@Url.Action("Shift", "MasterERP")"><i class="sub-icon fa fa-clock-o"></i>Class Wise Shift</a></li>
+                                <li><a href="@Url.Action("Desgination", "MasterERP")"><i class="sub-icon fa fa-tag"></i>Designation</a></li>
+                                <li><a href="@Url.Action("EventsMaster", "MasterERP")"><i class="sub-icon fa fa-bullhorn"></i>Notice Board</a></li>
+                                <li><a href="@Url.Action("RouteWiseFees", "FeeSettingsERP")"><i class="sub-icon fa fa-bus"></i>Route Wise Fees</a></li>
+                                <li><a href="@Url.Action("FeesHeadMaster", "FeeSettingsERP")"><i class="sub-icon fa fa-list-alt"></i>Fees Head Master</a></li>
+                                <li><a href="@Url.Action("AddClasswiseFees", "FeeSettingsERP")"><i class="sub-icon fa fa-money"></i>Class wise Fees</a></li>
                             </ul>
                         </li>
                         @*<li class="sub-menu">
@@ -146,10 +381,10 @@
                                 <span>Post & Attendance</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="@Url.Action("PostAll", "Post")">Create Post</a></li>
-                                <li><a href="@Url.Action("ViewPost", "Post")">Feed</a></li>
-                                <li><a href="@Url.Action("ViewPostIndividual", "Post")">Individual Feed</a></li>
-                                <li><a href="@Url.Action("ViewAttendance", "DailyAttendance")">Daily Attendance</a></li>
+                                <li><a href="@Url.Action("PostAll", "Post")"><i class="sub-icon fa fa-plus-circle"></i>Create Post</a></li>
+                                <li><a href="@Url.Action("ViewPost", "Post")"><i class="sub-icon fa fa-rss"></i>Feed</a></li>
+                                <li><a href="@Url.Action("ViewPostIndividual", "Post")"><i class="sub-icon fa fa-rss-square"></i>Individual Feed</a></li>
+                                <li><a href="@Url.Action("ViewAttendance", "DailyAttendance")"><i class="sub-icon fa fa-check-square-o"></i>Daily Attendance</a></li>
                             </ul>
                         </li>
                         <li class="sub-menu">
@@ -158,13 +393,13 @@
                                 <span>Student Management</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="@Url.Action("Enquiry", "Student")">Student Enquiry</a></li>
-                                <li><a href="@Url.Action("PreAdmitted", "Student")">Pre Admitted Students</a></li>
-                                <li><a href="@Url.Action("Registration", "Student")">Student Registration</a></li>
-                                <li><a href="@Url.Action("RollNoSettings", "Student")">Student RollNo Settings</a></li>
-                                <li><a href="@Url.Action("AdminCard", "Student")">Admit Card</a></li>
-                                <li><a href="@Url.Action("IDCard", "Student")">ID Card</a></li>
-                                <li><a href="@Url.Action("Promotion", "Student")">Student Promotion</a></li>
+                                <li><a href="@Url.Action("Enquiry", "Student")"><i class="sub-icon fa fa-question-circle"></i>Student Enquiry</a></li>
+                                <li><a href="@Url.Action("PreAdmitted", "Student")"><i class="sub-icon fa fa-users"></i>Pre Admitted Students</a></li>
+                                <li><a href="@Url.Action("Registration", "Student")"><i class="sub-icon fa fa-pencil-square-o"></i>Student Registration</a></li>
+                                <li><a href="@Url.Action("RollNoSettings", "Student")"><i class="sub-icon fa fa-sort-numeric-asc"></i>Student RollNo Settings</a></li>
+                                <li><a href="@Url.Action("AdminCard", "Student")"><i class="sub-icon fa fa-credit-card"></i>Admit Card</a></li>
+                                <li><a href="@Url.Action("IDCard", "Student")"><i class="sub-icon fa fa-certificate"></i>ID Card</a></li>
+                                <li><a href="@Url.Action("Promotion", "Student")"><i class="sub-icon fa fa-arrow-up"></i>Student Promotion</a></li>
                             </ul>
                         </li>
                         <li class="sub-menu">
@@ -173,9 +408,9 @@
                                 <span>Fees Transaction</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="@Url.Action("StudentFeesCollectionList", "Transaction")">Student Fee Collection</a></li>
-                                <li><a href="@Url.Action("StudentFeesCollectionList_Bengali", "Transaction")">Student Fee Collection Bengali</a></li>
-                                <li><a href="@Url.Action("StudentFeesCollection_Automapper", "Transaction")">Student Fee Collection Auto</a></li>
+                                <li><a href="@Url.Action("StudentFeesCollectionList", "Transaction")"><i class="sub-icon fa fa-money"></i>Student Fee Collection</a></li>
+                                <li><a href="@Url.Action("StudentFeesCollectionList_Bengali", "Transaction")"><i class="sub-icon fa fa-money"></i>Student Fee Collection Bengali</a></li>
+                                <li><a href="@Url.Action("StudentFeesCollection_Automapper", "Transaction")"><i class="sub-icon fa fa-cogs"></i>Student Fee Collection Auto</a></li>
                                 @*<li><a href="@Url.Action("DefaulterList", "Transaction")">Defaulter List</a></li>*@
                             </ul>
                         </li>
@@ -191,7 +426,7 @@
                                 <li><a href="@Url.Action("StudentSMSIndividual", "Messaging")">SMS For Student Individual</a></li>
                                 <li><a href="@Url.Action("APSMS", "Messaging")">SMS For Present & Absent</a></li>
                                 <li><a href="@Url.Action("TeacherSMS", "Messaging")">SMS For Teacher</a></li>*@
-                                <li><a href="@Url.Action("ManualSMS", "Messaging")">Manual SMS</a></li>
+                                <li><a href="@Url.Action("ManualSMS", "Messaging")"><i class="sub-icon fa fa-envelope"></i>Manual SMS</a></li>
                             </ul>
                         </li>
 
@@ -201,7 +436,7 @@
                                 <span>Class Routine</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="@Url.Action("AddRoutine", "Routine")">Add Routine</a></li>
+                                <li><a href="@Url.Action("AddRoutine", "Routine")"><i class="sub-icon fa fa-plus"></i>Add Routine</a></li>
                                 @*<li><a href="@Url.Action("ViewTeacherRoutine", "Routine")">Routine For Teacher</a></li>*@
                             </ul>
                         </li>
@@ -211,12 +446,12 @@
                                 <span>Exam Management</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="@Url.Action("ExamMaster", "Exam")">Exam</a></li>
-                                <li><a href="@Url.Action("ExamClassMapping", "Exam")">Class Wise Exam</a></li>
-                                <li><a href="@Url.Action("SubjectMaster", "Exam")">Subject Master</a></li>
-                                <li><a href="@Url.Action("ClassWiseSubject", "Exam")">Class Wise Subject</a></li>
-                                <li><a href="@Url.Action("ExamTimetable", "Exam")">Exam Schedule</a></li>
-                                <li><a href="@Url.Action("MarksEntry", "Exam")">Student Marks</a></li>
+                                <li><a href="@Url.Action("ExamMaster", "Exam")"><i class="sub-icon fa fa-pencil"></i>Exam</a></li>
+                                <li><a href="@Url.Action("ExamClassMapping", "Exam")"><i class="sub-icon fa fa-th"></i>Class Wise Exam</a></li>
+                                <li><a href="@Url.Action("SubjectMaster", "Exam")"><i class="sub-icon fa fa-book"></i>Subject Master</a></li>
+                                <li><a href="@Url.Action("ClassWiseSubject", "Exam")"><i class="sub-icon fa fa-th-list"></i>Class Wise Subject</a></li>
+                                <li><a href="@Url.Action("ExamTimetable", "Exam")"><i class="sub-icon fa fa-calendar-check-o"></i>Exam Schedule</a></li>
+                                <li><a href="@Url.Action("MarksEntry", "Exam")"><i class="sub-icon fa fa-star"></i>Student Marks</a></li>
                                 @*<li><a href="@Url.Action("ExamReports", "Exam")">Result</a></li>*@
                             </ul>
                         </li>
@@ -226,11 +461,11 @@
                                 <span>HR Management</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="@Url.Action("EmployeeMaster", "HR")">Employee Master</a></li>
+                                <li><a href="@Url.Action("EmployeeMaster", "HR")"><i class="sub-icon fa fa-user"></i>Employee Master</a></li>
                                 @*<li><a href="@Url.Action("LoanAdvanceProcess", "HR")">Loan & Advance Process</a></li>
                                     <li><a href="@Url.Action("SalaryProcess", "HR")">Salary Process</a></li>
                                     <li><a href="@Url.Action("SalaryReport", "HR")">Salary Report</a></li>*@
-                                <li><a href="@Url.Action("Attendence", "HR")">Manual Employee Attendence</a></li>
+                                <li><a href="@Url.Action("Attendence", "HR")"><i class="sub-icon fa fa-check-circle"></i>Manual Employee Attendence</a></li>
                                 @*<li><a href="@Url.Action("AttendenceReport", "HR")">Attendence Report</a></li>*@
                             </ul>
                         </li>
@@ -240,9 +475,9 @@
                                 <span>Account</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="@Url.Action("Expenses", "Expenses")">Expenses Master</a></li>
-                                <li><a href="@Url.Action("ExpensesEntry", "Expenses")">Daily Expenses</a></li>
-                                <li><a href="@Url.Action("ExpensesReport", "Expenses")">Expenses Report</a></li>
+                                <li><a href="@Url.Action("Expenses", "Expenses")"><i class="sub-icon fa fa-credit-card"></i>Expenses Master</a></li>
+                                <li><a href="@Url.Action("ExpensesEntry", "Expenses")"><i class="sub-icon fa fa-calendar-plus-o"></i>Daily Expenses</a></li>
+                                <li><a href="@Url.Action("ExpensesReport", "Expenses")"><i class="sub-icon fa fa-file-text"></i>Expenses Report</a></li>
                             </ul>
                         </li>
                         <li class="sub-menu">
@@ -251,8 +486,8 @@
                                 <span>Library</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="@Url.Action("BookList", "Library")">Book List Manager</a></li>
-                                <li><a href="@Url.Action("BookIssue", "Library")">Book Issue Report</a></li>
+                                <li><a href="@Url.Action("BookList", "Library")"><i class="sub-icon fa fa-book"></i>Book List Manager</a></li>
+                                <li><a href="@Url.Action("BookIssue", "Library")"><i class="sub-icon fa fa-exchange"></i>Book Issue Report</a></li>
                             </ul>
                         </li>
                         <li class="sub-menu">
@@ -261,12 +496,12 @@
                                 <span>Report</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="@Url.Action("StudentPerformance", "Report")">Student Performance</a></li>
-                                <li><a href="@Url.Action("MonthWiseCollection", "Report")">Month Wise Collection</a></li>
-                                <li><a href="@Url.Action("FeesHeadWiseCollection", "Report")">Fees Head Wise Collection</a></li>
-                                <li><a href="@Url.Action("StudentDue", "Report")">Student Due</a></li>
-                                <li><a href="@Url.Action("StudentRegistration", "Report")">Student Registration</a></li>
-                                <li><a href="@Url.Action("EmployeeAttendance", "Report")">Employee Attendance</a></li>
+                                <li><a href="@Url.Action("StudentPerformance", "Report")"><i class="sub-icon fa fa-bar-chart"></i>Student Performance</a></li>
+                                <li><a href="@Url.Action("MonthWiseCollection", "Report")"><i class="sub-icon fa fa-calendar"></i>Month Wise Collection</a></li>
+                                <li><a href="@Url.Action("FeesHeadWiseCollection", "Report")"><i class="sub-icon fa fa-pie-chart"></i>Fees Head Wise Collection</a></li>
+                                <li><a href="@Url.Action("StudentDue", "Report")"><i class="sub-icon fa fa-exclamation-triangle"></i>Student Due</a></li>
+                                <li><a href="@Url.Action("StudentRegistration", "Report")"><i class="sub-icon fa fa-file-text-o"></i>Student Registration</a></li>
+                                <li><a href="@Url.Action("EmployeeAttendance", "Report")"><i class="sub-icon fa fa-check-circle"></i>Employee Attendance</a></li>
                             </ul>
                         </li>
 
