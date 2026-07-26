@@ -4,200 +4,521 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>MeetUp</title>
-    <meta name="viewport" content="width=device-width" />
+    <title>MeetUp - Sign In</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <!-- CSS -->
     <link type='text/css' rel="stylesheet" href="/Content/assets/css/bootstrap.min.css" />
     <link type='text/css' rel="stylesheet" href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic'>
     <link type='text/css' rel="stylesheet" href="/Content/assets/css/font.css" />
     <link type='text/css' rel="stylesheet" href="/Content/assets/css/font-awesome.css">
-    <link type='text/css' rel="stylesheet" href="/Content/assets/css/style.css" />
-      <link type='text/css' rel="stylesheet" href="/Content/assets/css/style-responsive.css" />
-
-
     <style>
-
-        #dvlogin {
-            display: block;
-            width: 70% !important;
-            /* padding: 20px;*/
-            background-color: #7c9fd5; /* Optional: Add background color for better visibility */
-            border-radius: 15px; /* Rounded corners */
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.50); /* Adding shadow */
-            /*margin: 20px auto; */ /* Center the div horizontally */
+        :root {
+            --primary: #0089b3;
+            --primary-dark: #006d8f;
+            --primary-light: #33a8cc;
+            --secondary: #8b5c7e;
+            --secondary-light: #a87d9c;
+            --accent: #f0bcb4;
+            --accent-hover: #e8a89e;
+            --dark-bg: #0a2b3c;
+            --text-dark: #2d3748;
+            --text-muted: #718096;
+            --card-shadow: 0 15px 60px rgba(0,0,0,0.15);
         }
 
-        input.ggg.lgn,
-        input.ggg.pc,
-        select.droplogin {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background: #f0f2f5;
+        }
+
+        .login-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .brand-panel {
+            flex: 0 0 58.333%;
+            max-width: 58.333%;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, var(--primary) 70%, var(--primary-light) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 40px;
+        }
+
+        .brand-panel::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.06) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(139,92,126,0.15) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .brand-content {
+            text-align: center;
+            color: #fff;
+            position: relative;
+            z-index: 1;
+            max-width: 480px;
+        }
+
+        .brand-icon {
+            font-size: 80px;
+            color: var(--accent);
+            margin-bottom: 24px;
             display: inline-block;
-            border: 1px solid #ccc;
-            border-radius: 6px; /* Rounded corners */
-            box-sizing: border-box;
-             background-color: white; /* Set background color to white */
-            color: black; /* Text color */
+            background: rgba(255,255,255,0.1);
+            width: 140px;
+            height: 140px;
+            line-height: 140px;
+            border-radius: 50%;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
         }
 
-        #btnLogin {
-            width: 100%;
-            padding: 10px;
-            background: linear-gradient(to right, #f9d29d, #f7b78a); /* Light gradient colors */
-            border: none;
-            color: #0000009e;
-            font-weight: bold;
+        .brand-title {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .brand-title span {
+            color: var(--accent);
+        }
+
+        .brand-subtitle {
             font-size: 16px;
-            cursor: pointer;
-            border-radius: 10px; /* Add rounded corners */
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Optional shadow */
-            transition: background 0.3s ease-in-out;
+            font-weight: 300;
+            opacity: 0.85;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 32px;
         }
 
-            #btnLogin:hover {
-                background: linear-gradient(to right, #f7b78a, #f9d29d); /* Reverse light gradient on hover */
-            }
+        .brand-tagline {
+            font-size: 18px;
+            font-weight: 300;
+            line-height: 1.7;
+            opacity: 0.75;
+            border-top: 1px solid rgba(255,255,255,0.15);
+            padding-top: 24px;
+            margin-top: 8px;
+        }
 
-        .fixed-bottom-footer {
+        .brand-decoration {
+            margin-top: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .brand-decoration .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.25);
+        }
+
+        .brand-decoration .dot.active {
+            background: var(--accent);
+            width: 8px;
+            height: 8px;
+        }
+
+        .brand-decoration .line {
+            width: 60px;
+            height: 1px;
+            background: rgba(255,255,255,0.15);
+        }
+
+        .form-panel {
+            flex: 0 0 41.667%;
+            max-width: 41.667%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            background: #f0f2f5;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 420px;
+            background: #fff;
+            border-radius: 16px;
+            padding: 44px 36px 36px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .login-card-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .login-card-header .mini-icon {
+            width: 56px;
+            height: 56px;
+            line-height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: #fff;
+            font-size: 24px;
+            display: inline-block;
+            margin-bottom: 16px;
+        }
+
+        .login-card-header h3 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0 0 4px;
+        }
+
+        .login-card-header p {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .form-group-custom {
+            margin-bottom: 18px;
+            position: relative;
+        }
+
+        .form-group-custom .input-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 15px;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .form-group-custom input,
+        .form-group-custom select {
+            width: 100%;
+            padding: 12px 14px 12px 42px;
+            font-size: 14px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            background: #f7fafc;
+            color: var(--text-dark);
+            transition: all 0.25s ease;
+            outline: none;
+            height: 46px;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .form-group-custom select {
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23718096' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 36px;
+        }
+
+        .form-group-custom input:focus,
+        .form-group-custom select:focus {
+            border-color: var(--primary);
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(0,137,179,0.12);
+        }
+
+        .form-group-custom input::placeholder {
+            color: #a0aec0;
+            font-weight: 300;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 13px;
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,137,179,0.3);
+            margin-top: 6px;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(0,137,179,0.4);
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        .btn-continue {
+            width: 100%;
+            padding: 13px;
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--secondary) 0%, #6a4a5e 100%);
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(139,92,126,0.3);
+            margin-top: 6px;
+        }
+
+        .btn-continue:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(139,92,126,0.4);
+            background: linear-gradient(135deg, var(--secondary-light) 0%, var(--secondary) 100%);
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .login-footer p {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .page-footer {
             position: fixed;
             bottom: 0;
-            width: 100%;
-            z-index: 1000; /* Ensures it stays on top of other content */
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 40px;
+            background: linear-gradient(135deg, var(--dark-bg), var(--primary));
+            color: rgba(255,255,255,0.8);
+            font-size: 13px;
         }
 
-        .footer-right {
-            margin-left: auto; /* Pushes the content to the right side */
-            color: white;
+        .page-footer a {
+            color: var(--accent);
             font-weight: 500;
         }
 
-        .welcome-title {
-            font-size: 2.5rem; /* Large font size */
-            font-weight: bold; /* Bold text */
-            color: #00ffb8a3; /* Attractive color */
-            text-align: center; /* Center the text */
-            margin-bottom: 10px; /* Space below the title */
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+        .page-footer a:hover {
+            color: #fff;
+            text-decoration: none;
         }
 
-        .education-subtitle {
-            font-size: 1.5rem; /* Slightly smaller font size */
-            color: #666; /* Gray color */
-            text-align: center; /* Center the text */
-            margin-bottom: 20px; /* Space below the subtitle */
-            font-style: italic; /* Italicize the text */
+        @@media (max-width: 991px) {
+            .brand-panel {
+                flex: 0 0 50%;
+                max-width: 50%;
+                padding: 30px;
+            }
+            .form-panel {
+                flex: 0 0 50%;
+                max-width: 50%;
+                padding: 30px;
+            }
         }
 
-        input::placeholder {
-            color: gray !important; /* Set to gray */
-            opacity: 1; /* Ensure full opacity */
-        }
-
-        input::-webkit-input-placeholder {
-            color: gray !important;
-            /* For WebKit browsers */
-        }
-
-        input::-moz-placeholder {
-            color: gray !important; /* For Firefox 19+ */
-        }
-
-        input:-ms-input-placeholder {
-            color: gray !important; /* For IE */
-        }
-
-        input:-moz-placeholder {
-            color: gray !important; /* For Firefox 18- */
+        @@media (max-width: 767px) {
+            .login-wrapper {
+                flex-direction: column;
+            }
+            .brand-panel {
+                flex: 0 0 auto;
+                max-width: 100%;
+                padding: 48px 24px 32px;
+                min-height: 280px;
+            }
+            .brand-icon {
+                font-size: 52px;
+                width: 100px;
+                height: 100px;
+                line-height: 100px;
+            }
+            .brand-title {
+                font-size: 26px;
+            }
+            .brand-decoration {
+                display: none;
+            }
+            .form-panel {
+                flex: 0 0 auto;
+                max-width: 100%;
+                padding: 24px 16px;
+                min-height: calc(100vh - 280px);
+            }
+            .login-card {
+                padding: 28px 20px 24px;
+                box-shadow: 0 5px 30px rgba(0,0,0,0.1);
+            }
+            .page-footer {
+                flex-direction: column;
+                text-align: center;
+                gap: 4px;
+                padding: 10px 16px;
+                font-size: 12px;
+                position: relative;
+            }
         }
     </style>
-
 </head>
 <body>
-    <section class="vh-100">
-        <div class="container-fluid h-custom">
-            <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col-md-9 col-lg-6 col-xl-5">
-                    <img src="~/EmpImage/loginbanner.jpg"
-                         class="img-fluid" alt="Sample image">
-
-                    @*<img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-        class="img-fluid" alt="Sample image">*@
+    <div class="login-wrapper">
+        <div class="brand-panel">
+            <div class="brand-content">
+                <div class="brand-icon">
+                    <i class="fa fa-graduation-cap"></i>
                 </div>
-                <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-                    <div class="container-fluid">
-                        <div>
-                            <div id="dvlogin" style="display:block; width:70% !important" class="w3layouts-main">
-                                <h1 style="font-size:26px;" class="welcome-title">Welcome to Meetup School</h1>
-                                <span style="float:none;margin-left:235px;" class="education-subtitle">Best for Education</span>
-                                <input type="text" class="ggg lgn" placeholder="User Name" id="txtEmail" autocomplete="off">
-                                <input type="password" class="ggg lgn" placeholder="Password" id="txtPassword" autocomplete="off">
-
-                                <select id="ddluserTypeList" class="droplogin" >
-                                    <option id="option-1" value="0">USER</option>
-                                    <option id="option-1" value="SuperAdmin">SuperAdmin</option>
-                                    <option id="option-1" value="Teacher">Teacher</option>
-                                    <option id="option-1" value="Parents">Parents</option>
-                                    <option id="option-1" value="Student">Student</option>
-                                    <option id="option-1" value="Accountant">Accountant</option>
-                                    <option id="option-1" value="Librarian">Librarian</option>
-                                </select>
-                                @*<span><input type="checkbox" />Remember Me</span>*@
-                                @*<h6><a href="#">Forgot Password?</a></h6>*@
-                                <div class="clearfix"></div>
-                                <button name="login" class="btn-signin" id="btnLogin">Sign In</button>
-                                @*<p>Don't Have an Account ?<a href="registration.html">Create an account</a></p>*@
-                            </div>
-                            <div id="dvpc" style="display:none;" class="w3layouts-main">
-                                <h1 style="font-size:23px;">Reset Password</h1>
-                                <input type="password" class="ggg pc" placeholder="NEW PASSWORD" id="txtNewPassword" autocomplete="off">
-                                <input type="password" class="ggg pc" placeholder="REPEAT PASSWORD" id="txtRetypePassword" autocomplete="off">
-
-                                <div class="clearfix"></div>
-                                <button name="chnagepassword" class="btn-signin" id="btnContinue">Continue ></button>
-                            </div>
-                        </div>
-
-                        <div class="row row-no-gutters" id="bottom-footer" style="display:none">
-
-                            <div class="col-xs-12 col-md-5 text-center">
-                                <ul class="vertical-links small">
-                                    @*<li><a href="~/Content/vendor/PrivacyPolicy.html" target="_blank">Privacy</a></li>
-                                        <li><a href="~/Content/vendor/TermsofService.html" target="_blank">Terms & Conditions</a></li>
-                                        <li><a href="~/Content/vendor/RefundPolicy.html" target="_blank">Refund</a></li>*@
-                                    @*<li><a href="#">Contact Us</a></li>*@
-                                </ul>
-                            </div>
-                            <div class="col-xs-12 col-md-2 text-center">
-                                <p><i class="fa fa-university" aria-hidden="true"></i></p>
-                            </div>
-                            <div class="col-xs-12 col-md-5 text-center">
-                                <ul>
-                                    <li class="small">© Copyright 2024 Website by <a href="#" style="color:white;font-weight:500;">R.V TECHNOLOGY PH-8777735516</a>. All Rights reserved.</li>
-                                </ul>
-                            </div>
-                        </div>
+                <h1 class="brand-title">Meetup <span>School</span></h1>
+                <p class="brand-subtitle">ERP System</p>
+                <p class="brand-tagline">
+                    A unified platform connecting students, teachers,<br>
+                    and parents for seamless school management.
+                </p>
+                <div class="brand-decoration">
+                    <span class="line"></span>
+                    <span class="dot"></span>
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="line"></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-panel">
+            <div class="login-card">
+                <div class="login-card-header">
+                    <div class="mini-icon">
+                        <i class="fa fa-lock"></i>
                     </div>
+                    <h3>Welcome Back</h3>
+                    <p>Sign in to your account to continue</p>
+                </div>
+                <div id="dvlogin" class="w3layouts-main">
+                    <div class="form-group-custom">
+                        <i class="fa fa-user input-icon"></i>
+                        <input type="text" class="ggg lgn" placeholder="Username" id="txtEmail" autocomplete="off">
+                    </div>
+                    <div class="form-group-custom">
+                        <i class="fa fa-key input-icon"></i>
+                        <input type="password" class="ggg lgn" placeholder="Password" id="txtPassword" autocomplete="off">
+                    </div>
+                    <div class="form-group-custom">
+                        <i class="fa fa-user-tag input-icon"></i>
+                        <select id="ddluserTypeList" class="ggg lgn">
+                            <option value="0">Select User Type</option>
+                            <option value="SuperAdmin">Super Admin</option>
+                            <option value="Teacher">Teacher</option>
+                            <option value="Parents">Parents</option>
+                            <option value="Student">Student</option>
+                            <option value="Accountant">Accountant</option>
+                            <option value="Librarian">Librarian</option>
+                        </select>
+                    </div>
+                    <button name="login" class="btn-login" id="btnLogin">Sign In</button>
+                </div>
+                <div id="dvpc" style="display:none;" class="w3layouts-main">
+                    <div class="form-group-custom">
+                        <i class="fa fa-lock input-icon"></i>
+                        <input type="password" class="ggg pc" placeholder="New Password" id="txtNewPassword" autocomplete="off">
+                    </div>
+                    <div class="form-group-custom">
+                        <i class="fa fa-lock input-icon"></i>
+                        <input type="password" class="ggg pc" placeholder="Confirm Password" id="txtRetypePassword" autocomplete="off">
+                    </div>
+                    <button name="chnagepassword" class="btn-continue" id="btnContinue">Continue &rarr;</button>
+                </div>
+                <div class="login-footer">
+                    <p>&copy; 2024 Meetup School. All rights reserved.</p>
                 </div>
             </div>
         </div>
-        <div class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary fixed-bottom-footer">
-            <div class="text-white mb-3 mb-md-0">
-                Copyright © 2024. All rights reserved.
-            </div>
-            <div class="footer-right">
-                Developed by <a href="#" style="color:white;">R.V TECHNOLOGY PH-8777735516</a>
-            </div>
-        </div>
-    </section>
-</body>
-</html>
+    </div>
+    <div class="page-footer">
+        <span>Copyright &copy; 2024. All rights reserved.</span>
+        <span>Developed by <a href="#">R.V TECHNOLOGY PH-8777735516</a></span>
+    </div>
 
-<script type="text/javascript" src="/Content/assets/js/jquery2.0.3.min.js"></script>
-<script type="text/javascript" src="/Content/assets/js/bootstrap.js"></script>
-<script type="text/javascript">
+    <script type="text/javascript" src="/Content/assets/js/jquery2.0.3.min.js"></script>
+    <script type="text/javascript" src="/Content/assets/js/bootstrap.js"></script>
+    <script type="text/javascript">
+        var _customAlertInitialized = false;
+        function _initCustomAlert() {
+            if (_customAlertInitialized) return;
+            _customAlertInitialized = true;
+            var css = document.createElement('style');
+            css.textContent =
+                '.custom-alert-overlay{position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;background:rgba(0,0,0,0.55);z-index:999999;display:none}' +
+                '.custom-alert-overlay.show{display:-webkit-flex !important;display:flex !important;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center}' +
+                '.custom-alert-box{background:#fff;border-radius:14px;padding:32px 36px 28px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.25);animation:customAlertIn .3s ease}' +
+                '.custom-alert-box .ca-icon{width:56px;height:56px;line-height:56px;border-radius:50%;font-size:26px;display:inline-block;margin-bottom:14px;color:#fff}' +
+                '.custom-alert-box .ca-icon.info{background:linear-gradient(135deg,#0089b3,#006d8f)}' +
+                '.custom-alert-box .ca-icon.error{background:linear-gradient(135deg,#e53e3e,#c53030)}' +
+                '.custom-alert-box .ca-icon.success{background:linear-gradient(135deg,#38a169,#276749)}' +
+                '.custom-alert-box .ca-icon.warning{background:linear-gradient(135deg,#d69e2e,#b7791f)}' +
+                '.custom-alert-box p{font-family:"Roboto",sans-serif;font-size:16px;font-weight:400;color:#2d3748;margin:8px 0 22px;line-height:1.7}' +
+                '.custom-alert-box .ca-btn{display:inline-block;padding:11px 40px;font-family:"Roboto",sans-serif;font-size:14px;font-weight:500;border:none;border-radius:8px;cursor:pointer;color:#fff;background:linear-gradient(135deg,#0089b3,#006d8f);transition:all .2s;letter-spacing:.8px}' +
+                '.custom-alert-box .ca-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,137,179,0.35)}' +
+                '@@-webkit-keyframes customAlertIn{from{opacity:0;transform:scale(0.9)}to{opacity:1;transform:scale(1)}}' +
+                '@@keyframes customAlertIn{from{opacity:0;transform:scale(0.9)}to{opacity:1;transform:scale(1)}}';
+            document.head.appendChild(css);
+            var overlay = document.createElement('div');
+            overlay.className = 'custom-alert-overlay';
+            overlay.id = 'customAlertOverlay';
+            overlay.innerHTML =
+                '<div class="custom-alert-box">' +
+                '<div class="ca-icon info" id="caIcon"><i class="fa fa-info-circle"></i></div>' +
+                '<p id="caMessage"></p>' +
+                '<button class="ca-btn" id="caOkBtn">OK</button>' +
+                '</div>';
+            document.body.appendChild(overlay);
+            document.getElementById('caOkBtn').addEventListener('click', function () {
+                overlay.classList.remove('show');
+            });
+            overlay.addEventListener('click', function (e) {
+                if (e.target === overlay) overlay.classList.remove('show');
+            });
+        }
+        function showCustomAlert(message, type) {
+            _initCustomAlert();
+            var overlay = document.getElementById('customAlertOverlay');
+            var icon = document.getElementById('caIcon');
+            var msg = document.getElementById('caMessage');
+            type = type || 'info';
+            icon.className = 'ca-icon ' + type;
+            var icons = { info: 'fa-info-circle', error: 'fa-times-circle', success: 'fa-check-circle', warning: 'fa-exclamation-triangle' };
+            icon.innerHTML = '<i class="fa ' + (icons[type] || icons.info) + '"></i>';
+            msg.textContent = message;
+            overlay.classList.add('show');
+        }
+        window.alert = function (message) {
+            showCustomAlert(message, 'info');
+        };
+    </script>
+    <script type="text/javascript">
         $(document).on("keypress", ".lgn", function (e) {
 
             if (e.which == 13) {
@@ -253,7 +574,6 @@
                 },
                 error: function (error) {
                     console.error(error);
-                    //FormSuccessError(error, "Error", "errorBlock");
                     return false;
                 }
             });
@@ -280,8 +600,6 @@
 
             const currentUrl = window.location.href;
             const domain = new URL(currentUrl).hostname;
-            //alert(domain);
-            //return false;
 
             $.ajax({
                 type: "POST",
@@ -299,16 +617,16 @@
                         $("#dvpc").css("display", "block");
                     }
                     else {
-                        alert('Please enter correct UserName and password!');
+                        alert('Please Enter Correct User Name and password!');
                         return false;
                     }
                 },
                 error: function (error) {
                     console.error(error);
-                    //FormSuccessError(error, "Error", "errorBlock");
                     return false;
                 }
             });
         });
-</script>
-
+    </script>
+</body>
+</html>
