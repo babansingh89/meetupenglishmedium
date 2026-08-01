@@ -5,6 +5,233 @@
 }
 
 <style>
+    .wrapper { padding: 0 !important; margin-top: 64px !important; }
+    #div_Scroll { margin: 0 !important; }
+    #div_Scroll .col-lg-12 { padding: 0 !important; }
+
+    /* ===== Base Card ===== */
+    .card-modern {
+        background: #fff;
+        border-radius: 0;
+        box-shadow: none;
+        border: none;
+        overflow: hidden;
+    }
+    .card-header-modern {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border-bottom: 2px solid #0089b3;
+        padding: 10px 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .card-header-modern .header-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(135deg, #0089b3, #006d8f);
+        border-radius: 8px;
+        color: #fff;
+        font-size: 18px;
+        flex-shrink: 0;
+    }
+    .card-header-modern .header-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #0f172a;
+        letter-spacing: -.2px;
+    }
+    .card-header-modern .header-badge {
+        margin-left: auto;
+        font-size: 11px;
+        font-weight: 600;
+        color: #0089b3;
+        background: rgba(0,137,179,0.08);
+        padding: 4px 12px;
+        border-radius: 20px;
+        letter-spacing: .3px;
+        text-transform: uppercase;
+    }
+    .card-body-modern {
+        padding: 20px 24px 24px;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    /* ===== Professional Form ===== */
+    .card-body-modern .form-group { margin-bottom: 14px; }
+    .card-body-modern .form-group label:not(.form-check-label) {
+        font-size: 12px;
+        font-weight: 600;
+        color: #475569;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+        letter-spacing: .4px;
+    }
+    .card-body-modern .form-control {
+        border: 1.5px solid #e2e8f0;
+        border-radius: 6px;
+        box-shadow: none;
+        font-size: 13px;
+        padding: 8px 12px;
+        height: 38px;
+        transition: border-color .2s, box-shadow .2s;
+        color: #0f172a;
+    }
+    .card-body-modern .form-control:focus {
+        border-color: #0089b3;
+        box-shadow: 0 0 0 3px rgba(0,137,179,0.1);
+    }
+    .card-body-modern .form-control[disabled] {
+        background: #f8fafc;
+        color: #94a3b8;
+        cursor: not-allowed;
+        border-color: #e2e8f0;
+    }
+    .card-body-modern .btn-primary {
+        background: linear-gradient(135deg, #0089b3, #006d8f);
+        border: none;
+        border-radius: 6px;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 10px 28px;
+        margin-left: 10px;
+        transition: all .2s;
+        box-shadow: 0 2px 8px rgba(0,137,179,.2);
+    }
+    .card-body-modern .btn-primary i {
+        margin-right: 8px;
+    }
+    #btnAddBusMonth, #btnAddHostelMonth {
+        width: 100%;
+        white-space: nowrap;
+        margin-left: 0;
+    }
+
+    /* ===== Professional Month Modals ===== */
+    .modal-month {
+        width: 1250px;
+        max-width: 95%;
+    }
+    #monthModal .modal-content, #HostelMonthModal .modal-content {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 25px 60px rgba(0,0,0,.15);
+    }
+    #monthModal .modal-header, #HostelMonthModal .modal-header {
+        background: linear-gradient(135deg, #0089b3, #006d8f);
+        border-radius: 12px 12px 0 0;
+        padding: 16px 24px;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    #monthModal .modal-title, #HostelMonthModal .modal-title {
+        color: #fff;
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: .2px;
+    }
+    #monthModal .modal-header .close, #HostelMonthModal .modal-header .close {
+        color: rgba(255,255,255,.6);
+        opacity: 1;
+        text-shadow: none;
+        font-size: 22px;
+    }
+    #monthModal .modal-header .close:hover, #HostelMonthModal .modal-header .close:hover {
+        color: #fff;
+        opacity: 1;
+    }
+    #monthModal .modal-body, #HostelMonthModal .modal-body {
+        padding: 24px;
+    }
+    #monthModal .checkbox-inline, #HostelMonthModal .checkbox-inline {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 8px 10px 0;
+        padding: 9px 16px;
+        background: #fff;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        color: #64748b;
+        cursor: pointer;
+        transition: all .2s;
+        white-space: nowrap;
+    }
+    #monthModal .checkbox-inline:hover, #HostelMonthModal .checkbox-inline:hover {
+        border-color: #0089b3;
+        background: rgba(0,137,179,.04);
+        color: #0089b3;
+    }
+    #monthModal .checkbox-inline input, #HostelMonthModal .checkbox-inline input {
+        position: static !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        width: 17px !important;
+        height: 17px !important;
+        margin: 0 !important;
+        flex-shrink: 0;
+        accent-color: #0089b3;
+        cursor: pointer;
+    }
+    #monthModal .modal-footer, #HostelMonthModal .modal-footer {
+        padding: 14px 24px;
+        border-top: 1px solid #f1f5f9;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+    #monthModal .modal-footer .btn-close-modal, #HostelMonthModal .modal-footer .btn-close-modal {
+        background: #fff;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 6px;
+        color: #64748b;
+        font-size: 13px;
+        font-weight: 500;
+        padding: 9px 20px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: all .2s;
+    }
+    #monthModal .modal-footer .btn-close-modal:hover, #HostelMonthModal .modal-footer .btn-close-modal:hover {
+        background: #f8fafc;
+        color: #1e293b;
+        border-color: #cbd5e0;
+    }
+    .card-body-modern .btn-primary:hover {
+        background: linear-gradient(135deg, #006d8f, #004d66);
+        color: #fff;
+        box-shadow: 0 4px 14px rgba(0,137,179,.3);
+        -webkit-transform: translateY(-1px);
+        transform: translateY(-1px);
+    }
+    .card-body-modern .btn-grey {
+        background: #fff;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 6px;
+        color: #64748b;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 10px 24px;
+        transition: all .2s;
+    }
+    .card-body-modern .btn-grey:hover {
+        background: #fef2f2;
+        border-color: #fca5a5;
+        color: #dc2626;
+    }
+    hr.style2 {
+        border-top: 2px solid #eef2f6;
+        margin: 18px 0;
+    }
+
     .m-b-10 {
         margin-bottom: 10px;
     }
@@ -22,10 +249,6 @@
         font-size: 16px;
         margin-right: 5px;
         cursor: pointer;
-    }
-
-    hr.style2 {
-        border-top: 3.5px double #8c8b8b;
     }
 
     .imagePreview {
@@ -119,13 +342,16 @@
         transform: rotate(45deg);
     }
 </style>
-<div id="page-wrapper">
-    <div class="row" id="div_Scroll">
-        <div class="col-lg-12" style="margin-top: 1%;">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Student Registration</div>
-                <div class="panel-body">
-                    @Html.Partial("~/Views/Shared/SuccessError.cshtml")
+<div class="row" id="div_Scroll">
+    <div class="col-lg-12">
+        <div class="card-modern">
+            <div class="card-header-modern">
+                <span class="header-icon"><i class="bi bi-person-plus-fill"></i></span>
+                <span class="header-title">Student Registration</span>
+                <span class="header-badge">Form</span>
+            </div>
+            <div class="card-body-modern">
+                @Html.Partial("~/Views/Shared/SuccessError.cshtml")
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
@@ -293,13 +519,13 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Confrim Bus Month:<span style="color:red;"></span></label>
-                                <button class="btn btn-primary icon-plus" disabled id="btnAddBusMonth"> Bus Month List</button>
+                                <button class="btn btn-primary" disabled id="btnAddBusMonth"><i class="bi bi-calendar2-month"></i> Bus Month List</button>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Confrim Hostel Month:<span style="color:red;"></span></label>
-                                <button class="btn btn-primary icon-plus"  id="btnAddHostelMonth"> Hostel Month List</button>
+                                <button class="btn btn-primary" id="btnAddHostelMonth"><i class="bi bi-buildings"></i> Hostel Month List</button>
                             </div>
                         </div>
                     </div>
@@ -415,11 +641,11 @@
 </div>
 <input type="hidden" id="hdId" value="0" />
 <div class="modal fade" id="monthModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-    <div class="modal-dialog" role="document" style="width:1250px;height:300px;">
+    <div class="modal-dialog modal-month" role="document">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">Add/Update Bus Month</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Add/Update Month:</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -497,7 +723,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default"  data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-close-modal" data-dismiss="modal"><i class="bi bi-x-circle"></i> Close</button>
                 @*<button type="button" class="btn btn-primary" id="btnSave">Save</button>*@
             </div>
         </div>
@@ -505,11 +731,11 @@
 </div>
 
 <div class="modal fade" id="HostelMonthModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-    <div class="modal-dialog" role="document" style="width:1250px;height:300px;">
+    <div class="modal-dialog modal-month" role="document">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">Add/Update Hostel Month</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Add/Update Month:</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
