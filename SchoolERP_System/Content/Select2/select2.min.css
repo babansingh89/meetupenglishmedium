@@ -1,7 +1,7 @@
 span.select2-selection.select2-selection--single {
     background-color: #fff;
     border: 1px solid #aaa;
-    box-shadow: 0 0 0 rgba(0,0,0,.2),0 1px 6px rgba(0,0,0,.26) !important;
+    box-shadow: none !important;
     height: 34px;
 }
 
@@ -20,12 +20,12 @@ span.select2-selection__arrow b {
 
 .select2-container--default .select2-selection--single .select2-selection__rendered {
     color: #444 !important;
-    line-height: 28px !important;
+    line-height: 35px !important;
 }
 
 .select2-container .select2-selection--single .select2-selection__rendered {
     display: block !important;
-    padding-top: 5px;
+    padding-top: 0 !important;
     padding-left: 16px;
     padding-right: 20px;
     overflow: hidden !important;
@@ -34,7 +34,7 @@ span.select2-selection__arrow b {
 }
 
 .select2-results__option:hover {
-    background-color: #5897fb !important;
+    background-color: #0089b3 !important;
     color: #fff !important;
 }
 
@@ -43,11 +43,8 @@ input.select2-search__field {
 }
 
 span.select2-selection.select2-selection--single:hover {
-    color: #333;
-    background-color: #d4d4d4;
-    border-color: #8c8c8c;
-    transition: box-shadow .28s cubic-bezier(.4,0,.2,1);
-    box-shadow: 0 3px 18px rgba(0,0,0,.22),0 6px 5px rgba(0,0,0,.26) !important;
+    background-color: #fff;
+    box-shadow: none !important;
 }
 
 .select2-container {
@@ -422,7 +419,7 @@ span.select2-selection.select2-selection--single:hover {
                     }
 
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
-    background-color: #5897fb;
+    background-color: #0089b3;
     color: #fff;
 }
 

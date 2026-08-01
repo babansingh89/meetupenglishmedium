@@ -71,21 +71,21 @@
         border-color: #0089b3;
         box-shadow: 0 0 0 3px rgba(0,137,179,.1);
     }
-    .card-body-modern .btn-print {
-        background: linear-gradient(135deg, #0089b3, #006d8f);
-        border: none;
-        border-radius: 6px;
-        color: #fff;
-        font-size: 14px;
-        font-weight: 600;
-        padding: 10px 28px;
-        margin-top: 20px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        transition: all .2s;
-        box-shadow: 0 2px 8px rgba(0,137,179,.2);
-    }
+        .card-body-modern .btn-print {
+            background: linear-gradient(135deg, #0089b3, #006d8f);
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 9px 28px;
+            margin-top: 27px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all .2s;
+            box-shadow: 0 2px 8px rgba(0,137,179,.2);
+        }
     .card-body-modern .btn-print:hover {
         background: linear-gradient(135deg, #006d8f, #004d66);
         color: #fff;
@@ -105,15 +105,15 @@
             <div class="card-body-modern">
                 @Html.Partial("~/Views/Shared/SuccessError.cshtml")
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="form-group">
-                            <label class="control-label">Class</label>
+                            <label class="control-label">Class Name</label>
                             @Html.DropDownList("ddlClassList", (IList<SelectListItem>)ViewBag.ClassList, new { @class = "form-control" })
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="form-group">
-                            <label class="control-label">Section</label>
+                            <label class="control-label">Section Name</label>
                             <select id="ddlSectionList" class="form-control"> </select>
                         </div>
                     </div>
@@ -128,7 +128,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <button class="btn btn-print" id="btnPrint">Generate</button>
+                            <button class="btn btn-print" id="btnPrint"><i class="bi bi-gear"></i>Generate</button>
                         </div>
                     </div>
                 </div>

@@ -3784,3 +3784,238 @@ div#graph10, div#graph11 {
         padding: 0;
     }
 }
+
+    /* ===== Professional Select / Dropdown Styling ===== */
+    select.form-control:not(.select2-hidden-accessible) {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        background-size: 16px;
+        padding-right: 34px;
+        cursor: pointer;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 6px;
+        box-shadow: none;
+        font-size: 13px;
+        color: #0f172a;
+        height: 38px;
+        transition: border-color .2s, box-shadow .2s;
+    }
+    select.form-control:not(.select2-hidden-accessible):focus {
+        border-color: #0089b3;
+        box-shadow: 0 0 0 3px rgba(0,137,179,.1);
+    }
+    select.form-control:not(.select2-hidden-accessible):disabled {
+        background-color: #f1f5f9;
+        cursor: not-allowed;
+    }
+
+    /* ===== Smooth focus transition for form inputs ===== */
+    .form-control,
+    .card-body-modern .form-control,
+    .modal .form-control {
+        transition: border-color .3s cubic-bezier(.4,0,.2,1), box-shadow .3s cubic-bezier(.4,0,.2,1), background-color .3s ease !important;
+    }
+    .form-control:focus {
+        border-color: #0089b3;
+        box-shadow: 0 0 0 3px rgba(0,137,179,.12);
+    }
+
+    /* ===== Professional Select2 Styling ===== */
+    .select2-container--default .select2-selection--single {
+        border: 1.5px solid #e2e8f0 !important;
+        border-radius: 6px !important;
+        height: 38px !important;
+        box-shadow: none !important;
+        font-size: 13px;
+        font-family: 'Roboto', sans-serif;
+        background: #fff;
+        transition: border-color .3s cubic-bezier(.4,0,.2,1), box-shadow .3s cubic-bezier(.4,0,.2,1);
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 35px !important;
+        padding-top: 0 !important;
+        color: #0f172a;
+        padding-left: 12px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 13px;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered:empty {
+        color: #94a3b8;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__placeholder {
+        color: #94a3b8 !important;
+        font-family: 'Roboto', sans-serif;
+        font-size: 13px;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 36px !important;
+        right: 8px;
+        width: 24px;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow b {
+        border-color: #64748b transparent transparent transparent !important;
+        border-width: 5px 5px 0 5px !important;
+    }
+    .select2-container--default.select2-container--open .select2-selection--single {
+        border-color: #0089b3 !important;
+        box-shadow: 0 0 0 3px rgba(0,137,179,.1);
+    }
+    .select2-container--default .select2-selection--single:hover {
+        background-color: #fff !important;
+        color: #0f172a !important;
+        border-color: #cbd5e1;
+        box-shadow: none !important;
+    }
+    .select2-container--default .select2-selection--single:not(.select2-container--disabled):hover .select2-selection__arrow b {
+        border-top-color: #0089b3 !important;
+    }
+    .select2-container--default .select2-results__option {
+        padding: 9px 14px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 13px;
+        color: #334155;
+        transition: background-color .15s ease, color .15s ease;
+    }
+    .select2-container--default .select2-results__option--highlighted[aria-selected] {
+        background: linear-gradient(135deg, #0089b3, #006d8f) !important;
+        color: #fff !important;
+    }
+    .select2-container--default .select2-results__option[aria-selected="true"] {
+        background: #eef6ff;
+        color: #0089b3;
+    }
+    .select2-container--default .select2-results > .select2-results__options {
+        max-height: 260px;
+    }
+    .select2-container--default .select2-search--dropdown {
+        padding: 8px;
+    }
+    .select2-container--default .select2-search--dropdown .select2-search__field {
+        border: 1.5px solid #e2e8f0;
+        border-radius: 6px;
+        padding: 6px 10px;
+        height: 34px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 13px;
+        outline: none;
+        box-sizing: border-box;
+    }
+    .select2-container--default .select2-search--dropdown .select2-search__field:focus {
+        border-color: #0089b3;
+        box-shadow: 0 0 0 3px rgba(0,137,179,.1);
+    }
+    .select2-dropdown {
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 8px;
+        box-shadow: 0 12px 32px rgba(15,23,42,.12);
+        overflow: hidden;
+    }
+    .select2-dropdown.select2-dropdown--above {
+        border-radius: 8px;
+    }
+    .select2-container--default .select2-selection--multiple {
+        border: 1.5px solid #e2e8f0 !important;
+        border-radius: 6px !important;
+        min-height: 38px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 13px;
+    }
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        background: #eef6ff;
+        border: 1px solid #c5e3ee;
+        border-radius: 5px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 12px;
+        color: #0f172a;
+        padding: 3px 8px;
+        margin-top: 5px;
+    }
+    .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+        color: #0089b3;
+        font-size: 15px;
+        line-height: 12px;
+        margin-right: 5px;
+    }
+    .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+        color: #dc2626;
+        background: none;
+    }
+
+    /* ===== Professional Date Input Styling ===== */
+    input.form-control.dateFormat,
+    input.form-control.hasDatepicker,
+    input.form-control.datepicker {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3e%3crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3e%3c/rect%3e%3cline x1='16' y1='2' x2='16' y2='6'%3e%3c/line%3e%3cline x1='8' y1='2' x2='8' y2='6'%3e%3c/line%3e%3cline x1='3' y1='10' x2='21' y2='10'%3e%3c/line%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        background-size: 17px;
+        padding-right: 36px !important;
+        cursor: pointer;
+    }
+    input.form-control.dateFormat:hover,
+    input.form-control.hasDatepicker:hover,
+    input.form-control.datepicker:hover {
+        border-color: #cbd5e1;
+    }
+    input.form-control.dateFormat:focus,
+    input.form-control.hasDatepicker:focus,
+    input.form-control.datepicker:focus {
+        border-color: #0089b3 !important;
+        box-shadow: 0 0 0 3px rgba(0,137,179,.12) !important;
+        background-color: #fff;
+    }
+    input.form-control.dateFormat::-webkit-input-placeholder,
+    input.form-control.hasDatepicker::-webkit-input-placeholder,
+    input.form-control.datepicker::-webkit-input-placeholder,
+    input.form-control.dateFormat:-moz-placeholder,
+    input.form-control.hasDatepicker:-moz-placeholder,
+    input.form-control.datepicker:-moz-placeholder,
+    input.form-control.dateFormat::-moz-placeholder,
+    input.form-control.hasDatepicker::-moz-placeholder,
+    input.form-control.datepicker::-moz-placeholder,
+    input.form-control.dateFormat:-ms-input-placeholder,
+    input.form-control.hasDatepicker:-ms-input-placeholder,
+    input.form-control.datepicker:-ms-input-placeholder,
+    input.form-control.dateFormat::placeholder,
+    input.form-control.hasDatepicker::placeholder,
+    input.form-control.datepicker::placeholder {
+        color: #94a3b8 !important;
+        font-family: 'Roboto', sans-serif;
+        font-size: 13px;
+    }
+    .datepicker {
+        border-radius: 8px !important;
+        border: 1px solid #e2e8f0 !important;
+        box-shadow: 0 12px 32px rgba(15,23,42,.12);
+        font-family: 'Roboto', sans-serif;
+    }
+    .datepicker table tr td.active.active {
+        background: linear-gradient(135deg, #0089b3, #006d8f) !important;
+        border-radius: 4px;
+        box-shadow: none;
+    }
+    .datepicker table tr td.day:hover {
+        background: #eef6ff !important;
+        color: #0089b3 !important;
+    }
+    .datepicker table tr td.today {
+        background: rgba(0,137,179,.15) !important;
+        color: #006d8f !important;
+    }
+    .datepicker .datepicker-switch,
+    .datepicker .prev,
+    .datepicker .next {
+        font-size: 13px;
+        font-weight: 600;
+        color: #0f172a;
+    }
+    .datepicker table tr td span:hover {
+        background: #eef6ff !important;
+    }
+    .datepicker thead tr:first-child th:hover {
+        background: #f1f5f9 !important;
+    }

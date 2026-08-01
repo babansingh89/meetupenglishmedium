@@ -70,21 +70,21 @@
         border-color: #0089b3;
         box-shadow: 0 0 0 3px rgba(0,137,179,.1);
     }
-    .card-body-modern .btn-print {
-        background: linear-gradient(135deg, #0089b3, #006d8f);
-        border: none;
-        border-radius: 6px;
-        color: #fff;
-        font-size: 14px;
-        font-weight: 600;
-        padding: 10px 28px;
-        margin-top: 20px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        transition: all .2s;
-        box-shadow: 0 2px 8px rgba(0,137,179,.2);
-    }
+        .card-body-modern .btn-print {
+            background: linear-gradient(135deg, #0089b3, #006d8f);
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 9px 28px;
+            margin-top: 27px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all .2s;
+            box-shadow: 0 2px 8px rgba(0,137,179,.2);
+        }
     .card-body-modern .btn-print:hover {
         background: linear-gradient(135deg, #006d8f, #004d66);
         color: #fff;
@@ -92,6 +92,11 @@
         -webkit-transform: translateY(-1px);
         transform: translateY(-1px);
     }
+    .card-body-modern input.form-control::-webkit-input-placeholder { color: #94a3b8 !important; }
+    .card-body-modern input.form-control:-moz-placeholder { color: #94a3b8 !important; }
+    .card-body-modern input.form-control::-moz-placeholder { color: #94a3b8 !important; }
+    .card-body-modern input.form-control:-ms-input-placeholder { color: #94a3b8 !important; }
+    .card-body-modern input.form-control::placeholder { color: #94a3b8 !important; }
 </style>
 
 <div class="row" id="div_Scroll">
@@ -104,21 +109,21 @@
             <div class="card-body-modern">
                 @Html.Partial("~/Views/Shared/SuccessError.cshtml")
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <div class="form-group">
-                            <label class="control-label">From:<span style="color:red;">*</span></label>
-                            <input type="text" class="form-control dateFormat" id="txtFrom">
+                            <label class="control-label">From Date<span style="color:red;">*</span></label>
+                            <input type="text" class="form-control dateFormat" id="txtFrom" placeholder="dd/mm/yyyy">
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <div class="form-group">
-                            <label class="control-label">To:<span style="color:red;">*</span></label>
-                            <input type="text" class="form-control dateFormat" id="txtTo">
+                            <label class="control-label">To Date<span style="color:red;">*</span></label>
+                            <input type="text" class="form-control dateFormat" id="txtTo" placeholder="dd/mm/yyyy">
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <div class="form-group">
-                            <button class="btn btn-print" id="btnSave">Generate</button>
+                            <button class="btn btn-print" id="btnSave"><i class="bi bi-gear"></i>Generate</button>
                         </div>
                     </div>
                 </div>
@@ -137,7 +142,11 @@
             ErrorDiv.hide();
         }
         $(document).ready(function () {
-            
+            $('.dateFormat').datepicker('destroy').datepicker({
+                dateFormat: 'dd/mm/yy',
+                changeMonth: true,
+                changeYear: true
+            });
         });
 
         function fn_resetform() {

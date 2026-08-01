@@ -64,12 +64,15 @@
         font-size: 13px;
         padding: 8px 12px;
         height: 38px;
-        transition: border-color .2s, box-shadow .2s;
+        transition: border-color .3s cubic-bezier(.4,0,.2,1), box-shadow .3s cubic-bezier(.4,0,.2,1), background-color .3s ease;
         color: #0f172a;
     }
     .card-body-modern .form-control:focus {
         border-color: #0089b3;
-        box-shadow: 0 0 0 3px rgba(0,137,179,.1);
+        box-shadow: 0 0 0 3px rgba(0,137,179,.12);
+    }
+    .card-body-modern .form-control:not(:focus) {
+        transition: border-color .4s cubic-bezier(.4,0,.2,1), box-shadow .4s cubic-bezier(.4,0,.2,1);
     }
     .card-body-modern .btn-print {
         background: linear-gradient(135deg, #0089b3, #006d8f);
@@ -78,8 +81,8 @@
         color: #fff;
         font-size: 14px;
         font-weight: 600;
-        padding: 10px 28px;
-        margin-top: 20px;
+        padding: 9px 28px;
+        margin-top: 27px;
         display: inline-flex;
         align-items: center;
         gap: 8px;
@@ -92,6 +95,54 @@
         box-shadow: 0 4px 14px rgba(0,137,179,.3);
         -webkit-transform: translateY(-1px);
         transform: translateY(-1px);
+    }
+    .card-body-modern input.form-control::-webkit-input-placeholder { color: #94a3b8 !important; }
+    .card-body-modern input.form-control:-moz-placeholder { color: #94a3b8 !important; }
+    .card-body-modern input.form-control::-moz-placeholder { color: #94a3b8 !important; }
+    .card-body-modern input.form-control:-ms-input-placeholder { color: #94a3b8 !important; }
+    .card-body-modern input.form-control::placeholder { color: #94a3b8 !important; }
+
+    .card-body-modern .select2-container--default .select2-selection--single {
+        border: 1.5px solid #e2e8f0 !important;
+        border-radius: 6px !important;
+        height: 38px !important;
+        box-shadow: none !important;
+        background: #fff;
+        font-family: 'Roboto', sans-serif;
+        font-size: 13px;
+        transition: border-color .3s cubic-bezier(.4,0,.2,1), box-shadow .3s cubic-bezier(.4,0,.2,1), background-color .3s ease;
+    }
+    .card-body-modern .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 35px !important;
+        padding-top: 0 !important;
+        color: #0f172a;
+        padding-left: 12px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 13px;
+    }
+    .card-body-modern .select2-container--default .select2-selection--single .select2-selection__rendered:empty,
+    .card-body-modern .select2-container--default .select2-selection--single .select2-selection__placeholder {
+        color: #94a3b8 !important;
+    }
+    .card-body-modern .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 36px !important;
+        right: 8px;
+        width: 24px;
+    }
+    .card-body-modern .select2-container--default .select2-selection--single .select2-selection__arrow b {
+        border-color: #64748b transparent transparent transparent !important;
+        border-width: 5px 5px 0 5px !important;
+    }
+    .card-body-modern .select2-container--default.select2-container--open .select2-selection--single,
+    .card-body-modern .select2-container--default .select2-selection--single:focus-within {
+        border-color: #0089b3 !important;
+        box-shadow: 0 0 0 3px rgba(0,137,179,.12) !important;
+    }
+    .card-body-modern .select2-container--default .select2-selection--single:hover {
+        background-color: #fff !important;
+        color: #0f172a !important;
+        border-color: #cbd5e1 !important;
+        box-shadow: none !important;
     }
 </style>
 
@@ -107,37 +158,37 @@
                 <div class="row">
                     <div class="col-md-2">
                         <div class="form-group">
-                            <label class="control-label">From:<span style="color:red;">*</span></label>
-                            <input type="text" class="form-control dateFormat" id="txtFrom">
+                            <label class="control-label">From Date<span style="color:red;"></span></label>
+                            <input type="text" class="form-control dateFormat" id="txtFrom" placeholder="dd/mm/yyyy">
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="form-group">
-                            <label class="control-label">To:<span style="color:red;">*</span></label>
-                            <input type="text" class="form-control dateFormat" id="txtTo">
+                            <label class="control-label">To Date<span style="color:red;"></span></label>
+                            <input type="text" class="form-control dateFormat" id="txtTo" placeholder="dd/mm/yyyy">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label class="control-label">Designation Type:</label>
+                            <label class="control-label">Designation Type</label>
                             @Html.DropDownList("ddlDesignationList", (IList<SelectListItem>)ViewBag.DesignationList, new { @class = "form-control" })
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label class="control-label">Teacher Name:</label>
+                            <label class="control-label">Teacher Name</label>
                             @*@Html.DropDownList("ddlTeacherList", (IList<SelectListItem>)ViewBag.TeacherList, new { @class = "form-control" })*@
                             <select class="form-control" id="ddlTeacherList">
                                 <option value="0">Select</option>
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="form-group">
                             @{
                                 string AppID = Convert.ToString(HttpContext.Current.Session["AppID"]).ToString();
                             }
-                            <button class="btn btn-print" id="btnSave" AppId="@AppID">Generate</button>
+                            <button class="btn btn-print" id="btnSave" AppId="@AppID"><i class="bi bi-gear"></i> Generate</button>
                         </div>
                     </div>
                 </div>
@@ -156,17 +207,22 @@
             ErrorDiv.hide();
         }
         $(document).ready(function () {
-            $("#ddlClassList").select2({
+            $('.dateFormat').datepicker('destroy').datepicker({
+                dateFormat: 'dd/mm/yy',
+                changeMonth: true,
+                changeYear: true
+            });
+            $("#ddlDesignationList").select2({
                 placeholder: "Select"
             });
-            $("#ddlSectionList").select2({
+            $("#ddlTeacherList").select2({
                 placeholder: "Select"
             });
         });
 
         function fn_resetform() {
-            $('#ddlClassList').select2("val", '');
-            $('#ddlSectionList').select2("val", '');
+            $('#ddlDesignationList').select2("val", '');
+            $('#ddlTeacherList').select2("val", '');
 
         }
         $("#ddlDesignationList").change(function () {
@@ -189,6 +245,7 @@
                             $("#ddlTeacherList").append($("<option/>").val(this.EM_EmpId).text(this.EM_EmpName));
                         });
                     }
+                    $("#ddlTeacherList").trigger("change");
                 }
             });
         });
