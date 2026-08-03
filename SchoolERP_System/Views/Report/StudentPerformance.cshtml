@@ -4,77 +4,271 @@
     Layout = "~/Views/Shared/_SuperAdminLayout.cshtml";
 }
 
+<style>
+    .wrapper { padding: 0 !important; margin-top: 64px !important; }
+    #div_Scroll { margin: 0 !important; }
+    #div_Scroll .col-lg-12 { padding: 0 !important; }
+
+    /* ===== Base Card ===== */
+    .card-modern {
+        background: #fff;
+        border-radius: 0;
+        box-shadow: none;
+        border: none;
+        overflow: hidden;
+    }
+    .card-header-modern {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border-bottom: 2px solid #0089b3;
+        padding: 10px 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .card-header-modern .header-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(135deg, #0089b3, #006d8f);
+        border-radius: 8px;
+        color: #fff;
+        font-size: 18px;
+        flex-shrink: 0;
+    }
+    .card-header-modern .header-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #0f172a;
+        letter-spacing: -.2px;
+    }
+    .card-body-modern {
+        padding: 20px 24px 24px;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    /* ===== Form controls ===== */
+    .card-body-modern .form-group { margin-bottom: 14px; }
+    .card-body-modern .control-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: #475569;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+        letter-spacing: .4px;
+    }
+    .card-body-modern .form-control {
+        border: 1.5px solid #e2e8f0;
+        border-radius: 6px;
+        box-shadow: none;
+        font-size: 13px;
+        padding: 8px 12px;
+        height: 38px;
+        transition: border-color .2s, box-shadow .2s;
+        color: #0f172a;
+    }
+    .card-body-modern .form-control:focus {
+        border-color: #0089b3;
+        box-shadow: 0 0 0 3px rgba(0,137,179,.1);
+    }
+
+    /* ===== Buttons ===== */
+    .card-body-modern .btn-save {
+        background: linear-gradient(135deg, #0089b3, #006d8f);
+        border: none;
+        border-radius: 6px;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 10px 28px;
+        margin-top: 20px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all .2s;
+        box-shadow: 0 2px 8px rgba(0,137,179,.2);
+    }
+    .card-body-modern .btn-save:hover {
+        background: linear-gradient(135deg, #006d8f, #004d66);
+        color: #fff;
+        box-shadow: 0 4px 14px rgba(0,137,179,.3);
+        -webkit-transform: translateY(-1px);
+        transform: translateY(-1px);
+    }
+        .card-body-modern .btn-print {
+            background: linear-gradient(135deg, #0089b3, #006d8f);
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 9px 28px;
+            margin-top: 27px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all .2s;
+            box-shadow: 0 2px 8px rgba(0,137,179,.2);
+        }
+    .card-body-modern .btn-print:hover {
+        background: linear-gradient(135deg, #006d8f, #004d66);
+        color: #fff;
+        box-shadow: 0 4px 14px rgba(0,137,179,.3);
+        -webkit-transform: translateY(-1px);
+        transform: translateY(-1px);
+    }
+    .card-body-modern input.form-control::-webkit-input-placeholder { color: #94a3b8 !important; }
+    .card-body-modern input.form-control:-moz-placeholder { color: #94a3b8 !important; }
+    .card-body-modern input.form-control::-moz-placeholder { color: #94a3b8 !important; }
+    .card-body-modern input.form-control:-ms-input-placeholder { color: #94a3b8 !important; }
+    .card-body-modern input.form-control::placeholder { color: #94a3b8 !important; }
+
+    /* ===== Professional Table ===== */
+    #tblMapping {
+        width: 100% !important;
+        margin: 0;
+        border-collapse: collapse;
+        border: 1px solid #e2e8f0;
+    }
+    #tblMapping thead th {
+        background: linear-gradient(135deg, #0089b3, #006d8f);
+        color: #fff;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: .6px;
+        padding: 12px 18px !important;
+        border: none !important;
+        border-right: 1px solid rgba(255,255,255,.08) !important;
+        vertical-align: middle !important;
+        white-space: nowrap;
+    }
+    #tblMapping thead th:last-child { border-right: none !important; }
+    #tblMapping tbody td {
+        padding: 10px 18px !important;
+        font-size: 13px;
+        color: #1e293b;
+        border-bottom: 1px solid #f1f5f9 !important;
+        border-right: none !important;
+        vertical-align: middle !important;
+        white-space: nowrap;
+    }
+    #tblMapping tbody tr:nth-child(even) { background: #fafcfe; }
+    #tblMapping tbody tr:hover { background: #eef6ff; }
+    #tblMapping i.fa {
+        color: #64748b;
+        margin-right: 10px;
+        transition: color .2s;
+        cursor: pointer;
+    }
+    #tblMapping i.fa:hover { color: #0089b3; }
+
+    /* ===== DataTable controls ===== */
+    #tblMapping_wrapper .dataTables_length label,
+    #tblMapping_wrapper .dataTables_filter label,
+    #tblMapping_wrapper .dataTables_info,
+    #tblMapping_wrapper .dataTables_paginate {
+        font-size: 13px;
+        color: #475569;
+    }
+    #tblMapping_wrapper .dataTables_filter input {
+        border: 1.5px solid #e2e8f0;
+        border-radius: 6px;
+        padding: 6px 10px;
+        height: 34px;
+        outline: none;
+    }
+    #tblMapping_wrapper .dataTables_filter input:focus {
+        border-color: #0089b3;
+        box-shadow: 0 0 0 3px rgba(0,137,179,.1);
+    }
+    #tblMapping_wrapper .dataTables_length select {
+        border: 1.5px solid #e2e8f0;
+        border-radius: 6px;
+        padding: 5px;
+        height: 34px;
+    }
+    #tblMapping_wrapper .dataTables_paginate .paginate_button {
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 6px !important;
+        padding: 6px 12px !important;
+        margin: 0 2px;
+        color: #475569 !important;
+        background: #fff !important;
+    }
+    #tblMapping_wrapper .dataTables_paginate .paginate_button.current {
+        background: linear-gradient(135deg, #0089b3, #006d8f) !important;
+        color: #fff !important;
+        border-color: #0089b3 !important;
+    }
+    #tblMapping_wrapper .dataTables_paginate .paginate_button:hover {
+        background: #f1f5f9 !important;
+        color: #0089b3 !important;
+    }
+</style>
+
 <div class="row" id="div_Scroll">
     <div class="col-lg-12">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <span class="pull-left">Student Performance</span>
+        <div class="card-modern">
+            <div class="card-header-modern">
+                <span class="header-icon"><i class="bi bi-bar-chart"></i></span>
+                <span class="header-title">Student Performance</span>
             </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel-body">
-                        @Html.Partial("~/Views/Shared/SuccessError.cshtml")
-                        <div class="row">
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label>Class:<span style="color:red;">*</span></label>
-                                    @Html.DropDownList("ddlClassList", (IList<SelectListItem>)ViewBag.ClassList, new { @class = "form-control" })
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label>Section:<span style="color:red;">*</span></label>
-                                    <select id="ddlSectionList" class="form-control"> </select>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label class="control-label">From:<span style="color:red;">*</span></label>
-                                    <input type="text" class="form-control dateFormat" id="txtFrom">
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label class="control-label">To:<span style="color:red;">*</span></label>
-                                    <input type="text" class="form-control dateFormat" id="txtTo">
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <button class="btn btn-primary" style="margin-top: 20px;" id="btnSave">Generate</button>
-                                    @{
-                                        string AppID = Convert.ToString(HttpContext.Current.Session["AppID"]).ToString();
-                                    }
-                                    <button class="btn btn-primary" style="margin-top: 20px;" id="btnPrint" AppId="@AppID">Print</button>
-                                </div>
-                            </div>
+            <div class="card-body-modern">
+                @Html.Partial("~/Views/Shared/SuccessError.cshtml")
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">Class Name<span style="color:red;">*</span></label>
+                            @Html.DropDownList("ddlClassList", (IList<SelectListItem>)ViewBag.ClassList, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">Section Name<span style="color:red;">*</span></label>
+                            <select id="ddlSectionList" class="form-control"> </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">From Date<span style="color:red;">*</span></label>
+                            <input type="text" class="form-control dateFormat" id="txtFrom" placeholder="dd/mm/yyyy">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">To Date<span style="color:red;">*</span></label>
+                            <input type="text" class="form-control dateFormat" id="txtTo" placeholder="dd/mm/yyyy">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <button class="btn btn-print" id="btnSave"><i class="bi bi-gear"></i> Generate</button>
+                            @{
+                                string AppID = Convert.ToString(HttpContext.Current.Session["AppID"]).ToString();
+                            }
+                            <button class="btn btn-print" id="btnPrint" AppId="@AppID"><i class="bi bi-printer"></i> Print</button>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel-body">
-                        @Html.Partial("~/Views/Shared/SuccessError.cshtml")
-                        <table class="table table-striped table-bordered table-hover table-condensed dt-responsive" id="tblMapping">
-                            <thead>
-                                <tr>
-                                    <th>Student Name</th>
-                                    <th>Reg.No</th>
-                                    <th>RollNo</th>
-                                    <th style="width: 95px;">DOB</th>
-                                    <th style="width: 66px;">Contact No.</th>
-                                    <th style="width: 50px;">Working Days</th>
-                                    <th style="width: 30px;">Present</th>
-                                    <th style="width: 30px;">Absent</th>
-                                    <th style="width: 50px;">%</th>
-                                    <th style="text-align:center;">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                </div>
+                <table class="table" id="tblMapping" style="width:100% !important; border-bottom:none;">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Reg.No</th>
+                            <th>RollNo</th>
+                            <th style="width: 95px;">DOB</th>
+                            <th style="width: 66px;">Contact No.</th>
+                            <th style="width: 50px;">Working Days</th>
+                            <th style="width: 30px;">Present</th>
+                            <th style="width: 30px;">Absent</th>
+                            <th style="width: 50px;">%</th>
+                            <th style="text-align:center;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -90,6 +284,11 @@
             ErrorDiv.hide();
         }
         $(document).ready(function () {
+            $('.dateFormat').datepicker('destroy').datepicker({
+                dateFormat: 'dd/mm/yy',
+                changeMonth: true,
+                changeYear: true
+            });
             $("#ddlClassList").select2({
                 placeholder: "Select"
             });
