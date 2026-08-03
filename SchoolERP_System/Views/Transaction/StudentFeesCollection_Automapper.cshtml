@@ -667,7 +667,7 @@
                 hideAlert();
                 var selectedMonths = [];
 
-                var _RegNo = $('#txtRegNo').val();
+            var _RegNo = $('#hdId').val();
                 if (_RegNo == '') {
                     FormSuccessError1("Please enter Reg No.", "Error", "errorBlock", "div_Scroll");
                     $('#txtRegNo').focus();
@@ -692,7 +692,7 @@
     $.ajax({
         type: "POST",
         url: '@Url.Action("GetStudentFee_Auto", "Transaction")',
-        data: JSON.stringify({ SR_No: _RegNo, OptedMonth: selectedMonths.join(',')  }),
+        data: JSON.stringify({ SR_ID: _RegNo, OptedMonth: selectedMonths.join(',')  }),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         cache: false,
@@ -884,7 +884,7 @@
 
         $(document).on('click', '#btnsearch', function () {
         hideAlert();
-        var _RegNo = $('#txtRegNo').val();
+            var _RegNo = $('#hdId').val();
         if (_RegNo == '') {
             FormSuccessError1("Please enter Reg No.", "Error", "errorBlock", "div_Scroll");
             $('#txtRegNo').focus();
@@ -894,7 +894,7 @@
         $.ajax({
             type: "POST",
             url: '@Url.Action("GetStudentFee_Auto", "Transaction")',
-            data: JSON.stringify({ SR_No: _RegNo, OptedMonth: "" }),
+            data: JSON.stringify({ SR_ID: _RegNo, OptedMonth: "" }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             cache: false,

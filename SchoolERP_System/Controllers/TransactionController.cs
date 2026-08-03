@@ -70,13 +70,13 @@ namespace SchoolERP_System.Controllers
                 return Json("Error", JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult GetStudentFee_Auto(string SR_No, string OptedMonth)
+        public ActionResult GetStudentFee_Auto(string SR_ID, string OptedMonth)
         {
             try
             {
                 SqlParameter[] prm1 = new SqlParameter[] {
                       new SqlParameter("type", "FeeDetails"),
-                    new SqlParameter("RegNo", SR_No),
+                    new SqlParameter("SR_ID", SR_ID),
                     new SqlParameter("PayMonth", OptedMonth),
                     new SqlParameter("AppID", (Convert.ToString( System.Web.HttpContext.Current.Session["AppID"])))
                 };
