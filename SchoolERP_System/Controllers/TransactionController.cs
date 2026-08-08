@@ -300,13 +300,13 @@ namespace SchoolERP_System.Controllers
 
             return View();
         }
-        public ActionResult ViewFeecollection(string RegNo, string Type)
+        public ActionResult ViewFeecollection(string RegId, string Type)
         {
             try
             {
                 SqlParameter[] prm1 = new SqlParameter[] {
                     new SqlParameter("Type", Type),
-                    new SqlParameter("RegNo", RegNo)
+                    new SqlParameter("SR_ID", RegId)
                 };
                 DataTable dt = new SQLHelper().ExecuteDataTable("SP_StudentFeeCollection", prm1, CommandType.StoredProcedure);
                 List<FeeCollectionDetails> List = Utility.ConvertDataTableToClassObjectList<FeeCollectionDetails>(dt);
