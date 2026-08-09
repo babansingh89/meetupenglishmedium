@@ -150,16 +150,16 @@
         });
 
         function fn_resetform() {
-        
+
             $('#txtFrom').val('');
             $('#txtTo').val('');
         }
-      
+
         $(document).on("click", "#btnSave", function () {
-         
+
             var _From = $('#txtFrom').val();
             var _To = $('#txtTo').val();
-            
+
             if (_From == '') {
                 FormSuccessError1("Please enter From Date.", "Error", "errorBlock", "div_Scroll");
                 return false;
@@ -169,29 +169,72 @@
                 return false;
             }
 
+            Print();
 
-            $.ajax({
-                type: "POST",
-                url: '@Url.Action("PrintHeadWiseCollection", "Report")',
-                data: JSON.stringify({  From: _From, To: _To }),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                cache: false,
-                success: function (data) {
-                    if (data == "Error") {
-                        alert("Error! Try again later.");
-                    }
-                    else {
-                        window.open(data);
-                        //previewPdfDocument(data);
-                    }
-                },
-                error: function (error) {
-                    console.log(error);
-                    //alert("Error! Try again later.");
-                    window.location.href = "/Error";
-                }
-            });
+            setTimeout(function () {
+                Print_other();
+            }, 200);
+
         });
+
+        function Print() {
+
+            var final = {}; var master = []; var detail = [];
+
+            master.push({
+                ReportName: "FeeHeadWiseCollection.rpt",
+                FileName: "FeeHeadWiseCollection",
+                AppID: ""
+            });
+
+            detail.push({
+                FromDate: $('#txtFrom').val(),
+                ToDate: $('#txtTo').val(),
+                AppID: "",
+                Paymonth: 0
+            });
+
+            final = {
+                Master: master,
+                Detail: detail
+            };
+
+            // Opens at exact center
+            var left = ($(window).width() / 2) - (950 / 2),
+                top = ($(window).height() / 2) - (650 / 2),
+                popup = window.open("/OpenReport/OpenReports.aspx?ReportName=" + encodeURIComponent(JSON.stringify(final)), "popup_paymonth_0", "width=950, height=650, top=" + top + ", left=" + left);
+
+            if (popup) popup.focus();
+        }
+
+        function Print_other() {
+
+            var final = {}; var master = []; var detail = [];
+
+            master.push({
+                ReportName: "FeeHeadWiseCollection.rpt",
+                FileName: "FeeHeadWiseCollection",
+                AppID: ""
+            });
+
+            detail.push({
+                FromDate: $('#txtFrom').val(),
+                ToDate: $('#txtTo').val(),
+                AppID: "",
+                Paymonth: 1
+            });
+
+            final = {
+                Master: master,
+                Detail: detail
+            };
+
+            // Shifted down and right by 40 pixels to prevent stacking
+            var left = ($(window).width() / 2) - (950 / 2) + 40,
+                top = ($(window).height() / 2) - (650 / 2) + 40,
+                popup = window.open("/OpenReport/OpenReports.aspx?ReportName=" + encodeURIComponent(JSON.stringify(final)), "popup_paymonth_1", "width=950, height=650, top=" + top + ", left=" + left);
+
+            if (popup) popup.focus();
+        }
     </script>
 }

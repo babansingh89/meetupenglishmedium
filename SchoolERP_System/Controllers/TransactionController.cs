@@ -49,7 +49,7 @@ namespace SchoolERP_System.Controllers
         {
             try
             {
-                object[] mixArray = new object[3];
+                object[] mixArray = new object[4];
                 SqlParameter[] prm1 = new SqlParameter[] {
                       new SqlParameter("type", "FeeDetails"),
                     new SqlParameter("RegNo", SR_No),
@@ -60,9 +60,11 @@ namespace SchoolERP_System.Controllers
                 List<FeeDetails> List = Utility.ConvertDataTableToClassObjectList<FeeDetails>(dt.Tables[0]);
                 List<FeesDetails> Lists = Utility.ConvertDataTableToClassObjectList<FeesDetails>(dt.Tables[1]);
                 List<FeesDetails> Is_PaymentDone = Utility.ConvertDataTableToClassObjectList<FeesDetails>(dt.Tables[2]);
+                List<FeesDetails> MediumType = (dt.Tables.Count > 3) ? Utility.ConvertDataTableToClassObjectList<FeesDetails>(dt.Tables[3]) : new List<FeesDetails>();
                 mixArray[0] = List;
                 mixArray[1] = Lists;
                 mixArray[2] = Is_PaymentDone;
+                mixArray[3] = MediumType;
                 return Json(mixArray, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

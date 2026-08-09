@@ -1,4 +1,4 @@
-﻿@{
+@{
     ViewBag.Title = "Student Fee Collection";
     //Layout = "~/Views/Shared/_SuperAdminLayout.cshtml";
 }
@@ -7,77 +7,74 @@
 <input type="hidden" id="hdId" value="0" />
 <input type="hidden" id="hdPrintId" value="0" />
 
-
 <div class="row" id="div_Scroll">
     <div class="col-lg-12">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <span class="pull-left">Student Fee Collection</span>
+        <div class="card-modern">
+            <div class="card-header-modern">
+                <span class="header-icon"><i class="bi bi-wallet2"></i></span>
+                <span class="header-title">Student Fee Collection</span>
+                <span class="header-badge">Bengali</span>
             </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel-body">
-                        @Html.Partial("~/Views/Shared/SuccessError.cshtml")
-                        <div class="row" style="display:none;">
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <input type="radio" name="RadioFees" id="Radio1" class="custom-radio" value="1">Admission
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <input type="radio" name="RadioFees" id="Radio2" class="custom-radio" value="2">Collection
-                                </div>
-                            </div>
+            <div class="card-body-modern">
+                @Html.Partial("~/Views/Shared/SuccessError.cshtml")
 
+                <div class="row" style="display:none;">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input type="radio" name="RadioFees" id="Radio1" class="custom-radio" value="1">Admission
                         </div>
-
-                        <div class="row">
-
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label">Reg.No:<span style="color:red;">*</span></label>
-                                    <div class="input-group input-group-sm">
-                                        <input type="text" class="form-control" id="txtRegNo" autocomplete="off" value="@ViewBag.RegNo" />
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-primary" id="btnsearch" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label">Name:</label>
-                                    <input type="text" class="form-control" id="txtName" autocomplete="off" disabled />
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label class="control-label">Class:</label>
-                                    <input type="text" class="form-control" id="txtclassName" autocomplete="off" disabled />
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label class="control-label">Section:</label>
-                                    <input type="text" class="form-control" id="txtSectionName" autocomplete="off" disabled />
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label class="control-label">Roll No:</label>
-                                    <input type="text" class="form-control" id="txtrollno" autocomplete="off" disabled />
-                                </div>
-                            </div>
-
-
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input type="radio" name="RadioFees" id="Radio2" class="custom-radio" value="2">Collection
                         </div>
+                    </div>
+                </div>
 
-                        @{
-                            // Initialize the list of months statically in the view
-                            var months = new List<dynamic>
-                                                                                                                                                                                                                    {
+                <div class="student-search-section">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label">Reg.No<span class="required-star">*</span></label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="txtRegNo" autocomplete="off" value="@ViewBag.RegNo" placeholder="Enter Reg. No." />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-search" id="btnsearch" type="button"><i class="fa fa-search"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label">Name</label>
+                                <input type="text" class="form-control" id="txtName" autocomplete="off" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">Class</label>
+                                <input type="text" class="form-control" id="txtclassName" autocomplete="off" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">Section</label>
+                                <input type="text" class="form-control" id="txtSectionName" autocomplete="off" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">Roll No</label>
+                                <input type="text" class="form-control" id="txtrollno" autocomplete="off" disabled />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @{
+                    // Initialize the list of months statically in the view
+                    var months = new List<dynamic>
+                    {
                         new { Id = 1, Name = "January" },
                         new { Id = 2, Name = "February" },
                         new { Id = 3, Name = "March" },
@@ -91,160 +88,143 @@
                         new { Id = 11, Name = "November" },
                         new { Id = 12, Name = "December" }
                     };
+                }
 
-                            <div class="horizontal-checkbox-list" style="font-family: fantasy;font-size: 18px;color: darkslategray; padding-bottom:10px;">
-                                <div id="monthlst"></div>
-                                @*@foreach (var month in months)
-                                    {
-                                            <label class="checkbox-inline">
-                                                <input type="checkbox" name="months" class="chkMonth" value="@month.Id" /> @month.Name
-                                            </label>
+                <div class="month-selector">
+                    <div id="monthlst" class="month-checkbox-list"></div>
+                </div>
 
-                                    }*@
-
-                            </div>
-                        }
-                        <div class="col-md-12" style="display:none;">
-                            <div class="form-group text-center">
-                                <button class="btn btn-primary" id="btnGenerateFee">Generate Fee</button>
-                            </div>
-                        </div>
-
-                        <table class="table table-striped table-bordered table-hover table-condensed dt-responsive" id="tblfee" style="width:100% !important; border-bottom:none;">
-                            <thead>
-                                <tr style="background-color: ghostwhite; height:30px;">
-                                    <th>SlNo(#)</th>
-                                    <th style="text-align:center">Fee Type</th>
-                                    <th style="text-align:center">Fee Particulars</th>
-                                    <th style="text-align:center">Fee Amount (&#x20b9;)</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                            <tfoot style="background-color:beige">
-                                <tr>
-                                    <td colspan="3" style="text-align:right; font-weight:bold"><strong>Monthly Total (&#x20b9;)</strong></td>
-                                    <td style="text-align: right; font-weight: bold;" id="totalAmount">0.00</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3" style="text-align:right; font-weight:bold"><strong>Others Total (&#x20b9;)</strong></td>
-                                    <td style="text-align: right; font-weight: bold;" id="totalAmountO">0.00</td>
-                                </tr>
-                            </tfoot>
-                        </table>
-
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label">Net Amount:<span style="color:red;">*</span></label>
-                                    <input type="text" class="form-control clsfeeamt" id="txtNetAmount" autocomplete="off" disabled value="0.00" />
-                                </div>
-                            </div>
-
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label class="control-label">Late Fee:</label>
-                                    <input type="text" class="form-control clsfeeamt" id="txtLateFee" autocomplete="off" value="0.00" />
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label class="control-label">Discount:</label>
-                                    <input type="text" class="form-control clsfeeamt" id="txtDiscount" autocomplete="off" value="0.00" />
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label class="control-label">Other Amount:</label>
-                                    <input type="text" class="form-control clsfeeamt" id="txtOtherAmount" autocomplete="off" value="0.00" />
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label">Gross Amount:<span style="color:red;">*</span></label>
-                                    <input type="text" class="form-control clsfeeamt" id="txtGrossAmt" autocomplete="off" disabled value="0.00" />
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label class="control-label">Pay mode:</label> <span style="color:red;">*</span>
-                                    <select class="form-control" id="ddlPayMode">
-                                        <option value="0">Select</option>
-                                        <option value="C" selected>Cash</option>
-                                        <option value="D">Draft</option>
-                                        <option value="Q">Cheque</option>
-                                        <option value="O">Online</option>
-                                        <option value="N">Neft</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label class="control-label">Transaction No.:<span style="color:red;"></span></label>
-                                    <input type="text" class="form-control" id="txtTransactionno" autocomplete="off" disabled value="" />
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label class="control-label">Transaction Date:<span style="color:red;"></span></label>
-                                    <input type="text" class="form-control dateFormat" id="txtTransactiondate" autocomplete="off" disabled value="" />
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label">Remarks:<span style="color:red;"></span></label>
-                                    <input type="text" class="form-control" id="txtRemarks" autocomplete="off" value="" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="form-group text-right">
-                                @*<input type="checkbox" class="custom-control-input" id="chkSMS">
-                                    <label class="custom-control-label" for="customControlInline">Send SMS</label>*@
-                                @*<button class="btn btn-primary" id="btnSubmit">SUBMIT</button>*@
-
-                                <button class="btn btn-success" id="btnSubmitPrint">
-                                    <i class="bi bi-save" style="margin-right: 4px;"></i>Submit & Print
-                                </button>
-
-                                <button class="btn btn-danger" id="btncancel">
-                                    <i class="bi bi-x-circle" style="margin-right: 3px;"></i>Cancel
-                                </button>
-                            </div>
-                        </div>
-
+                <div class="col-md-12" style="display:none;">
+                    <div class="form-group text-center">
+                        <button class="btn btn-primary" id="btnGenerateFee">Generate Fee</button>
                     </div>
                 </div>
+
+                <div class="fee-table-section">
+                    <table class="table" id="tblfee">
+                        <thead>
+                            <tr>
+                                <th class="col-sl">SlNo(#)</th>
+                                <th class="col-fetype" style="text-align:center">Fee Type</th>
+                                <th class="col-particulars" style="text-align:center">Fee Particulars</th>
+                                <th class="col-amount">Fee Amount (&#x20b9;)</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="total-label"><strong>Monthly Total (&#x20b9;)</strong></td>
+                                <td class="total-value" id="totalAmount">0.00</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="total-label"><strong>Others Total (&#x20b9;)</strong></td>
+                                <td class="total-value" id="totalAmountO">0.00</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="payment-section">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label">Net Amount<span class="required-star">*</span></label>
+                                <input type="text" class="form-control clsfeeamt" id="txtNetAmount" autocomplete="off" disabled value="0.00" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">Late Fee</label>
+                                <input type="text" class="form-control clsfeeamt" id="txtLateFee" autocomplete="off" value="0.00" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">Discount</label>
+                                <input type="text" class="form-control clsfeeamt" id="txtDiscount" autocomplete="off" value="0.00" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">Other Amount</label>
+                                <input type="text" class="form-control clsfeeamt" id="txtOtherAmount" autocomplete="off" value="0.00" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label">Gross Amount<span class="required-star">*</span></label>
+                                <input type="text" class="form-control clsfeeamt" id="txtGrossAmt" autocomplete="off" disabled value="0.00" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">Pay mode<span class="required-star">*</span></label>
+                                <select class="form-control" id="ddlPayMode">
+                                    <option value="0">Select</option>
+                                    <option value="C" selected>Cash</option>
+                                    <option value="D">Draft</option>
+                                    <option value="Q">Cheque</option>
+                                    <option value="O">Online</option>
+                                    <option value="N">Neft</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">Transaction No.</label>
+                                <input type="text" class="form-control" id="txtTransactionno" autocomplete="off" disabled value="" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">Transaction Date</label>
+                                <input type="text" class="form-control dateFormat" id="txtTransactiondate" autocomplete="off" disabled value="" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Remarks</label>
+                                <input type="text" class="form-control" id="txtRemarks" autocomplete="off" value="" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-bar">
+                    <button class="btn btn-submit-print" id="btnSubmitPrint">
+                        <i class="bi bi-save"></i> Submit & Print
+                    </button>
+                    <button class="btn btn-cancel" id="btncancel">
+                        <i class="bi bi-x-circle"></i> Cancel
+                    </button>
+                </div>
+
             </div>
         </div>
     </div>
 </div>
 
 <div class="modal fade" id="conModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-    <div class="modal-dialog" role="document" style="width:650px;height:300px;">
+    <div class="modal-dialog modal-confirm">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Payment Confirmation..</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Payment Confirmation</h4>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-12" style="text-align:center; font-weight:bold; font-size:20px;">
-                        <p style="color:cadetblue">Your Payment collection has been done.</p>
-                        <p class="clsReceiptno" style="color:darkgray"></p><br />
-                        <p style="color:crimson">Thank you !!</p>
-                    </div>
+                <div class="confirmation-icon">
+                    <i class="bi bi-check-circle-fill"></i>
                 </div>
-
+                <p class="confirmation-text">Your Payment collection has been done.</p>
+                <p class="clsReceiptno confirmation-receipt"></p>
+                <p class="confirmation-thanks">Thank you!</p>
             </div>
             <div class="modal-footer">
-
-                <button type="button" class="btn btn-success clsconfPrint">
-                    <i class="bi bi-printer" style="margin-right: 3px;"></i> Print
+                <button type="button" class="btn btn-print clsconfPrint">
+                    <i class="bi bi-printer"></i> Print
                 </button>
-                <button type="button" class="btn btn-default clsconfClose" data-dismiss="modal">
-                    <i class="bi bi-x-circle" style="margin-right: 3px;"></i>Close
+                <button type="button" class="btn btn-close-modal clsconfClose" data-dismiss="modal">
+                    <i class="bi bi-x-circle"></i> Close
                 </button>
             </div>
         </div>
@@ -252,13 +232,400 @@
 </div>
 
 <style>
-    .horizontal-checkbox-list label.checkbox-inline {
-        display: inline-block;
-        margin-right: 15px; /* Add space between checkboxes */
+    .wrapper { padding: 0 !important; margin-top: 64px !important; }
+    #div_Scroll { margin: 0 !important; }
+    #div_Scroll .col-lg-12 { padding: 0 !important; }
+
+    /* ===== Base Card ===== */
+    .card-modern {
+        background: #fff;
+        border-radius: 0;
+        box-shadow: none;
+        border: none;
+        overflow: hidden;
     }
+    .card-header-modern {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border-bottom: 2px solid #0089b3;
+        padding: 10px 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .card-header-modern .header-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(135deg, #0089b3, #006d8f);
+        border-radius: 8px;
+        color: #fff;
+        font-size: 18px;
+        flex-shrink: 0;
+    }
+    .card-header-modern .header-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #0f172a;
+        letter-spacing: -.2px;
+    }
+    .card-header-modern .header-badge {
+        margin-left: auto;
+        font-size: 11px;
+        font-weight: 600;
+        color: #0089b3;
+        background: rgba(0,137,179,0.08);
+        padding: 4px 12px;
+        border-radius: 20px;
+        letter-spacing: .3px;
+        text-transform: uppercase;
+    }
+    .card-body-modern {
+        padding: 20px 24px 24px;
+        font-family: 'Roboto', sans-serif;
+    }
+    .card-body-modern .form-group { margin-bottom: 14px; }
+    .card-body-modern .control-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: #475569;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+        letter-spacing: .4px;
+    }
+    .required-star { color: #e53e3e; margin-left: 2px; }
+    .card-body-modern .form-control {
+        border: 1.5px solid #e2e8f0;
+        border-radius: 6px;
+        box-shadow: none;
+        font-size: 13px;
+        padding: 8px 12px;
+        height: 38px;
+        transition: border-color .2s, box-shadow .2s;
+        color: #0f172a;
+    }
+    .card-body-modern .form-control:focus {
+        border-color: #0089b3;
+        box-shadow: 0 0 0 3px rgba(0,137,179,0.1);
+    }
+    .card-body-modern .form-control[disabled] {
+        background: #f8fafc;
+        color: #94a3b8;
+        cursor: not-allowed;
+        border-color: #e2e8f0;
+    }
+    select.form-control {
+        background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2394a3b8'/%3E%3C/svg%3E") no-repeat right 12px center;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        padding-right: 32px;
+    }
+
+    /* ===== Search Section ===== */
+    .student-search-section {
+        padding: 0 0 8px;
+        margin-bottom: 0;
+    }
+    .btn-search {
+        background: linear-gradient(135deg, #0089b3, #006d8f);
+        border: none;
+        border-radius: 0 6px 6px 0;
+        color: #fff;
+        height: 38px;
+        width: 42px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all .2s;
+    }
+    .btn-search:hover { background: linear-gradient(135deg, #006d8f, #005477); }
+    .input-group .form-control { border-radius: 6px 0 0 6px !important; }
+    .input-group-btn:last-child > .btn { margin-left: 0; }
+
+    /* ===== Month Selector ===== */
+    .month-selector {
+        padding: 6px 0 8px;
+        margin-bottom: 0;
+    }
+    .month-checkbox-list {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 5px;
+        padding-bottom: 4px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+        scrollbar-color: #e2e8f0 transparent;
+    }
+    .month-checkbox-list::-webkit-scrollbar { height: 4px; }
+    .month-checkbox-list::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 4px; }
+    #monthlst label.checkbox-inline {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        margin: 0;
+        padding: 4px 10px 4px 8px !important;
+        background: #fff;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 6px;
+        font-size: 15px !important;
+        font-weight: 500;
+        color: #64748b;
+        cursor: pointer;
+        transition: all .2s;
+        font-family: 'Roboto', sans-serif;
+        line-height: 1;
+        white-space: nowrap;
+        flex-shrink: 0;
+        min-height: 26px;
+        box-shadow: 0 1px 2px rgba(0,0,0,.02);
+    }
+    #monthlst label.checkbox-inline:hover {
+        border-color: #0089b3;
+        background: rgba(0,137,179,.04);
+        color: #0089b3;
+    }
+    #monthlst input[type="checkbox"] {
+        position: static !important;
+        margin: 0 !important;
+        accent-color: #0089b3;
+        width: 15px;
+        height: 15px;
+        flex-shrink: 0;
+        cursor: pointer;
+    }
+    #monthlst input[type="checkbox"]:disabled { opacity: .55; cursor: not-allowed; }
+
+    /* ===== Fee Table ===== */
+    .fee-table-section {
+        padding: 8px 0 14px;
+        margin: 0;
+    }
+    .fee-table-section #tblfee {
+        margin: 0;
+        width: 100% !important;
+        border-bottom: none !important;
+        border-collapse: collapse;
+    }
+    .fee-table-section #tblfee thead tr {
+        background: linear-gradient(135deg, #0089b3, #006d8f);
+        height: 30px;
+    }
+    .fee-table-section #tblfee thead th {
+        font-size: 11px;
+        font-weight: 600;
+        color: rgba(255,255,255,.9);
+        text-transform: uppercase;
+        letter-spacing: .8px;
+        padding: 10px 18px !important;
+        border: none;
+        border-right: 1px solid rgba(255,255,255,.06);
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+    .fee-table-section #tblfee thead th:last-child { border-right: none; }
+    .col-sl { width: 50px; text-align: left; padding-left: 14px; }
+    .col-fetype { text-align: center !important; }
+    .col-particulars { text-align: center !important; }
+    .col-amount { width: 200px; text-align: right; padding-right: 14px; }
+
+    .fee-table-section #tblfee tbody tr {
+        border-bottom: 1px solid #f1f5f9;
+        transition: background .12s;
+    }
+    .fee-table-section #tblfee tbody tr:nth-child(even) { background: #fafcfe; }
+    .fee-table-section #tblfee tbody tr:hover { background: #eef6ff; }
+    .fee-table-section #tblfee tbody td {
+        padding: 8px 18px !important;
+        font-size: 13px !important;
+        color: #1e293b !important;
+        border: none !important;
+        border-right: 1px solid #f1f5f9 !important;
+        font-weight: 500 !important;
+        line-height: 1.4 !important;
+        vertical-align: middle !important;
+        text-align: right !important;
+    }
+    .fee-table-section #tblfee tbody td:last-child { border-right: none !important; }
+    .fee-table-section #tblfee tbody td:first-child {
+        text-align: center !important;
+        color: #94a3b8 !important;
+        font-weight: 600 !important;
+        width: 60px !important;
+    }
+    .fee-table-section #tblfee tbody td:nth-child(2) { text-align: center !important; }
+    .fee-table-section #tblfee tbody td:nth-child(3) {
+        text-align: right !important;
+        color: #0f172a !important;
+        font-weight: 600 !important;
+    }
+
+    .fee-table-section #tblfee tfoot {
+        border-top: 2px solid #e2e8f0;
+    }
+    .fee-table-section #tblfee tfoot tr {
+        border-bottom: 1px solid #f1f5f9;
+    }
+    .fee-table-section #tblfee tfoot tr:last-child { border-bottom: none; }
+    .fee-table-section #tblfee tfoot td {
+        padding: 8px 18px !important;
+        color: #1e293b !important;
+        border: none !important;
+        border-right: 1px solid #f1f5f9 !important;
+        font-weight: 600 !important;
+        line-height: 1.4 !important;
+        vertical-align: middle !important;
+        text-align: right !important;
+        font-size: 13px;
+        background: #f8fafc;
+    }
+    .fee-table-section #tblfee tfoot td:last-child {
+        border-right: none !important;
+        width: 200px;
+    }
+    .fee-table-section #tblfee tfoot td.total-label { text-align: right !important; color: #475569; }
+
+    /* ===== Payment Section ===== */
+    .payment-section {
+        padding: 16px 0 0;
+        margin: 0;
+        border-top: 1px solid #eef2f6;
+    }
+    .payment-section .row { margin: 0; }
+    .payment-section .row > div { padding-left: 0; padding-top: 12px; }
+
+    /* ===== Action Bar ===== */
+    .action-bar {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        padding-top: 20px;
+    }
+    .btn-submit-print {
+        background: linear-gradient(135deg, #0089b3, #006d8f);
+        border: none;
+        border-radius: 6px;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 10px 28px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all .2s;
+        box-shadow: 0 2px 8px rgba(0,137,179,.2);
+        letter-spacing: .2px;
+    }
+    .btn-submit-print:hover {
+        background: linear-gradient(135deg, #006d8f, #004d66);
+        color: #fff;
+        box-shadow: 0 4px 14px rgba(0,137,179,.3);
+        -webkit-transform: translateY(-1px);
+        transform: translateY(-1px);
+    }
+    .btn-cancel {
+        background: #fff;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 6px;
+        color: #64748b;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 10px 24px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all .2s;
+    }
+    .btn-cancel:hover {
+        background: #fef2f2;
+        border-color: #fca5a5;
+        color: #dc2626;
+    }
+
+    /* ===== Confirmation Modal ===== */
+    .modal-confirm { width: 420px; }
+    .modal-confirm .modal-content {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 25px 60px rgba(0,0,0,.15);
+    }
+    .modal-confirm .modal-header {
+        background: linear-gradient(135deg, #1e293b, #334155);
+        border-radius: 12px 12px 0 0;
+        padding: 18px 24px;
+        border: none;
+    }
+    .modal-confirm .modal-title {
+        color: #fff;
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: .2px;
+    }
+    .modal-confirm .modal-header .close { color: rgba(255,255,255,.6); opacity: 1; text-shadow: none; font-size: 22px; }
+    .modal-confirm .modal-header .close:hover { color: #fff; opacity: 1; }
+    .modal-confirm .modal-body {
+        padding: 32px 24px;
+        text-align: center;
+    }
+    .confirmation-icon { font-size: 44px; color: #22c55e; margin-bottom: 14px; display: block; }
+    .confirmation-text {
+        font-size: 16px;
+        font-weight: 500;
+        color: #1e293b;
+        margin: 0 0 6px;
+    }
+    .confirmation-receipt {
+        font-size: 13px;
+        font-weight: 500;
+        color: #64748b;
+        margin: 0 0 18px;
+    }
+    .confirmation-thanks {
+        font-size: 17px;
+        font-weight: 700;
+        color: #0089b3;
+        margin: 0;
+    }
+    .modal-confirm .modal-footer {
+        padding: 16px 24px;
+        border-top: 1px solid #f1f5f9;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+    .btn-print {
+        background: linear-gradient(135deg, #0089b3, #006d8f);
+        border: none;
+        border-radius: 6px;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 500;
+        padding: 9px 22px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: all .2s;
+    }
+    .btn-print:hover { background: linear-gradient(135deg, #006d8f, #004d66); color: #fff; }
+    .btn-close-modal {
+        background: #fff;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 6px;
+        color: #64748b;
+        font-size: 13px;
+        font-weight: 500;
+        padding: 9px 20px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: all .2s;
+    }
+    .btn-close-modal:hover { background: #f8fafc; color: #1e293b; border-color: #cbd5e0; }
 </style>
-
-
 
 @section body_scripts{
     <script type="text/javascript">
@@ -391,7 +758,7 @@
                     $('#txtPhNo').val(data[0][0].SR_PhNo);
                     $('#tblfee tbody').empty();
 
-                    BindMonth(data[0][0].Session_ActiveMonth, data[0][0].PayMonth);
+                    BindMonth(data[3][0].MediumType, data[0][0].PayMonth);
                     
                 }
                 if (data.length > 0) {

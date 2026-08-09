@@ -589,6 +589,7 @@ namespace SchoolERP_System.Models
         public string InTime { get; set; }
         public string OutTime { get; set; }
         public string AttendanceDate { get; set; }
+        public string Attendance_Type { get; set; }
     }
     public class SchoolModel
     {
