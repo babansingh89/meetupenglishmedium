@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - meetupenglsih
   workflow_dispatch:
 
 jobs:
@@ -73,5 +74,5 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./publish/
-        server-dir: ./gitaction/
+        server-dir: ${{ github.ref_name == 'master' && './master/' || './meetupenglish/' }}
         ngerous-clean-slate: false # <-- CRITICAL: Prevents deleting the remote folder before uploading
