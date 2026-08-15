@@ -572,6 +572,7 @@ namespace SchoolERP_System.Models
     }
     public class EmpAttendacne
     {
+        public string EAID { get; set; }
         public string EM_EmpId { get; set; }
         public string EM_EmpCode { get; set; }
         public string EM_EmpName { get; set; }
@@ -585,6 +586,7 @@ namespace SchoolERP_System.Models
     public class SaveEmpAttendacne
     {
         public string EmpID { get; set; }
+        public string EAID { get; set; }
         public string IsPresent { get; set; }
         public string InTime { get; set; }
         public string OutTime { get; set; }
