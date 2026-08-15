@@ -150,16 +150,16 @@
         });
 
         function fn_resetform() {
-        
+
             $('#txtFrom').val('');
             $('#txtTo').val('');
         }
-      
+
         $(document).on("click", "#btnSave", function () {
-         
+
             var _From = $('#txtFrom').val();
             var _To = $('#txtTo').val();
-            
+
             if (_From == '') {
                 FormSuccessError1("Please enter From Date.", "Error", "errorBlock", "div_Scroll");
                 return false;
@@ -168,9 +168,9 @@
                 FormSuccessError1("Please enter To Date.", "Error", "errorBlock", "div_Scroll");
                 return false;
             }
+            Print();
 
-
-            $.ajax({
+            @*$.ajax({
                 type: "POST",
                 url: '@Url.Action("PrintHeadWiseCollection", "Report")',
                 data: JSON.stringify({  From: _From, To: _To }),
@@ -191,7 +191,34 @@
                     //alert("Error! Try again later.");
                     window.location.href = "/Error";
                 }
-            });
+            });*@
         });
+
+        function Print() {
+            var final = {}; var master = []; var detail = [];
+
+            master.push({
+                ReportName: "FeeHeadWiseCollection.rpt",
+                FileName: "FeeHeadWise_Collection_Report",
+                AppID: AppID
+            });
+
+            detail.push({
+                FromDate: $('#txtFrom').val(),
+                ToDate: $('#txtTo').val(),
+                AppID: ""
+            });
+
+            final = {
+                Master: master,
+                Detail: detail
+            }
+
+            var left = ($(window).width() / 2) - (950 / 2),
+                top = ($(window).height() / 2) - (650 / 2),
+                popup = window.open("/OpenReport/OpenReports.aspx?ReportName=" + JSON.stringify(final), "popup", "width=950, height=650, top=" + top + ", left=" + left);
+            popup.focus();
+        }
+
     </script>
 }
