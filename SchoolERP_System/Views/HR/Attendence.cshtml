@@ -484,6 +484,11 @@ var TodayDate = new Date();
             var $row = $(this).closest('tr');
             var inTime = $row.find('#expenses_sum1').val();
             var outTime = $(this).val();
+            if (inTime === '' && outTime !== '') {
+                alert('Out Time cannot be entered without In Time.');
+                $(this).val('');
+                return;
+            }
             if (inTime !== '' && outTime !== '') {
                 var inMins = fn_TimeToMinutes(inTime);
                 var outMins = fn_TimeToMinutes(outTime);
@@ -547,10 +552,16 @@ var TodayDate = new Date();
 
                 if (Attendance_Type != 'A') {
                     if (chklen > 0) { // Only process selected (checked) employees
-                        if (v6 === '' || v7 === '') {
-                            chkCnt++; // Selected employee but In/Out time is missing
+                        if (v6 === '') {
+                            if (v7 !== '') {
+                                var empName2 = $(this).find('td:eq(2)').text();
+                                outErrCnt++;
+                                outErrMsg = "Out Time cannot be entered without In Time for " + empName2 + ".";
+                            } else {
+                                chkCnt++; // Selected employee but no time entered
+                            }
                         } else {
-                            // Add only the selected employee's data to StdData
+                            // In Time present: Out Time is optional
                             StdData.push({
                                 'EmpID': tr_id,
                                 'EAID': eaid,
