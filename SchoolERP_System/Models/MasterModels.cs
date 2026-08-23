@@ -570,6 +570,33 @@ namespace SchoolERP_System.Models
         public string YearID { get; set; }
         public string EM_EmpName { get; set; }
     }
+    public class SalaryEarnDeduct
+    {
+        public string EDID { get; set; }
+        public string EDAmount { get; set; }
+    }
+    public class SalaryEarnDeductResponse
+    {
+        public string EDID { get; set; }
+        public string EDAmount { get; set; }
+        public string SP_ID { get; set; }
+        public string EDName { get; set; }
+        public string EDType { get; set; }
+    }
+    public class SalaryEmpWise
+    {
+        public string Emp_ID { get; set; }
+        public string EM_EmpName { get; set; }
+        public string DesgTypeID { get; set; }
+        public string MonthID { get; set; }
+        public string MonthName { get; set; }
+        public string YearID { get; set; }
+        public string TotalEarnings { get; set; }
+        public string TotalDeductions { get; set; }
+        public string NetSalary { get; set; }
+        public string SP_ID { get; set; }
+        public string ProcessedDate { get; set; }
+    }
     public class EmpAttendacne
     {
         public string EAID { get; set; }

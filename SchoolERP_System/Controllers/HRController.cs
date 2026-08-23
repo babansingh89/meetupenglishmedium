@@ -270,51 +270,154 @@ namespace SchoolERP_System.Controllers
             return View();
         }
 
-        public ActionResult viewSalaryProcess(string Month, string Year)
+        public ActionResult BindDesignation()
         {
             try
             {
                 SqlParameter[] prm1 = new SqlParameter[] {
-                    new SqlParameter("Type", "SelectByID"),
-                    new SqlParameter("MonthID",Month),
-                    new SqlParameter("YearID",Year),
+                  new SqlParameter("@Type", "Select_Designation"),
                 };
-                DataTable dt = new SQLHelper().ExecuteDataTable("SP_SalaryProcess", prm1, CommandType.StoredProcedure);
-                List<SalaryProcess> list = Utility.ConvertDataTableToClassObjectList<SalaryProcess>(dt);
-                return Json(list, JsonRequestBehavior.AllowGet);
+                DataTable dt = new SQLHelper().ExecuteDataTable("SP_Employee", prm1, CommandType.StoredProcedure);
+                var DesigList = dt.AsEnumerable()
+                    .Select(r => new { DesID = Convert.ToString(r["DesID"]), DesName = Convert.ToString(r["DesName"]) })
+                    .Distinct()
+                    .ToList();
+                return Json(DesigList, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
                 return Json("Error", JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult saveSalaryProcess(List<SalaryProcess> Emp, string strMonth, string strYear)
+
+        public ActionResult BindTeacher(string Id)
         {
             try
             {
-                DataTable dttAdr = GetTable(Emp);
+                SqlParameter[] prm1 = new SqlParameter[] {
+                  new SqlParameter("@Type", "Select_Teacher"),
+                   new SqlParameter("@EM_DesgId", Id),
+            };
+                DataSet dt = new SQLHelper().ExecuteDataSet("SP_Employee", prm1, CommandType.StoredProcedure);
+                List<Employee> List = Utility.ConvertDataTableToClassObjectList<Employee>(dt.Tables[0]);
+
+                return Json(List, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json("Error", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult saveSalaryProcess(List<SalaryEarnDeduct> Entries, string strMonth, string strYear, string desgtypeid, string empid)
+        {
+            try
+            {
+                if (Entries == null || Entries.Count == 0)
+                {
+                    return Json("NoData", JsonRequestBehavior.AllowGet);
+                }
+                if (string.IsNullOrEmpty(empid) || empid == "0")
+                {
+                    return Json("NoEmployee", JsonRequestBehavior.AllowGet);
+                }
+
+                GenLib objLib = new GenLib();
+                DataTable dttEntries = objLib.ToDataTable(Entries);
 
                 SqlParameter[] prm1 = new SqlParameter[] {
-                    new SqlParameter("Type", "Insert"),
+                    new SqlParameter("type", "Insert"),
                     new SqlParameter("MonthID",strMonth),
                     new SqlParameter("YearID",strYear),
-                    new SqlParameter("EmpSalary",dttAdr),
+                    new SqlParameter("DesgTypeID",desgtypeid),
+                    new SqlParameter("EmpID",empid),
+                    new SqlParameter("EmpSalary",dttEntries),
                 };
-                string Output = Convert.ToString(new SQLHelper().ExecuteScalar("SP_SalaryProcess", prm1, CommandType.StoredProcedure));
-                return Json(Output, JsonRequestBehavior.AllowGet);
+                DataSet dsResult = new SQLHelper().ExecuteDataSet("SP_SalaryProcess", prm1, CommandType.StoredProcedure);
+
+                string code = "0";
+                string msg = "";
+                if (dsResult != null && dsResult.Tables.Count > 0 && dsResult.Tables[0].Rows.Count > 0)
+                {
+                    DataTable dtRes = dsResult.Tables[0];
+                    if (dtRes.Columns.Contains("ResponseCode"))
+                    {
+                        code = Convert.ToString(dtRes.Rows[0]["ResponseCode"]);
+                        if (dtRes.Columns.Contains("ResponseMessage"))
+                        {
+                            msg = Convert.ToString(dtRes.Rows[0]["ResponseMessage"]);
+                        }
+                    }
+                    else
+                    {
+                        msg = Convert.ToString(dtRes.Rows[0][0]);
+                        code = (msg == "InsertSuccessful") ? "1" : "0";
+                    }
+                }
+                if (string.IsNullOrEmpty(msg))
+                {
+                    msg = (code == "1") ? "Salary saved successfully." : "Error. Try again later.";
+                }
+                return Json(new { ResponseCode = code, ResponseMessage = msg }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                return Json("Error", JsonRequestBehavior.AllowGet);
+                return Json(new { ResponseCode = "0", ResponseMessage = "Error occurred while saving Salary." }, JsonRequestBehavior.AllowGet);
             }
         }
 
-        public DataTable GetTable(List<SalaryProcess> stddt)
+        public ActionResult searchSalaryProcess(string desgtypeid, string empid, string strMonth, string strYear)
         {
-            GenLib objLib = new GenLib();
-            DataTable dt = new DataTable();
-            dt = objLib.ToDataTable(stddt);
-            return dt;
+            try
+            {
+                SqlParameter[] prm1 = new SqlParameter[] {
+                    new SqlParameter("Type", "SelectEdit"),
+                    new SqlParameter("MonthID",strMonth),
+                    new SqlParameter("YearID",strYear),
+                    new SqlParameter("DesgTypeID",desgtypeid),
+                    new SqlParameter("EmpID",empid),
+                };
+                DataSet dsResult = new SQLHelper().ExecuteDataSet("SP_SalaryProcess", prm1, CommandType.StoredProcedure);
+
+                List<SalaryEarnDeductResponse> list = new List<SalaryEarnDeductResponse>();
+
+                if (dsResult != null && dsResult.Tables.Count > 0 && dsResult.Tables[0].Rows.Count > 0)
+                {
+                    DataTable dtRes = dsResult.Tables[0];
+                    list = Utility.ConvertDataTableToClassObjectList<SalaryEarnDeductResponse>(dtRes);
+                }
+                return Json(new { Data = list }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ResponseCode = "0", ResponseMessage = "Error occurred while searching Salary.", Data = new List<SalaryEarnDeductResponse>() }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult searchEmpWiseSalary(string desgtypeid, string empid)
+        {
+            try
+            {
+                SqlParameter[] prm1 = new SqlParameter[] {
+                    new SqlParameter("Type", "EmpList"),
+                    new SqlParameter("DesgTypeID",desgtypeid),
+                    new SqlParameter("EmpID",empid),
+                };
+                DataSet dsResult = new SQLHelper().ExecuteDataSet("SP_SalaryProcess", prm1, CommandType.StoredProcedure);
+
+                List<SalaryEmpWise> list = new List<SalaryEmpWise>();
+
+                if (dsResult != null && dsResult.Tables.Count > 0 && dsResult.Tables[0].Rows.Count > 0)
+                {
+                    DataTable dtRes = dsResult.Tables[0];
+                    list = Utility.ConvertDataTableToClassObjectList<SalaryEmpWise>(dtRes);
+                }
+                return Json(new { Data = list }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ResponseCode = "0", ResponseMessage = "Error occurred while searching Salary.", Data = new List<SalaryEmpWise>() }, JsonRequestBehavior.AllowGet);
+            }
         }
         #endregion
 
