@@ -395,7 +395,7 @@
                             <thead>
                                 <tr>
                                     <th>Employee</th>
-                                    <th>Period</th>
+                                    <th>Effective From</th>
                                     <th>Total Earnings (Rs.)</th>
                                     <th>Total Deductions (Rs.)</th>
                                     <th>Net Salary (Rs.)</th>
@@ -420,14 +420,14 @@
         </div>
         <div class="se-body">
             <div class="row se-form-row">
-                <div class="col-md-3">
+                @*<div class="col-md-3">
                     <div class="form-group">
                         <label class="control-label">Month<span class="required-star">*</span></label>
                         <select id="ddlMonthList" class="form-control">
                             <option value="0">Select</option>
                         </select>
                     </div>
-                </div>
+                </div>*@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="control-label">Earning/Deduction<span class="required-star">*</span></label>
@@ -590,6 +590,9 @@
                 }
             });
         });
+        $("#ddlTeacherList").change(function () {
+            $('#tblSalaryHistory tbody').empty();
+        });
         var _editKey = null;
         $(document).on('input', '#txtAmount', function () {
             this.value = this.value.replace(/[^0-9]/g, '');
@@ -674,7 +677,7 @@
         }
         function fn_resetform() {
 
-            $('#ddlMonthList').select2("val", '0');
+            //$('#ddlMonthList').select2("val", '0');
             fn_bindMonths();
             $('#ddlDesignationList').val('0').trigger("change");
             $('#ddlTeacherList').empty().append('<option selected="selected" value="0">Select</option>').trigger("change");
@@ -742,13 +745,11 @@
                         var m = parseInt(v.MonthID) || 0;
                         var y = parseInt(v.YearID) || 0;
                         var isCurrent = (m == curM && y == curY);
-                        var action = isCurrent
-                            ? '<button type="button" class="btn-action-icon btn-edit btnEditHistory" data-month="' + m + '" data-year="' + y + '" title="Edit Salary"><i class="bi bi-pencil-square"></i></button> '
-                            : '<button type="button" class="btn-action-icon btn-edit" disabled title="Edit available only for current month"><i class="bi bi-pencil-square"></i></button> ';
+                        var action = '<button type="button" class="btn-action-icon btn-edit btnEditHistory" data-month="' + m + '" data-year="' + y + '" title="Edit Salary"><i class="bi bi-pencil-square"></i></button>';
                         action += '<button type="button" class="btn-action-icon btn-print btnPrintHistory" data-month="' + m + '" data-year="' + y + '" title="Print Salary"><i class="bi bi-printer"></i></button>';
                         var row = '<tr data-month="' + m + '" data-year="' + y + '">' +
                             '<td>' + (v.EM_EmpName || '') + '</td>' +
-                            '<td>' + (v.MonthName || '') + ' ' + y + '</td>' +
+                            '<td>' + (v.MonthName || '') + '</td>' +
                             '<td>' + (parseInt(v.TotalEarnings) || 0) + '</td>' +
                             '<td>' + (parseInt(v.TotalDeductions) || 0) + '</td>' +
                             '<td>' + (parseInt(v.NetSalary) || 0) + '</td>' +
@@ -773,7 +774,6 @@
             var _desgtypeid = $('#ddlDesignationList').val();
             var _empid = $('#ddlTeacherList').val();
             hideAlert();
-            if (!m || m == '0' || !y) { return false; }
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("searchSalaryProcess", "HR")',
@@ -819,7 +819,9 @@
             var _desgtypeid = $('#ddlDesignationList').val();
             var _empid = $('#ddlTeacherList').val();
             hideAlert();
-            if (!m || m == '0' || !y) { return false; }
+            Print(_desgtypeid, _empid, y);
+            return false;
+            //if (!m || m == '0' || !y) { return false; }
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("searchSalaryProcess", "HR")',
@@ -828,7 +830,7 @@
                 dataType: "json",
                 cache: false,
                 success: function (response) {
-                    if (response == null || response.ResponseCode != "1" || response.Data == null || response.Data.length == 0) {
+                    if (response == null || response.Data == null || response.Data.length == 0) {
                         showCustomAlert((response && response.ResponseMessage) ? response.ResponseMessage : "No salary details found.", 'warning');
                         return;
                     }
@@ -881,21 +883,21 @@
         });
 
         $(document).on("click", "#btnSave", function () {
-            var _month = $('#ddlMonthList').val();
+            //var _month = $('#ddlMonthList').val();
             var _year = String(_boundYear);
             var _desgtypeid = $('#ddlDesignationList').val();
             var _empid = $('#ddlTeacherList').val();
 
-            if (_month == '' || _month == '0' || _month == null) {
-                showCustomAlert("Please select Month.", 'warning');
-                return false;
-            }
+            //if (_month == '' || _month == '0' || _month == null) {
+            //    showCustomAlert("Please select Month.", 'warning');
+            //    return false;
+            //}
             var curM = new Date().getMonth() + 1;
             var curY = new Date().getFullYear();
-            if (parseInt(_year) != curY || parseInt(_month) != curM) {
-                showCustomAlert("Salary can be processed only for the current month.", 'warning');
-                return false;
-            }
+            //if (parseInt(_year) != curY || parseInt(_month) != curM) {
+            //    showCustomAlert("Salary can be processed only for the current month.", 'warning');
+            //    return false;
+            //}
             if (_desgtypeid == '' || _desgtypeid == '0' || _desgtypeid == null) {
                 showCustomAlert("Please select Designation Type.", 'warning');
                 return false;
@@ -921,14 +923,14 @@
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("saveSalaryProcess", "HR")',
-                data: JSON.stringify({ Entries: Entries, strMonth: _month, strYear: _year, desgtypeid: _desgtypeid, empid: _empid }),
+                data: JSON.stringify({ Entries: Entries, strMonth: "", strYear: _year, desgtypeid: _desgtypeid, empid: _empid }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 cache: false,
                 success: function (response) {
                     if (response != null && response.ResponseCode == "1") {
                         fn_resetform();
-                        FormSuccessError1("Salary saved successfully !!", "Success", "errorBlock", "div_Scroll");
+                        FormSuccessError1("Salary Saved Successfully !!", "Success", "errorBlock", "div_Scroll");
                     }
                     else {
                         showCustomAlert((response && response.ResponseMessage) ? response.ResponseMessage : "Error. Try again later.", 'warning');
@@ -942,6 +944,33 @@
                 }
             });
         });
+
+        function Print(desgtypeid, empid, year) {
+            var final = {}; var master = []; var detail = [];
+
+            master.push({
+                ReportName: "Payslip.rpt",
+                FileName: "Payslip",
+                AppID: ""
+            });
+
+            detail.push({
+                EmpID: empid,
+                DesgTypeID: desgtypeid,
+                YearID: year
+            });
+
+            final = {
+                Master: master,
+                Detail: detail
+            }
+
+            var left = ($(window).width() / 2) - (950 / 2),
+                top = ($(window).height() / 2) - (650 / 2),
+                popup = window.open("/OpenReport/OpenReports.aspx?ReportName=" + JSON.stringify(final), "popup", "width=950, height=650, top=" + top + ", left=" + left);
+            popup.focus();
+        }
+
     </script>
 }
 
