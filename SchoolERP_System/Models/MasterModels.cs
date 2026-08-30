@@ -597,6 +597,23 @@ namespace SchoolERP_System.Models
         public string SP_ID { get; set; }
         public string ProcessedDate { get; set; }
     }
+    public class MonthlySalaryStatus
+    {
+        public string MonthID { get; set; }
+        public string SP_ID { get; set; }
+        public string MonthName { get; set; }
+        public string TotalAmount { get; set; }
+        public string ProcessDate { get; set; }
+        public string Status { get; set; }
+        public string AllowProcess { get; set; }
+    }
+    public class MonthlySalaryMark
+    {
+        public string MonthID { get; set; }
+        public string YearID { get; set; }
+        public string SP_ID { get; set; }
+        public string TotalAmount { get; set; }
+    }
     public class EmpAttendacne
     {
         public string EAID { get; set; }

@@ -419,6 +419,86 @@ namespace SchoolERP_System.Controllers
                 return Json(new { ResponseCode = "0", ResponseMessage = "Error occurred while searching Salary.", Data = new List<SalaryEmpWise>() }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public ActionResult getMonthlySalaryStatus(string desgtypeid, string empid, string strYear)
+        {
+            try
+            {
+                SqlParameter[] prm1 = new SqlParameter[] {
+                    new SqlParameter("Type", "MonthStatus"),
+                    new SqlParameter("DesgTypeID", desgtypeid),
+                    new SqlParameter("EmpID", empid),
+                    new SqlParameter("YearID", strYear),
+                };
+                DataSet dsResult = new SQLHelper().ExecuteDataSet("SP_SalaryProcess", prm1, CommandType.StoredProcedure);
+
+                List<MonthlySalaryStatus> list = new List<MonthlySalaryStatus>();
+
+                if (dsResult != null && dsResult.Tables.Count > 0 && dsResult.Tables[0].Rows.Count > 0)
+                {
+                    DataTable dtRes = dsResult.Tables[0];
+                    list = Utility.ConvertDataTableToClassObjectList<MonthlySalaryStatus>(dtRes);
+                }
+                return Json(new { Data = list }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ResponseCode = "0", ResponseMessage = "Error occurred while loading monthly salary status.", Data = new List<MonthlySalaryStatus>() }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult saveMonthlySalary(List<MonthlySalaryMark> Marks, string desgtypeid, string empid, string strYear)
+        {
+            try
+            {
+                if (Marks == null || Marks.Count == 0)
+                {
+                    return Json(new { ResponseCode = "0", ResponseMessage = "No month selected." }, JsonRequestBehavior.AllowGet);
+                }
+                if (string.IsNullOrEmpty(empid) || empid == "0")
+                {
+                    return Json(new { ResponseCode = "0", ResponseMessage = "Please select Employee." }, JsonRequestBehavior.AllowGet);
+                }
+
+                GenLib objLib = new GenLib();
+                DataTable dttMarks = objLib.ToDataTable(Marks);
+
+                SqlParameter[] prm1 = new SqlParameter[] {
+                    new SqlParameter("Type", "Mark"),
+                    new SqlParameter("DesgTypeID", desgtypeid),
+                    new SqlParameter("EmpID", empid),
+                    new SqlParameter("YearID", strYear),
+                    new SqlParameter("Marks", dttMarks),
+                };
+                DataSet dsResult = new SQLHelper().ExecuteDataSet("SP_SalaryProcess", prm1, CommandType.StoredProcedure);
+
+                string code = "0";
+                string msg = "";
+                if (dsResult != null && dsResult.Tables[0] != null && dsResult.Tables[0].Rows.Count > 0)
+                {
+                    DataTable dtRes = dsResult.Tables[0];
+                    if (dtRes.Columns.Contains("ResponseCode"))
+                    {
+                        code = Convert.ToString(dtRes.Rows[0]["ResponseCode"]);
+                        msg = dtRes.Columns.Contains("ResponseMessage") ? Convert.ToString(dtRes.Rows[0]["ResponseMessage"]) : "";
+                    }
+                    else
+                    {
+                        msg = Convert.ToString(dtRes.Rows[0][0]);
+                        code = (msg == "InsertSuccessful") ? "1" : "0";
+                    }
+                }
+                if (string.IsNullOrEmpty(msg))
+                {
+                    msg = (code == "1") ? "Salary marked successfully." : "Error. Try again later.";
+                }
+                return Json(new { ResponseCode = code, ResponseMessage = msg }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ResponseCode = "0", ResponseMessage = "Error occurred while marking salary." }, JsonRequestBehavior.AllowGet);
+            }
+        }
         #endregion
 
         #region Salary Report

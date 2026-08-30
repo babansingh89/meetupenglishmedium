@@ -379,7 +379,8 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <button type="button" id="btnSearch" class="btn btn-modern" style="margin-top:25px;" title="Search Employee Salary"><i class="bi bi-search"></i> Search</button>
-                            <button type="button" id="btnPaySalary" class="btn btn-modern" style="margin-top:25px;" title="Process Salary"><i class="bi bi-cash-coin"></i> Pay Salary</button>
+                            <button type="button" id="btnPaySalary" class="btn btn-modern" style="margin-top:25px;" title="Process Salary"><i class="bi bi-cash-coin"></i> Enter Salary</button>
+                            <button type="button" id="btnMarkSalary" class="btn btn-modern" style="margin-top:25px;" title="Mark Salary"><i class="bi bi-cash-coin"></i> Pay Salary</button>
                         </div>
                     </div>
                     @*<div class="col-md-2">
@@ -491,6 +492,41 @@
     </div>
 </div>
 
+<div id="monthlyMarkOverlay" class="salary-entry-overlay">
+    <div class="salary-entry-box" style="width:70%;">
+        <div class="se-header">
+            <span class="se-icon"><i class="bi bi-check2-square"></i></span>
+            <span class="se-title">Mark Salary</span>
+            <button type="button" class="btn-close se-close" id="btnCloseMarkOverlay" aria-label="Close" style="margin-left:auto; color:#fff; opacity:1; font-size:22px; line-height:1; background:none; border:none; cursor:pointer;">&times;</button>
+        </div>
+        <div class="se-body">
+            <div class="monthly-mark-summary" style="margin-bottom:14px; font-size:13px; color:#3f4753;">
+                Employee: <b id="lblMarkEmpName">-</b> &nbsp;|&nbsp; Year: <b id="lblMarkYear">-</b> &nbsp;|&nbsp; <span style="color:#ffffff00;"></span>
+                <span style="color:#64748b;">Only <span style="color:#0089b3; font-weight:600;">Pending</span> months can be selected. Processed and Future months are disabled.</span>
+            </div>
+            <div style="overflow:auto;">
+                <table class="table table-bordered table-hover table-condensed" id="tblMonthlyMark">
+                    <thead>
+                        <tr>
+                            <th style="width:40px; text-align:center;">Select</th>
+                            <th>Month</th>
+                            <th style="text-align:right;">Total Amount (Rs.)</th>
+                            <th>Process Date</th>
+                            <th>Status</th>
+                            <th style="width:70px; text-align:center;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="action-bar" style="margin-top:16px;">
+                <button class="btn btn-modern" id="btnMarkSave"><i class="bi bi-check-lg"></i> Mark Salary</button>
+                <button class="btn btn-outline" id="btnMarkCancel"><i class="bi bi-x-circle"></i> Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section body_scripts{
     <script type="text/javascript">
         var ErrorDiv = $("#errorBlock").find(".alert.alert-danger.display-none");
@@ -510,6 +546,9 @@
             $("#ddlMonthList").trigger("change");
         }
         $(document).ready(function () {
+            $('#btnPaySalary').hide();
+            $('#btnMarkSalary').hide();
+
             $("#ddlMonthList").select2({
                 placeholder: "Select",
                 width: '100%',
@@ -592,6 +631,8 @@
         });
         $("#ddlTeacherList").change(function () {
             $('#tblSalaryHistory tbody').empty();
+            $('#btnPaySalary').hide();
+            $('#btnMarkSalary').hide();
         });
         var _editKey = null;
         $(document).on('input', '#txtAmount', function () {
@@ -736,17 +777,26 @@
                     var $tb = $('#tblSalaryHistory tbody').empty();
                     if (response == null || response.Data == null || response.Data.length == 0) {
                         $('#salaryHistorySection').hide();
-                        showCustomAlert((response && response.ResponseMessage) ? response.ResponseMessage : "No salary found for selected employee.", 'warning');
+                        showCustomAlert((response && response.ResponseMessage) ? response.ResponseMessage : "No salary found for selected employee. Kindly enter salary detail first.", 'warning');
+                        $('#btnPaySalary').show();
                         return;
                     }
                     var curM = new Date().getMonth() + 1;
                     var curY = new Date().getFullYear();
+                    if (response.Data.length > 0) {
+                        $('#btnPaySalary').hide();
+                        $('#btnMarkSalary').show();
+                    }
+                    else {
+                        $('#btnPaySalary').show();
+                        $('#btnMarkSalary').hide();
+                    }
                     $.each(response.Data, function (i, v) {
                         var m = parseInt(v.MonthID) || 0;
                         var y = parseInt(v.YearID) || 0;
                         var isCurrent = (m == curM && y == curY);
                         var action = '<button type="button" class="btn-action-icon btn-edit btnEditHistory" data-month="' + m + '" data-year="' + y + '" title="Edit Salary"><i class="bi bi-pencil-square"></i></button>';
-                        action += '<button type="button" class="btn-action-icon btn-print btnPrintHistory" data-month="' + m + '" data-year="' + y + '" title="Print Salary"><i class="bi bi-printer"></i></button>';
+                        //action += '<button type="button" class="btn-action-icon btn-print btnPrintHistory" data-month="' + m + '" data-year="' + y + '" title="Print Salary"><i class="bi bi-printer"></i></button>';
                         var row = '<tr data-month="' + m + '" data-year="' + y + '">' +
                             '<td>' + (v.EM_EmpName || '') + '</td>' +
                             '<td>' + (v.MonthName || '') + '</td>' +
@@ -765,6 +815,71 @@
                 }
             });
         }
+
+                function fn_loadSalaryHistory() {
+            var _desgtypeid = $('#ddlDesignationList').val();
+            var _empid = $('#ddlTeacherList').val();
+            hideAlert();
+            if (_desgtypeid == '' || _desgtypeid == '0' || _desgtypeid == null) {
+                FormSuccessError1("Please select Designation Type.", "Error", "errorBlock", "div_Scroll");
+                return false;
+            }
+            if (_empid == '' || _empid == '0' || _empid == null) {
+                FormSuccessError1("Please select Teacher.", "Error", "errorBlock", "div_Scroll");
+                return false;
+            }
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("searchEmpWiseSalary", "HR")',
+                data: JSON.stringify({ desgtypeid: _desgtypeid, empid: _empid }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                cache: false,
+                success: function (response) {
+                    var $tb = $('#tblSalaryHistory tbody').empty();
+                    if (response == null || response.Data == null || response.Data.length == 0) {
+                        $('#salaryHistorySection').hide();
+                        showCustomAlert((response && response.ResponseMessage) ? response.ResponseMessage : "No salary found for selected employee. Kindly enter salary detail first.", 'warning');
+                        $('#btnPaySalary').show();
+                        return;
+                    }
+                    var curM = new Date().getMonth() + 1;
+                    var curY = new Date().getFullYear();
+                    if (response.Data.length > 0) {
+                        $('#btnPaySalary').hide();
+                        $('#btnMarkSalary').show();
+                    }
+                    else {
+                        $('#btnPaySalary').show();
+                        $('#btnMarkSalary').hide();
+                    }
+                    $.each(response.Data, function (i, v) {
+                        var m = parseInt(v.MonthID) || 0;
+                        var y = parseInt(v.YearID) || 0;
+                        var isCurrent = (m == curM && y == curY);
+                        var action = '<button type="button" class="btn-action-icon btn-edit btnEditHistory" data-month="' + m + '" data-year="' + y + '" title="Edit Salary"><i class="bi bi-pencil-square"></i></button>';
+                        //action += '<button type="button" class="btn-action-icon btn-print btnPrintHistory" data-month="' + m + '" data-year="' + y + '" title="Print Salary"><i class="bi bi-printer"></i></button>';
+                        var row = '<tr data-month="' + m + '" data-year="' + y + '">' +
+                            '<td>' + (v.EM_EmpName || '') + '</td>' +
+                            '<td>' + (v.MonthName || '') + '</td>' +
+                            '<td>' + (parseInt(v.TotalEarnings) || 0) + '</td>' +
+                            '<td>' + (parseInt(v.TotalDeductions) || 0) + '</td>' +
+                            '<td>' + (parseInt(v.NetSalary) || 0) + '</td>' +
+                            '<td>' + (v.ProcessedDate || '') + '</td>' +
+                            '<td style="text-align:center;">' + action + '</td></tr>';
+                        $tb.append(row);
+                    });
+                    $('#salaryHistorySection').show();
+                },
+                error: function () {
+                    $('#salaryHistorySection').hide();
+                    showCustomAlert("No salary found for selected employee.", 'warning');
+                }
+            });
+        }
+
+        $(document).on("click", "#btnSearch", fn_loadSalaryHistory);
+
         $(document).on("click", "#btnSearch", fn_loadSalaryHistory);
 
         $(document).on("click", ".btnEditHistory", function () {
@@ -945,7 +1060,133 @@
             });
         });
 
-        function Print(desgtypeid, empid, year) {
+        $(document).on("click", "#btnMarkSalary", function () {
+      var _desgtypeid = $('#ddlDesignationList').val();
+      var _empid = $('#ddlTeacherList').val();
+      var _year = String(_boundYear || new Date().getFullYear());
+      hideAlert();
+      if (_desgtypeid == '' || _desgtypeid == '0' || _desgtypeid == null) {
+          showCustomAlert("Please select Designation Type.", 'warning');
+          return;
+      }
+      if (_empid == '' || _empid == '0' || _empid == null) {
+          showCustomAlert("Please select Teacher.", 'warning');
+          return;
+      }
+      $.ajax({
+          type: "POST",
+          url: '@Url.Action("getMonthlySalaryStatus", "HR")',
+          data: JSON.stringify({ desgtypeid: _desgtypeid, empid: _empid, strYear: _year }),
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          cache: false,
+          success: function (response) {
+              if (response == null || response.Data == null || response.Data.length == 0) {
+                  showCustomAlert((response && response.ResponseMessage) ? response.ResponseMessage : "No monthly salary status found.", 'warning');
+                  return;
+              }
+              var empName = $.trim($('#ddlTeacherList option:selected').text()) || '-';
+              $('#lblMarkEmpName').text(empName);
+              $('#lblMarkYear').text(_year);
+              var $tb = $('#tblMonthlyMark tbody').empty();
+              $.each(response.Data, function (i, v) {
+                  var status = (v.Status || '').toLowerCase();
+                  var isPending = status.indexOf('pending') > -1;
+                  var isProcessed = status.indexOf('process') > -1;
+                  var disabled = !isPending;
+                  var checked = isPending ? ' checked' : '';
+                  var cb = '<input type="checkbox" class="monthMarkChk" data-month="' + v.MonthID + '"' +
+                      ' data-status="' + (v.Status || '') + '"' +
+                      ' data-amount="' + (v.TotalAmount || 0) + '"' +
+                      ' data-spid="' + (v.SP_ID || 0) + '"' +
+                      (disabled ? ' disabled' : '') + checked + '>';
+                  var printBtn = isProcessed
+                      ? '<button type="button" class="btn-action-icon btn-print btnPrintMark" data-month="' + v.MonthID + '" data-year="' + _year + '" title="Print Salary"><i class="bi bi-printer"></i></button>'
+                      : '';
+                  var row = '<tr data-month="' + v.MonthID + '">' +
+                      '<td style="text-align:center;">' + cb + '</td>' +
+                      '<td>' + (v.MonthName || '') + '</td>' +
+                      '<td style="text-align:right;">' + (parseFloat(v.TotalAmount) || 0).toLocaleString('en-IN') + '</td>' +
+                      '<td>' + (v.ProcessDate || '') + '</td>' +
+                      '<td>' + (v.Status || '') + '</td>' +
+                      '<td style="text-align:center;">' + printBtn + '</td></tr>';
+                  $tb.append(row);
+              });
+              $('#monthlyMarkOverlay').addClass('show');
+          },
+          error: function () {
+              showCustomAlert("Error occurred while loading monthly salary status.", 'error');
+          }
+      });
+  });
+
+        function fn_closeMonthlyMark() {
+            $('#monthlyMarkOverlay').removeClass('show');
+            $('#tblMonthlyMark tbody').empty();
+        }
+        $(document).on('click', '#btnCloseMarkOverlay, #btnMarkCancel', function () {
+            fn_closeMonthlyMark();
+        });
+        $('#monthlyMarkOverlay').on('click', function (e) {
+            if (e.target === this) fn_closeMonthlyMark();
+        });
+        $(document).on('click', '#btnMarkSave', function () {
+            var _desgtypeid = $('#ddlDesignationList').val();
+            var _empid = $('#ddlTeacherList').val();
+            var _year = String(_boundYear || new Date().getFullYear());
+            var Marks = [];
+            $('#tblMonthlyMark tbody tr').each(function () {
+                var $chk = $(this).find('.monthMarkChk');
+                if ($chk.length && $chk.is(':checked') && !$chk.is(':disabled')) {
+                    Marks.push({
+                        MonthID: $chk.attr('data-month'),
+                        SP_ID: $chk.attr('data-spid'),
+                        YearID: _year,
+                        TotalAmount: $chk.attr('data-amount') || '0'
+                    });
+                }
+            });
+            if (Marks.length == 0) {
+                showCustomAlert("Please select at least one Pending month to mark salary.", 'warning');
+                return;
+            }
+            hideAlert();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("saveMonthlySalary", "HR")',
+                data: JSON.stringify({ Marks: Marks, desgtypeid: _desgtypeid, empid: _empid, strYear: _year }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                cache: false,
+                success: function (response) {
+                    if (response != null && response.ResponseCode == "1") {
+                        fn_closeMonthlyMark();
+                        FormSuccessError1(response.ResponseMessage || "Salary marked successfully !!", "Success", "errorBlock", "div_Scroll");
+                        if (typeof fn_loadSalaryHistory === 'function') {
+                            $('#ddlTeacherList').trigger('change');
+                        }
+                    }
+                    else {
+                        showCustomAlert((response && response.ResponseMessage) ? response.ResponseMessage : "Error. Try again later.", 'warning');
+                    }
+                },
+                error: function () {
+                    showCustomAlert("Error occurred while marking salary.", 'error');
+                }
+            });
+        });
+
+        $(document).on("click", ".btnPrintMark", function () {
+            var _desgtypeid = $('#ddlDesignationList').val();
+            var _empid = $('#ddlTeacherList').val();
+            var m = $(this).attr('data-month');
+            var y = $(this).attr('data-year');
+            hideAlert();
+            Print(_desgtypeid, _empid, m, y);
+            return false;
+        });
+
+        function Print(desgtypeid, empid, month, year) {
             var final = {}; var master = []; var detail = [];
 
             master.push({
@@ -957,7 +1198,8 @@
             detail.push({
                 EmpID: empid,
                 DesgTypeID: desgtypeid,
-                YearID: year
+                YearID: year,
+                MonthID: month
             });
 
             final = {
