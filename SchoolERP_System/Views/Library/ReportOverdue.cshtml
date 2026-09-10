@@ -1,0 +1,291 @@
+@{
+    ViewBag.Title = "Overdue Books Report";
+}
+
+<style>
+    .wrapper { padding: 0 !important; margin-top: 64px !important; }
+    #div_Scroll { margin: 0 !important; }
+    #div_Scroll .col-lg-12 { padding: 0 !important; }
+
+    .card-modern {
+        background: #fff;
+        border-radius: 0;
+        box-shadow: none;
+        border: none;
+        overflow: hidden;
+    }
+    .card-header-modern {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border-bottom: 2px solid #0089b3;
+        padding: 10px 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .card-header-modern .header-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(135deg, #0089b3, #006d8f);
+        border-radius: 8px;
+        color: #fff;
+        font-size: 18px;
+        flex-shrink: 0;
+    }
+    .card-header-modern .header-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #0f172a;
+        letter-spacing: -.2px;
+    }
+    .card-body-modern {
+        padding: 16px 20px 24px;
+        font-family: 'Roboto', sans-serif;
+    }
+    .card-body-modern .form-group label {
+        font-size: 12px;
+        font-weight: 600;
+        color: #475569;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+        letter-spacing: .4px;
+    }
+    .card-body-modern .form-control {
+        border: 1.5px solid #e2e8f0;
+        border-radius: 6px;
+        box-shadow: none;
+        font-size: 13px;
+        padding: 8px 12px;
+        height: 38px;
+        transition: border-color .2s, box-shadow .2s;
+        color: #0f172a;
+    }
+    .card-body-modern .form-control:focus {
+        border-color: #0089b3;
+        box-shadow: 0 0 0 3px rgba(0,137,179,.1);
+    }
+    .card-body-modern .select2-container .select2-choice,
+    .card-body-modern .select2-container.select2-dropdown-open .select2-choice {
+        height: 38px;
+        line-height: 34px;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 6px;
+        box-shadow: none;
+        background: #fff;
+        color: #0f172a;
+        font-size: 13px;
+    }
+    .filter-row {
+        display: flex;
+        align-items: flex-end;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+    }
+    .filter-row .form-group { margin-bottom: 0; min-width: 200px; flex: 1; }
+
+    .btn-modern {
+        background: linear-gradient(135deg, #0089b3, #006d8f);
+        border: none;
+        border-radius: 6px;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 9px 22px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: all .2s;
+        box-shadow: 0 2px 8px rgba(0,137,179,.2);
+        height: 38px;
+    }
+    .btn-modern:hover {
+        background: linear-gradient(135deg, #006d8f, #004d66);
+        color: #fff;
+        box-shadow: 0 4px 14px rgba(0,137,179,.3);
+        -webkit-transform: translateY(-1px);
+        transform: translateY(-1px);
+    }
+
+    #tblData {
+        width: 100% !important;
+        margin: 0;
+        border-collapse: collapse;
+        border: 1px solid #e2e8f0;
+    }
+    #tblData thead th {
+        background: linear-gradient(135deg, #0089b3, #006d8f);
+        color: #fff;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: .6px;
+        padding: 12px 18px !important;
+        border: none !important;
+        border-right: 1px solid rgba(255,255,255,.08) !important;
+        vertical-align: middle !important;
+        white-space: nowrap;
+    }
+    #tblData thead th:last-child { border-right: none !important; }
+    #tblData tbody td {
+        padding: 10px 18px !important;
+        font-size: 13px;
+        color: #1e293b;
+        border-bottom: 1px solid #f1f5f9 !important;
+        border-right: none !important;
+        vertical-align: middle !important;
+    }
+    #tblData tbody tr:nth-child(even) { background: #fafcfe; }
+    #tblData tbody tr:hover { background: #eef6ff; }
+    #tblData td .overdue-tag {
+        display: inline-block;
+        background: #fee2e2;
+        color: #b91c1c;
+        font-weight: 700;
+        font-size: 12px;
+        padding: 2px 10px;
+        border-radius: 12px;
+    }
+
+    #tblData_wrapper .dataTables_length label,
+    #tblData_wrapper .dataTables_filter label,
+    #tblData_wrapper .dataTables_info,
+    #tblData_wrapper .dataTables_paginate {
+        font-size: 13px;
+        color: #475569;
+    }
+    #tblData_wrapper .dataTables_filter input {
+        border: 1.5px solid #e2e8f0;
+        border-radius: 6px;
+        padding: 6px 10px;
+        height: 34px;
+        outline: none;
+    }
+    #tblData_wrapper .dataTables_filter input:focus {
+        border-color: #0089b3;
+        box-shadow: 0 0 0 3px rgba(0,137,179,.1);
+    }
+    #tblData_wrapper .dataTables_length select {
+        border: 1.5px solid #e2e8f0;
+        border-radius: 6px;
+        padding: 5px;
+        height: 34px;
+    }
+    #tblData_wrapper .dataTables_paginate .paginate_button {
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 6px !important;
+        padding: 6px 12px !important;
+        margin: 0 2px;
+        color: #475569 !important;
+        background: #fff !important;
+    }
+    #tblData_wrapper .dataTables_paginate .paginate_button.current {
+        background: linear-gradient(135deg, #0089b3, #006d8f) !important;
+        color: #fff !important;
+        border-color: #0089b3 !important;
+    }
+    #tblData_wrapper .dataTables_paginate .paginate_button:hover {
+        background: #f1f5f9 !important;
+        color: #0089b3 !important;
+    }
+</style>
+
+<div class="row" id="div_Scroll">
+    <div class="col-lg-12">
+        <div class="card-modern">
+            <div class="card-header-modern">
+                <span class="header-icon"><i class="fa fa-exclamation-circle"></i></span>
+                <span class="header-title">Overdue Books Report</span>
+            </div>
+            <div class="card-body-modern">
+                <div class="filter-row">
+                    <div class="form-group">
+                        <label class="control-label">Category:</label>
+                        @Html.DropDownList("ddlCategory", (IList<SelectListItem>)ViewBag.CategoryList, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group" style="min-width: 140px; flex: 0 0 auto;">
+                        <label class="control-label">&nbsp;</label>
+                        <button type="button" class="btn btn-modern" id="btnSearch"><i class="fa fa-search"></i> Search</button>
+                    </div>
+                </div>
+                @Html.Partial("~/Views/Shared/SuccessError.cshtml")
+                <table class="table table-striped table-bordered table-hover table-condensed dt-responsive" id="tblData">
+                    <thead>
+                        <tr>
+                            <th>Member</th>
+                            <th>Book Name</th>
+                            <th>Issue Date</th>
+                            <th>Due Date</th>
+                            <th>Overdue Days</th>
+                            <th>Est. Fine (Rs.)</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section body_scripts{
+    <script type="text/javascript">
+        function fn_fmtDDMMYYYY(str) {
+            if (!str) return '';
+            var p = str.split(' ');
+            if (p.length < 3) return str;
+            var months = { Jan: '01', Feb: '02', Mar: '03', Apr: '04', May: '05', Jun: '06', Jul: '07', Aug: '08', Sep: '09', Oct: '10', Nov: '11', Dec: '12' };
+            return ('0' + p[0]).slice(-2) + '/' + months[p[1]] + '/' + p[2];
+        }
+
+        $(document).ready(function () {
+            $("#ddlCategory").select2({
+                placeholder: "All"
+            });
+            fn_Bindtbl();
+        });
+
+        $("#btnSearch").click(function () {
+            fn_Bindtbl();
+        });
+        $("#ddlCategory").change(function () {
+            fn_Bindtbl();
+        });
+
+        function fn_Bindtbl() {
+            var _CategoryID = $.trim($("#ddlCategory").val());
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("viewLibReport", "Library")',
+                data: JSON.stringify({ ReportType: "Overdue", CategoryID: _CategoryID, LibMemberID: "", Status: "", FromDate: "", ToDate: "" }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data == 'Error') {
+                        return false;
+                    }
+                    $('#tblData tbody').empty();
+                    $.each(data, function (rowIndex, val) {
+                        var row = '';
+                        row += '<tr>';
+                        row += '<td>' + val.MemberName + '<br> <small style="font-size: 10px; color: #94a3b8;">Reg No.:' + val.RegNo + '</small></td>';
+                        row += '<td>' + val.BookName + '<br> <small style="font-size: 10px; color: #94a3b8;">' + val.BookAuthor + '</small></td>';
+                        row += '<td>' + fn_fmtDDMMYYYY(val.IssueDate) + '</td>';
+                        row += '<td>' + fn_fmtDDMMYYYY(val.DueDate) + '</td>';
+                        row += '<td><span class="overdue-tag">' + val.OverdueDays + ' days</span></td>';
+                        row += '<td>' + (Number(val.EstFine) || 0).toFixed(2) + '</td>';
+                        row += '</tr>';
+                        $('#tblData tbody').append(row);
+                    });
+                    $('#tblData').dataTable();
+                },
+                error: function (error) {
+                    console.error(error);
+                    return false;
+                }
+            });
+        }
+    </script>
+}

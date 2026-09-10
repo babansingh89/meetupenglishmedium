@@ -113,8 +113,15 @@
                                 <span>Library</span>
                             </a>
                             <ul class="sub">
+                                <li><a href="@Url.Action("CategoryList", "Library")">Book Category</a></li>
                                 <li><a href="@Url.Action("BookList", "Library")">Book List Manager</a></li>
-                                <li><a href="@Url.Action("BookIssue", "Library")">Book Issue Report</a></li>
+                                <li><a href="@Url.Action("MemberList", "Library")">Library Members</a></li>
+                                <li><a href="@Url.Action("BookIssue", "Library")">Issue / Return</a></li>
+                                <li><a href="@Url.Action("LibrarySetting", "Library")">Library Setting</a></li>
+                                <li><a href="@Url.Action("ReportIssue", "Library")">Issue Report</a></li>
+                                <li><a href="@Url.Action("ReportOverdue", "Library")">Overdue Report</a></li>
+                                <li><a href="@Url.Action("ReportBookStock", "Library")">Book Stock Report</a></li>
+                                <li><a href="@Url.Action("ReportMemberWise", "Library")">Member Wise Report</a></li>
                             </ul>
                         </li>
 

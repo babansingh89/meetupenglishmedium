@@ -801,30 +801,101 @@ namespace SchoolERP_System.Models
         public string Projects { get; set; }
         public string Internal { get; set; }
     }
+    public class BookCategory
+    {
+        public string CategoryID { get; set; }
+        public string CategoryName { get; set; }
+        public string ShelfNo { get; set; }
+        public string Remarks { get; set; }
+        public string IsActive { get; set; }
+    }
     public class Book
     {
         public string BookID { get; set; }
+        public string CategoryID { get; set; }
+        public string CategoryName { get; set; }
         public string BookName { get; set; }
         public string BookAuthor { get; set; }
+        public string Publisher { get; set; }
+        public string Edition { get; set; }
         public string ISBN { get; set; }
+        public string Pages { get; set; }
+        public string Price { get; set; }
+        public string PurchaseDate { get; set; }
+        public string RackNo { get; set; }
+        public string Shelf { get; set; }
+        public string TotalStock { get; set; }
+        public string CurrentStock { get; set; }
+        public string Available { get; set; }
         public string Stock { get; set; }
         public string StockOut { get; set; }
+    }
+    public class LibMember
+    {
+        public string LibMemberID { get; set; }
+        public string MemberType { get; set; }
+        public string MemberRefID { get; set; }
+        public string RegNo { get; set; }
+        public string MemberName { get; set; }
+        public string ClassID { get; set; }
+        public string SectionID { get; set; }
+        public string ClassName { get; set; }
+        public string SectionName { get; set; }
+        public string Gender { get; set; }
+        public string ContactNo { get; set; }
+        public string IsActive { get; set; }
     }
     public class IssueBook
     {
         public string IssueID { get; set; }
-        public string IssueDate { get; set; }
-        public string BookStatus { get; set; }
-        public string RetrunDate { get; set; }
-        public string SR_StudentName { get; set; }
-        public string SR_RegNo { get; set; }
-        public string ClassName { get; set; }
-        public string BookName { get; set; }
-        public string BookAuthor { get; set; }
+        public string LibMemberID { get; set; }
+        public string MemberRefID { get; set; }
+        public string MemberName { get; set; }
+        public string MemberType { get; set; }
+        public string RegNo { get; set; }
         public string ClassID { get; set; }
         public string SectionID { get; set; }
+        public string ClassName { get; set; }
+        public string SectionName { get; set; }
         public string BookID { get; set; }
-        public string SR_ID { get; set; }
+        public string BookName { get; set; }
+        public string BookAuthor { get; set; }
+        public string CategoryName { get; set; }
+        public string IssueDate { get; set; }
+        public string DueDate { get; set; }
+        public string ReturnDate { get; set; }
+        public string BookStatus { get; set; }
+        public string FineAmount { get; set; }
+        public string FinePaidStatus { get; set; }
+        public string OverdueDays { get; set; }
+        public string EstFine { get; set; }
+    }
+    public class LibrarySetting
+    {
+        public string IssueDays { get; set; }
+        public string FinePerDay { get; set; }
+    }
+    public class BookStockReport
+    {
+        public string BookID { get; set; }
+        public string CategoryID { get; set; }
+        public string CategoryName { get; set; }
+        public string BookName { get; set; }
+        public string BookAuthor { get; set; }
+        public string ISBN { get; set; }
+        public string RackNo { get; set; }
+        public string Shelf { get; set; }
+        public string TotalStock { get; set; }
+        public string CurrentStock { get; set; }
+        public string Issued { get; set; }
+    }
+    public class CategoryWiseReport
+    {
+        public string CategoryName { get; set; }
+        public string NoOfTitles { get; set; }
+        public string TotalCopies { get; set; }
+        public string IssuedCopies { get; set; }
+        public string AvailableCopies { get; set; }
     }
     public class EmpAssignModel
     {

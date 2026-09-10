@@ -1,134 +1,412 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Book Issue";
-    //Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
 
 <style>
-.dot {
-  height: 10px;
-  width: 15px;
-  background-color: #bbb;
-  border-radius: 50%;
-  display: inline-block;
-}
-.dotG {
-  height: 10px;
-  width: 15px;
-  background-color: green;
-  border-radius: 50%;
-  display: inline-block;
-}
-    .m-b-10 {
-        margin-bottom: 10px;
+    .wrapper { padding: 0 !important; margin-top: 64px !important; }
+    #div_Scroll { margin: 0 !important; }
+    #div_Scroll .col-lg-12 { padding: 0 !important; }
+
+    .card-modern {
+        background: #fff;
+        border-radius: 0;
+        box-shadow: none;
+        border: none;
+        overflow: hidden;
+    }
+    .card-header-modern {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border-bottom: 2px solid #0089b3;
+        padding: 10px 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .card-header-modern .header-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(135deg, #0089b3, #006d8f);
+        border-radius: 8px;
+        color: #fff;
+        font-size: 18px;
+        flex-shrink: 0;
+    }
+    .card-header-modern .header-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #0f172a;
+        letter-spacing: -.2px;
+    }
+    .card-header-modern .btn-register {
+        margin-left: auto;
+        background: linear-gradient(135deg, #0089b3, #006d8f);
+        border: none;
+        border-radius: 6px;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 8px 18px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: all .2s;
+        box-shadow: 0 2px 8px rgba(0,137,179,.2);
+    }
+    .card-header-modern .btn-register:hover {
+        background: linear-gradient(135deg, #006d8f, #004d66);
+        color: #fff;
+        box-shadow: 0 4px 14px rgba(0,137,179,.3);
+        -webkit-transform: translateY(-1px);
+        transform: translateY(-1px);
+    }
+    .card-body-modern {
+        padding: 16px 20px 24px;
+        font-family: 'Roboto', sans-serif;
+    }
+    .card-body-modern .form-group label {
+        font-size: 12px;
+        font-weight: 600;
+        color: #475569;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+        letter-spacing: .4px;
+    }
+    .card-body-modern .form-control {
+        border: 1.5px solid #e2e8f0;
+        border-radius: 6px;
+        box-shadow: none;
+        font-size: 13px;
+        padding: 8px 12px;
+        height: 38px;
+        transition: border-color .2s, box-shadow .2s;
+        color: #0f172a;
+    }
+    .card-body-modern .form-control:focus {
+        border-color: #0089b3;
+        box-shadow: 0 0 0 3px rgba(0,137,179,.1);
+    }
+    .filter-row {
+        display: flex;
+        align-items: flex-end;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+    }
+    .filter-row .form-group { margin-bottom: 0; min-width: 200px; flex: 1; }
+
+    .dot {
+        height: 10px;
+        width: 10px;
+        background-color: #f59e0b;
+        border-radius: 50%;
+        display: inline-block;
+    }
+    .dotG {
+        height: 10px;
+        width: 10px;
+        background-color: #22c55e;
+        border-radius: 50%;
+        display: inline-block;
     }
 
-    .m-t-10 {
-        margin-top: 10px;
+    #tblData {
+        width: 100% !important;
+        margin: 0;
+        border-collapse: collapse;
+        border: 1px solid #e2e8f0;
     }
-
-    .modal-header {
-        background: rgb(240, 188, 180);
+    #tblData thead th {
+        background: linear-gradient(135deg, #0089b3, #006d8f);
+        color: #fff;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: .6px;
+        padding: 12px 18px !important;
+        border: none !important;
+        border-right: 1px solid rgba(255,255,255,.08) !important;
+        vertical-align: middle !important;
+        white-space: nowrap;
     }
-
-    i.fa {
-        color: black;
-        font-size: 16px;
-        margin-right: 5px;
+    #tblData thead th:last-child { border-right: none !important; }
+    #tblData tbody td {
+        padding: 10px 18px !important;
+        font-size: 13px;
+        color: #1e293b;
+        border-bottom: 1px solid #f1f5f9 !important;
+        border-right: none !important;
+        vertical-align: middle !important;
+        white-space: nowrap;
+    }
+    #tblData tbody tr:nth-child(even) { background: #fafcfe; }
+    #tblData tbody tr:hover { background: #eef6ff; }
+    #tblData i.fa {
+        color: #64748b;
+        margin-right: 10px;
+        transition: color .2s;
         cursor: pointer;
     }
-    .center {
-        border: 5px solid;
-        margin: auto;
-        width: 60%;
-        padding: 10px;
+    #tblData i.fa:hover { color: #0089b3; }
+    #tblData i.fa[style*="cursor: not-allowed"],
+    #tblData i.fa[style*="not-allowed"] { color: #cbd5e1; cursor: not-allowed !important; }
+    #tblData i.Icondelclass { color: #dc2626 !important; }
+
+    #tblData_wrapper .dataTables_length label,
+    #tblData_wrapper .dataTables_filter label,
+    #tblData_wrapper .dataTables_info,
+    #tblData_wrapper .dataTables_paginate {
+        font-size: 13px;
+        color: #475569;
     }
-    .container {
+    #tblData_wrapper .dataTables_filter input {
+        border: 1.5px solid #e2e8f0;
+        border-radius: 6px;
+        padding: 6px 10px;
+        height: 34px;
+        outline: none;
+    }
+    #tblData_wrapper .dataTables_filter input:focus {
+        border-color: #0089b3;
+        box-shadow: 0 0 0 3px rgba(0,137,179,.1);
+    }
+    #tblData_wrapper .dataTables_length select {
+        border: 1.5px solid #e2e8f0;
+        border-radius: 6px;
+        padding: 5px;
+        height: 34px;
+    }
+    #tblData_wrapper .dataTables_paginate .paginate_button {
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 6px !important;
+        padding: 6px 12px !important;
+        margin: 0 2px;
+        color: #475569 !important;
+        background: #fff !important;
+    }
+    #tblData_wrapper .dataTables_paginate .paginate_button.current {
+        background: linear-gradient(135deg, #0089b3, #006d8f) !important;
+        color: #fff !important;
+        border-color: #0089b3 !important;
+    }
+    #tblData_wrapper .dataTables_paginate .paginate_button:hover {
+        background: #f1f5f9 !important;
+        color: #0089b3 !important;
+    }
+
+    #MasterModal .modal-content,
+    #RetrunModal .modal-content {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 25px 60px rgba(0,0,0,.15);
+    }
+    #MasterModal .modal-header,
+    #RetrunModal .modal-header {
+        background: linear-gradient(135deg, #0089b3, #006d8f);
+        border-radius: 12px 12px 0 0;
+        padding: 16px 24px;
+        border: none;
         display: flex;
-        flex-direction: row;
-        justify-content: center;
         align-items: center;
-        gap: 20px;
-        padding:10px;
+        justify-content: space-between;
+    }
+    #MasterModal .modal-title,
+    #RetrunModal .modal-title {
+        color: #fff;
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: .2px;
+    }
+    #MasterModal .modal-header .close,
+    #RetrunModal .modal-header .close {
+        color: rgba(255,255,255,.6);
+        opacity: 1;
+        text-shadow: none;
+        font-size: 22px;
+    }
+    #MasterModal .modal-header .close:hover,
+    #RetrunModal .modal-header .close:hover { color: #fff; opacity: 1; }
+    #MasterModal .modal-body,
+    #RetrunModal .modal-body {
+        padding: 24px;
+        font-family: 'Roboto', sans-serif;
+    }
+    #MasterModal .form-group,
+    #RetrunModal .form-group { margin-bottom: 14px; }
+    #MasterModal .form-group label,
+    #RetrunModal .form-group label {
+        font-size: 12px;
+        font-weight: 600;
+        color: #475569;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+        letter-spacing: .4px;
+    }
+    #MasterModal .form-control,
+    #RetrunModal .form-control {
+        border: 1.5px solid #e2e8f0;
+        border-radius: 6px;
+        box-shadow: none;
+        font-size: 13px;
+        padding: 8px 12px;
+        height: 38px;
+        transition: border-color .2s, box-shadow .2s;
+        color: #0f172a;
+    }
+    #MasterModal .form-control:focus,
+    #RetrunModal .form-control:focus {
+        border-color: #0089b3;
+        box-shadow: 0 0 0 3px rgba(0,137,179,.1);
+    }
+    #MasterModal .form-control:disabled,
+    #MasterModal .form-control[disabled],
+    #RetrunModal .form-control:disabled,
+    #RetrunModal .form-control[disabled] {
+        background: #eef2f6;
+        cursor: not-allowed;
+        opacity: .8;
+    }
+    #RetrunModal textarea.form-control { height: auto; }
+    #RetrunModal .checkbox label {
+        font-size: 13px;
+        color: #334155;
+        text-transform: none;
+        font-weight: 500;
+        letter-spacing: 0;
+    }
+    #RetrunModal .checkbox input[type="checkbox"] { accent-color: #0089b3; }
+    #MasterModal .modal-footer,
+    #RetrunModal .modal-footer {
+        padding: 14px 24px;
+        border-top: 1px solid #f1f5f9;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+    #MasterModal .modal-footer .btn,
+    #RetrunModal .modal-footer .btn {
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        padding: 9px 20px;
+        transition: all .2s;
+    }
+    #MasterModal .modal-footer .btn-primary,
+    #RetrunModal .modal-footer .btn-primary {
+        background: linear-gradient(135deg, #0089b3, #006d8f);
+        border: none;
+        color: #fff;
+    }
+    #MasterModal .modal-footer .btn-primary:hover,
+    #RetrunModal .modal-footer .btn-primary:hover {
+        background: linear-gradient(135deg, #006d8f, #004d66);
+    }
+    #MasterModal .modal-footer .btn-default,
+    #RetrunModal .modal-footer .btn-default {
+        background: #fff;
+        border: 1.5px solid #e2e8f0;
+        color: #475569;
+    }
+    #MasterModal .modal-footer .btn-default:hover,
+    #RetrunModal .modal-footer .btn-default:hover {
+        background: #f1f5f9;
+        border-color: #cbd5e1;
     }
 </style>
 
 <div class="row" id="div_Scroll">
     <div class="col-lg-12">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <span class="pull-left">View Book Issue</span>
-                <button class="btn btn-default pull-right openModal m-t-10">Add Book Issue</button>
+        <div class="card-modern">
+            <div class="card-header-modern">
+                <span class="header-icon"><i class="fa fa-book"></i></span>
+                <span class="header-title">Book Issue / Return</span>
+                <button class="btn btn-register openModal"><i class="fa fa-plus"></i> Issue Book</button>
             </div>
-
-
-            <div class="container">
-                <label  class="control-label">Search by :</label>
-                <div style="width:15%;">
-                    <select id="SearchBylist" name="SearchBylist" class="form-control">
-                        <option value="0">All</option>
-                        <option value="1">Returned</option>
-                        <option value="2" selected>Pending</option>
-                    </select>
-                </div>
-            </div>
-
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel-body">
-                        @Html.Partial("~/Views/Shared/SuccessError.cshtml")
-                        <table class="table table-striped table-bordered table-hover table-condensed dt-responsive" id="tblData">
-                            <thead>
-                                <tr>
-                                    <th>Book Name</th>
-                                    <th>Author</th>
-                                    <th>Issue Date</th>
-                                    <th>Student Name</th>
-                                    <th>Class</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
+            <div class="card-body-modern">
+                <div class="filter-row">
+                    <div class="form-group">
+                        <label class="control-label">Member Type:</label>
+                        <select id="ddlMemberType" name="ddlMemberType" class="form-control">
+                            <option value="All" selected>All</option>
+                            <option value="Student">Student</option>
+                            <option value="Staff">Staff</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Class Filter:</label>
+                        <select id="ddlClassFilter" name="ddlClassFilter" class="form-control"></select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Section Filter:</label>
+                        <select id="ddlSectionFilter" name="ddlSectionFilter" class="form-control">
+                            <option value="0">All</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Status:</label>
+                        <select id="SearchBylist" name="SearchBylist" class="form-control">
+                            <option value="All" selected>All</option>
+                            <option value="Issued">Issued</option>
+                            <option value="Returned">Returned</option>
+                            <option value="Overdue">Overdue</option>
+                        </select>
                     </div>
                 </div>
+                @Html.Partial("~/Views/Shared/SuccessError.cshtml")
+                <table class="table table-striped table-bordered table-hover table-condensed dt-responsive" id="tblData">
+                    <thead>
+                        <tr>
+                            <th>Book Name</th>
+                            <th>Author</th>
+                            <th>Issue Date</th>
+                            <th>Due Date</th>
+                            <th>Member</th>
+                            <th>Class</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
             </div>
         </div>
-        </div>
+    </div>
 </div>
 
 <input type="hidden" id="hdId" value="0" />
+<!-- Issue / Edit modal -->
 <div class="modal fade" id="MasterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title">Issue Book</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Add/Update Book Issue:</h4>
             </div>
             <div class="modal-body">
                 @Html.Partial("~/Views/Shared/Modal_SuccessError.cshtml")
                 <div class="form-group">
-                    <label for="recipient-name" class="control-label">Issue Date:<span style="color:red;">*</span></label>
-                    <input type="text" class="form-control dateFormat" id="txtIssueDate">
+                    <label class="control-label">Member:<span style="color:red;">*</span></label>
+                    @Html.DropDownList("ddlMemberList", (IList<SelectListItem>)ViewBag.MemberList, new { @class = "form-control" })
                 </div>
                 <div class="form-group">
-                    <label for="recipient-name" class="control-label">Class:<span style="color:red;">*</span></label>
-                    @Html.DropDownList("ddlClassList", (IList<SelectListItem>)ViewBag.ClassList, new { @class = "form-control" })
-                </div>
-                <div class="form-group">
-                    <label for="recipient-name" class="control-label">Section:<span style="color:red;">*</span></label>
-                    <select id="ddlSectionList" class="form-control"> </select>
-                </div>
-                <div class="form-group">
-                    <label for="recipient-name" class="control-label">Student:<span style="color:red;">*</span></label>
-                    <select id="ddlStudentList" class="form-control"> </select>
-                </div>
-                <div class="form-group">
-                    <label for="recipient-name" class="control-label">Book:<span style="color:red;">*</span></label>
+                    <label class="control-label">Book:<span style="color:red;">*</span></label>
                     @Html.DropDownList("ddlBookList", (IList<SelectListItem>)ViewBag.BookList, new { @class = "form-control" })
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Issue Date:<span style="color:red;">*</span></label>
+                            <input type="text" class="form-control dateFormat" id="txtIssueDate">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Due Date:<span style="color:red;">*</span></label>
+                            <input type="text" class="form-control dateFormat" id="txtDueDate">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -139,26 +417,194 @@
     </div>
 </div>
 
+<!-- Return modal -->
+<div class="modal fade" id="RetrunModal" tabindex="-1" role="dialog" aria-labelledby="retrunModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Return Book</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Shared/Modal_SuccessError.cshtml")
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Book:</label>
+                            <input type="text" class="form-control" id="txtRBookName" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Member:</label>
+                            <input type="text" class="form-control" id="txtRMemberName" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Issue Date:</label>
+                            <input type="text" class="form-control" id="txtRIssueDate" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Due Date:</label>
+                            <input type="text" class="form-control" id="txtRDueDate" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Overdue Days:</label>
+                            <input type="text" class="form-control" id="txtROverdueDays" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Fine Amount (Rs.):</label>
+                            <input type="text" class="form-control Numeric" id="txtRFineAmount">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="checkbox" style="margin-top:26px;">
+                            <label>
+                                <input type="checkbox" id="chkFinePaid"> Fine Paid
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Remarks:</label>
+                    <textarea class="form-control" id="txtRRemarks" rows="2"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnReturn">Return</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section body_scripts{
     <script type="text/javascript">
+        var _IssueDays = 15;
+        var _FinePerDay = 5;
+        var _RetrunID = 0;
+        var _EditMode = false;
+
+        function fn_fmtDDMMYYYY(str) {
+            if (!str) return '';
+            var p = str.split(' ');
+            if (p.length < 3) return str;
+            var months = { Jan: '01', Feb: '02', Mar: '03', Apr: '04', May: '05', Jun: '06', Jul: '07', Aug: '08', Sep: '09', Oct: '10', Nov: '11', Dec: '12' };
+            return ('0' + p[0]).slice(-2) + '/' + months[p[1]] + '/' + p[2];
+        }
+
+        function fn_toISODate(value) {
+            var p = value.split('/');
+            if (p.length < 3) return value;
+            return p[2] + '-' + p[1] + '-' + p[0];
+        }
+
+        function fn_InitDatePicker(sel) {
+            if ($.fn.datepicker.Constructor) {
+                $(sel).datepicker('remove').datepicker({
+                    format: 'dd/mm/yyyy',
+                    todayHighlight: true,
+                    autoclose: true
+                });
+            } else {
+                $(sel).datepicker('destroy').datepicker({
+                    dateFormat: 'dd/mm/yy',
+                    changeMonth: true,
+                    changeYear: true
+                });
+            }
+        }
+
         $(document).ready(function () {
-            $("#ddlClassList").select2({
-                placeholder: "Select"
+            $("#ddlMemberType").select2({
+                placeholder: "All"
             });
-            $("#ddlSectionList").select2({
-                placeholder: "Select"
+            $("#ddlClassFilter").select2({
+                placeholder: "All"
             });
-            $("#ddlStudentList").select2({
+            $("#ddlSectionFilter").select2({
+                placeholder: "All"
+            });
+            $("#ddlMemberList").select2({
                 placeholder: "Select"
             });
             $("#ddlBookList").select2({
                 placeholder: "Select"
             });
+            fn_InitDatePicker('#txtIssueDate');
+            fn_InitDatePicker('#txtDueDate');
+            fn_LoadSettings();
+            fn_LoadClassFilter();
             fn_Bindtbl("0", "Select");
         });
-        $("#ddlClassList").change(function () {
+
+        function fn_LoadSettings() {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("getLibrarySetting", "Library")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                cache: false,
+                success: function (data) {
+                    if (data.length > 0) {
+                        _IssueDays = parseInt(data[0].IssueDays) || 15;
+                        _FinePerDay = parseFloat(data[0].FinePerDay) || 0;
+                    }
+                }
+            });
+        }
+
+        function fn_LoadClassFilter() {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("viewClassList", "Library")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                cache: false,
+                success: function (data) {
+                    $("#ddlClassFilter").empty().append('<option selected="selected" value="0">All</option>');
+                    if (data.length > 0) {
+                        $.each(data, function () {
+                            $("#ddlClassFilter").append($("<option/>").val(this.ClassID).text(this.ClassName));
+                        });
+                    }
+                }
+            });
+        }
+
+        $("#ddlMemberType").change(function () {
+            var MT = fn_GetMemberType();
+            $("#ddlMemberList").empty().append('<option selected="selected" value="0">Select</option>');
+            if (MT == 'Staff') {
+                $("#ddlClassFilter").select2('val', '0');
+                $("#ddlSectionFilter").empty().append('<option selected="selected" value="0">All</option>');
+            }
+            fn_BindMember("0", "0");
+        });
+
+        $("#ddlClassFilter").change(function () {
             var ID = $('option:selected', this).val();
+            $("#ddlSectionFilter").empty().append('<option selected="selected" value="0">All</option>');
+            $("#ddlMemberList").empty().append('<option selected="selected" value="0">Select</option>');
+            if (fn_GetMemberType() == 'Staff') {
+                fn_BindMember("0", "0");
+                return false;
+            }
             if (ID == '' || ID <= 0) {
+                fn_BindMember("0", "0");
                 return false;
             }
             $.ajax({
@@ -170,45 +616,67 @@
                 async: false,
                 cache: false,
                 success: function (data) {
-                    $("#ddlSectionList").empty().append('<option selected="selected" value="0">Select</option>');
                     if (data.length > 0) {
                         $.each(data, function () {
-                            $("#ddlSectionList").append($("<option/>").val(this.SectionID).text(this.SectionName));
+                            $("#ddlSectionFilter").append($("<option/>").val(this.SectionID).text(this.SectionName));
                         });
                     }
                 }
             });
         });
-        $("#ddlSectionList").change(function () {
-            var _CID = $.trim($("#ddlClassList").val());
+
+        $("#ddlSectionFilter").change(function () {
+            var _CID = $.trim($("#ddlClassFilter").val());
             var _SID = $('option:selected', this).val();
-            if (_CID == '' || _CID <= 0) {
+            if (fn_GetMemberType() == 'Staff') {
+                fn_BindMember("0", "0");
                 return false;
             }
-            if (_SID == '' || _SID <= 0) {
-                return false;
-            }
+            fn_BindMember(_CID, _SID);
+        });
+
+        function fn_GetMemberType() {
+            return $.trim($("#ddlMemberType").val()) || 'All';
+        }
+
+        function fn_BindMember(CID, SID) {
             $.ajax({
                 type: "POST",
-                url: '/Library/BindStudent',
-                data: JSON.stringify({ CID: _CID, SID: _SID }),
+                url: '@Url.Action("BindMember", "Library")',
+                data: JSON.stringify({ CID: CID, SID: SID, MemberType: fn_GetMemberType() }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 async: false,
                 cache: false,
                 success: function (data) {
-                    $("#ddlStudentList").empty().append('<option selected="selected" value="0">Select</option>');
+                    $("#ddlMemberList").empty().append('<option selected="selected" value="0">Select</option>');
                     if (data.length > 0) {
                         $.each(data, function () {
-                            $("#ddlStudentList").append($("<option/>").val(this.SR_ID).text(this.SR_StudentName));
+                            $("#ddlMemberList").append($("<option/>").val(this.LibMemberID).text(this.MemberName + ' (' + this.RegNo + ')'));
                         });
                     }
+                    $("#ddlMemberList").trigger("change");
                 }
             });
+        }
+
+        $("#txtIssueDate").change(function () {
+            var _IssueDate = $.trim($(this).val());
+            if (_IssueDate != "" && _IssueDays > 0) {
+                var _prt = _IssueDate.split('/');
+                var dt = new Date(parseInt(_prt[2]), parseInt(_prt[1]) - 1, parseInt(_prt[0]));
+                dt.setDate(dt.getDate() + _IssueDays);
+                var dd = ("0" + dt.getDate()).slice(-2);
+                var mm = ("0" + (dt.getMonth() + 1)).slice(-2);
+                var yyyy = dt.getFullYear();
+                $("#txtDueDate").val(dd + "/" + mm + "/" + yyyy);
+            }
         });
+
         $("#SearchBylist").change(function () {
             fn_Bindtbl("0", "Select");
         });
+
         $(document).on("click", ".openModal", function () {
             HideSuccErrDiv();
             ModalHideSuccErrDiv();
@@ -219,34 +687,44 @@
         $(document).on("click", ".Iconeditclass", function () {
             var _Id = $(this).attr('data-ID');
             $("#hdId").val(_Id);
+            _EditMode = true;
             fn_Bindtbl(_Id, "SelectByID");
         });
 
         $(document).on("click", ".Icondelclass", function () {
-            if (confirm("Are you sure want to delete?")) {
+            if (confirm("Are you sure want to delete this issue record?")) {
                 var _Id = $(this).attr('data-ID');
                 fn_del(_Id, "Delete");
             }
         });
+
         $(document).on("click", ".Iconretclass", function () {
-            if (confirm("Are you sure want to retrun?")) {
-                var _Id = $(this).attr('data-ID');
-                fn_del(_Id, "Retrun");
-            }
+            HideSuccErrDiv();
+            ModalHideSuccErrDiv();
+            var _Id = $(this).attr('data-ID');
+            _RetrunID = _Id;
+            _EditMode = false;
+            fn_Bindtbl(_Id, "SelectByID");
         });
+
         $(document).on("click", "#btnSave", function () {
             ModalHideSuccErrDiv();
             var _Id = $.trim($("#hdId").val());
-            var _IssueDate = $.trim($("#txtIssueDate").val());
+            var _IssueDate = fn_toISODate($.trim($("#txtIssueDate").val()));
+            var _DueDate = fn_toISODate($.trim($("#txtDueDate").val()));
             var _BookID = $.trim($("#ddlBookList").val());
-            var _StudentID = $.trim($("#ddlStudentList").val());
+            var _MemberID = $.trim($("#ddlMemberList").val());
 
-            if (_IssueDate == "") {
+            if ($.trim($("#txtIssueDate").val()) == "") {
                 ModalPopupError("Please enter Issue Date.", "Error", "M_errorBlock");
                 return false;
             }
-            if (_StudentID == "" || _StudentID <= 0) {
-                ModalPopupError("Please Select Student.", "Error", "M_errorBlock");
+            if ($.trim($("#txtDueDate").val()) == "") {
+                ModalPopupError("Please enter Due Date.", "Error", "M_errorBlock");
+                return false;
+            }
+            if (_MemberID == "" || _MemberID <= 0) {
+                ModalPopupError("Please Select Member.", "Error", "M_errorBlock");
                 return false;
             }
             if (_BookID == "" || _BookID <= 0) {
@@ -257,20 +735,28 @@
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("saveBookIssueMaster", "Library")',
-                data: JSON.stringify({ Id: _Id, IssueDate: _IssueDate, StudentID: _StudentID, BookID: _BookID }),
+                data: JSON.stringify({ Id: _Id, IssueDate: _IssueDate, DueDate: _DueDate, LibMemberID: _MemberID, BookID: _BookID }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 cache: false,
                 success: function (response) {
                     if (response == "InsertSuccessful") {
                         fn_resetform();
-                        ModalPopupError("Data Inserted successfully.", "Success", "M_errorBlock");
+                        ModalPopupError("Book issued successfully.", "Success", "M_errorBlock");
                         fn_Bindtbl("0", "Select");
                     }
                     else if (response == "UpdateSuccessful") {
                         fn_resetform();
                         ModalPopupError("Data updated successfully.", "Success", "M_errorBlock");
                         fn_Bindtbl("0", "Select");
+                    }
+                    else if (response == "noStock") {
+                        ModalPopupError("No stock available for this book.", "Error", "M_errorBlock");
+                        return false;
+                    }
+                    else if (response == "alreadyIssued") {
+                        ModalPopupError("Book already issued to this member and not returned.", "Error", "M_errorBlock");
+                        return false;
                     }
                     else {
                         alert("Error. Try again latet.");
@@ -279,10 +765,44 @@
                 },
                 error: function (error) {
                     console.error(error);
-                    //FormSuccessError(error, "Error", "errorBlock");
                     return false;
                 }
             });
+        });
+
+        $(document).on("click", "#btnReturn", function () {
+            ModalHideSuccErrDiv();
+            var _FineAmount = $.trim($("#txtRFineAmount").val());
+            var _FinePaid = $("#chkFinePaid").is(":checked") ? "Y" : "N";
+            var _Remarks = $.trim($("#txtRRemarks").val());
+            if (_FineAmount == "") {
+                _FineAmount = '0';
+            }
+            if (confirm("Are you sure want to return this book?")) {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("deleteBookIssueMaster", "Library")',
+                    data: JSON.stringify({ Id: _RetrunID, type: "Retrun", FinePaidStatus: _FinePaid, Remarks: _Remarks }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    cache: false,
+                    success: function (response) {
+                        if (response == "retrunSuccessful" || response == "retrunWithFineSuccessful") {
+                            $("#RetrunModal").modal('hide');
+                            fn_Bindtbl("0", "Select");
+                            FormSuccessError("Book returned successfully.", "Success", "errorBlock");
+                        }
+                        else {
+                            alert("Error. Try again latet.");
+                            return false;
+                        }
+                    },
+                    error: function (error) {
+                        console.error(error);
+                        return false;
+                    }
+                });
+            }
         });
 
         function fn_Bindtbl(_Id, Type) {
@@ -301,40 +821,63 @@
                             row += '<tr>';
                             row += '<td>' + val.BookName + '</td>';
                             row += '<td>' + val.BookAuthor + '</td>';
-                            row += '<td>' + val.IssueDate + '</td>';
-                            row += '<td>' + val.SR_StudentName + '<br> <small style="font-size: 10px; color: #9E9E9E;">Reg No.:' + val.SR_RegNo + '</small></td>';
-                            row += '<td>' + val.ClassName + '</td>';
-                       
+                            row += '<td>' + fn_fmtDDMMYYYY(val.IssueDate) + '</td>';
+                            row += '<td>' + fn_fmtDDMMYYYY(val.DueDate) + '</td>';
+                            row += '<td>' + val.MemberName + '<br> <small style="font-size: 10px; color: #94a3b8;">Reg No.:' + val.RegNo + '</small></td>';
+                            row += '<td>' + (val.MemberType == 'Staff' ? 'Staff' : (val.ClassName + (val.SectionName ? (' - ' + val.SectionName) : ''))) + '</td>';
+
+                            var _over = parseInt(val.OverdueDays) || 0;
                             if (val.BookStatus == 'Returned') {
                                 row += '<td><i class="dotG"></i> ' + val.BookStatus + '</td>';
                                 row += '<td><i class="fa fa-edit" style="cursor: not-allowed;" data-ID="' + val.IssueID + '"></i><i class="fa fa-truck" style="cursor: not-allowed;" data-ID="' + val.IssueID + '"></i><i class="fa fa-trash-o" style="cursor: not-allowed;" data-ID="' + val.IssueID + '"></i></td>';
+                            }
+                            else if (_over > 0) {
+                                row += '<td><i class="dot"></i> <span style="color:red;font-weight:bold;">Overdue (' + _over + ' days)</span></td>';
+                                row += '<td><i class="fa fa-edit Iconeditclass" data-ID="' + val.IssueID + '"></i><i class="fa fa-truck Iconretclass" data-ID="' + val.IssueID + '"></i><i class="fa fa-trash-o Icondelclass" data-ID="' + val.IssueID + '"></i></td>';
                             }
                             else {
                                 row += '<td><i class="dot"></i> ' + val.BookStatus + '</td>';
                                 row += '<td><i class="fa fa-edit Iconeditclass" data-ID="' + val.IssueID + '"></i><i class="fa fa-truck Iconretclass" data-ID="' + val.IssueID + '"></i><i class="fa fa-trash-o Icondelclass" data-ID="' + val.IssueID + '"></i></td>';
                             }
-                                row += '</tr>';
+                            row += '</tr>';
                             $('#tblData tbody').append(row);
                         });
                         $('#tblData').dataTable();
                     }
 
                     if (Type == "SelectByID") {
-                        $('#btnSave').text("Update");
-                        $("#txtIssueDate").val(data[0].IssueDate);
-                        $("#ddlClassList").select2('val', data[0].ClassID);
-                        $("#ddlSectionList").select2('val', data[0].SectionID);
-                        $("#ddlStudentList").select2('val', data[0].SR_ID);
-                        $("#ddlBookList").select2('val', data[0].BookID);
-                        $("#ddlClassList").attr("disabled", "disabled");
-                        $("#ddlSectionList").attr("disabled", "disabled");
-                        $("#ddlStudentList").attr("disabled", "disabled");
-                        $("#MasterModal").modal();
+                        if (!data || data == 'Error' || data.length < 1) {
+                            alert("Record not found. It may have been removed. Please close and reload the list.");
+                            return false;
+                        }
+                        $("#hdId").val(data[0].IssueID);
+                        if (_EditMode === true) {
+                            $('#btnSave').text("Update");
+                            if ($("#ddlMemberList").find("option[value='" + data[0].LibMemberID + "']").length == 0) {
+                                $("#ddlMemberList").append($("<option/>").val(data[0].LibMemberID).text(data[0].MemberName + ' (' + data[0].RegNo + ')'));
+                            }
+                            $("#ddlMemberList").select2('val', data[0].LibMemberID);
+                            $("#ddlBookList").select2('val', data[0].BookID);
+                            $("#txtIssueDate").val(fn_fmtDDMMYYYY(data[0].IssueDate));
+                            $("#txtDueDate").val(fn_fmtDDMMYYYY(data[0].DueDate));
+                            $("#MasterModal").modal();
+                        } else {
+                            _RetrunID = data[0].IssueID;
+                            $("#txtRBookName").val(data[0].BookName);
+                            $("#txtRMemberName").val(data[0].MemberName + ' (' + data[0].RegNo + ')');
+                            $("#txtRIssueDate").val(fn_fmtDDMMYYYY(data[0].IssueDate));
+                            $("#txtRDueDate").val(fn_fmtDDMMYYYY(data[0].DueDate));
+                            $("#txtROverdueDays").val(data[0].OverdueDays);
+                            var _fine = (parseInt(data[0].OverdueDays) || 0) * _FinePerDay;
+                            $("#txtRFineAmount").val(_fine.toFixed(2));
+                            $("#chkFinePaid").prop("checked", false);
+                            $("#txtRRemarks").val('');
+                            $("#RetrunModal").modal();
+                        }
                     }
                 },
                 error: function (error) {
                     console.error(error);
-                    //FormSuccessError(error, "Error", "errorBlock");
                     return false;
                 }
             });
@@ -344,7 +887,7 @@
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("deleteBookIssueMaster", "Library")',
-                data: JSON.stringify({ Id: Id, Type: type }),
+                data: JSON.stringify({ Id: Id, type: type }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 cache: false,
@@ -352,11 +895,6 @@
                     if (response == "deleteSuccessful") {
                         fn_Bindtbl("0", "Select");
                         FormSuccessError("Data deleted successfully.", "Success", "errorBlock");
-                        //alert("Class deleted successfully.");
-                    } else if (response == "retrunSuccessful") {
-                        fn_Bindtbl("0", "Select");
-                        FormSuccessError("Book retrun successfully.", "Success", "errorBlock");
-                        //alert("Class deleted successfully.");
                     }
                     else {
                         alert("Error. Try again latet.");
@@ -365,7 +903,6 @@
                 },
                 error: function (error) {
                     console.error(error);
-                    //FormSuccessError(error, "Error", "errorBlock");
                     return false;
                 }
             });
@@ -373,19 +910,13 @@
 
         function fn_resetform() {
             $("#hdId").val('0');
-            $("#txtIssueDate").val('');
-            $("#ddlClassList").select2("val", '');
-            $("#ddlSectionList").select2("val", '');
-            $("#ddlStudentList").select2("val", '');
+            _EditMode = false;
+            $("#ddlMemberList").select2("val", '');
             $("#ddlBookList").select2("val", '');
-            $("#ddlClassList").removeAttr("disabled");
-            $("#ddlSectionList").removeAttr("disabled");
-            $("#ddlStudentList").removeAttr("disabled");
+            $("#txtIssueDate").val('');
+            $("#txtDueDate").val('');
+            $("#ddlMemberList").removeAttr("disabled");
             $('#btnSave').text("Save");
         }
     </script>
 }
-
-
-
-

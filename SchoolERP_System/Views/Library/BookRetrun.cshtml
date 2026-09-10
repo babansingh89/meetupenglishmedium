@@ -1,9 +1,6 @@
-﻿
-@{
-    ViewBag.Title = "Book Retrun";
-    //Layout = "~/Views/Shared/_StudentLayout.cshtml";
+﻿@{
+    ViewBag.Title = "My Issued Books";
 }
-
 
 <style>
     .dot {
@@ -46,7 +43,7 @@
     <div class="col-lg-12">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <span class="pull-left">View Book Retrun</span>
+                <span class="pull-left">My Issued Books</span>
             </div>
             <div class="row">
                 <div class="col-lg-12">
@@ -58,8 +55,7 @@
                                     <th>Book Name</th>
                                     <th>Author</th>
                                     <th>Issue Date</th>
-                                    <th>Student Name</th>
-                                    <th>Class</th>
+                                    <th>Due Date</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
@@ -72,63 +68,52 @@
     </div>
 </div>
 
-
 @section body_scripts{
     <script type="text/javascript">
+        var _StudentID = '@ViewBag.StudentID';
+
         $(document).ready(function () {
-           
-            fn_Bindtbl("0", "SelectStudent");
+            fn_Bindtbl(_StudentID, "SelectStudent");
         });
-       
 
         function fn_Bindtbl(_Id, Type) {
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("viewBookIssueMaster", "Library")',
-                data: JSON.stringify({ Id: _Id, Type: Type }),
+                data: JSON.stringify({ Id: _Id, Type: Type, SearchID: _Id }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 cache: false,
                 success: function (data) {
-                    if (Type == "SelectStudent") {
-                        $('#tblData tbody').empty();
-                        $.each(data, function (rowIndex, val) {
-                            var row = '';
-                            row += '<tr>';
-                            row += '<td>' + val.BookName + '</td>';
-                            row += '<td>' + val.BookAuthor + '</td>';
-                            row += '<td>' + val.IssueDate + '</td>';
-                            row += '<td>' + val.SR_StudentName + '<br> <small style="font-size: 10px; color: #9E9E9E;">Reg No.:' + val.SR_RegNo + '</small></td>';
-                            row += '<td>' + val.ClassName + '</td>';
+                    $('#tblData tbody').empty();
+                    $.each(data, function (rowIndex, val) {
+                        var row = '';
+                        row += '<tr>';
+                        row += '<td>' + val.BookName + '</td>';
+                        row += '<td>' + val.BookAuthor + '</td>';
+                        row += '<td>' + val.IssueDate + '</td>';
+                        row += '<td>' + val.DueDate + '</td>';
 
-                            if (val.BookStatus == 'Returned') {
-                                row += '<td><i class="dotG"></i> ' + val.BookStatus + '</td>';
-                                //row += '<td><i class="fa fa-edit" style="cursor: not-allowed;" data-ID="' + val.IssueID + '"></i><i class="fa fa-truck" style="cursor: not-allowed;" data-ID="' + val.IssueID + '"></i><i class="fa fa-trash-o" style="cursor: not-allowed;" data-ID="' + val.IssueID + '"></i></td>';
-                            }
-                            else {
-                                row += '<td><i class="dot"></i> ' + val.BookStatus + '</td>';
-                                //row += '<td><i class="fa fa-edit Iconeditclass" data-ID="' + val.IssueID + '"></i><i class="fa fa-truck Iconretclass" data-ID="' + val.IssueID + '"></i><i class="fa fa-trash-o Icondelclass" data-ID="' + val.IssueID + '"></i></td>';
-                            }
-                                row += '</tr>';
-                            $('#tblData tbody').append(row);
-                        });
-                        $('#tblData').dataTable();
-                    }
-
-                   
+                        var _over = parseInt(val.OverdueDays) || 0;
+                        if (val.BookStatus == 'Returned') {
+                            row += '<td><i class="dotG"></i> ' + val.BookStatus + '</td>';
+                        }
+                        else if (_over > 0) {
+                            row += '<td><i class="dot"></i> <span style="color:red;font-weight:bold;">Overdue (' + _over + ' days)</span></td>';
+                        }
+                        else {
+                            row += '<td><i class="dot"></i> ' + val.BookStatus + '</td>';
+                        }
+                        row += '</tr>';
+                        $('#tblData tbody').append(row);
+                    });
+                    $('#tblData').dataTable();
                 },
                 error: function (error) {
                     console.error(error);
-                    //FormSuccessError(error, "Error", "errorBlock");
                     return false;
                 }
             });
         }
-
     </script>
 }
-
-
-
-
-

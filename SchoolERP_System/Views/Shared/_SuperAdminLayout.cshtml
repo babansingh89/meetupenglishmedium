@@ -488,8 +488,15 @@
                                 <span>Library</span>
                             </a>
                             <ul class="sub">
+                                <li><a href="@Url.Action("CategoryList", "Library")"><i class="sub-icon fa fa-tags"></i>Book Category</a></li>
                                 <li><a href="@Url.Action("BookList", "Library")"><i class="sub-icon fa fa-book"></i>Book List Manager</a></li>
-                                <li><a href="@Url.Action("BookIssue", "Library")"><i class="sub-icon fa fa-exchange"></i>Book Issue Report</a></li>
+                                <li><a href="@Url.Action("MemberList", "Library")"><i class="sub-icon fa fa-users"></i>Library Members</a></li>
+                                <li><a href="@Url.Action("BookIssue", "Library")"><i class="sub-icon fa fa-exchange"></i>Issue / Return</a></li>
+                                <li><a href="@Url.Action("LibrarySetting", "Library")"><i class="sub-icon fa fa-cog"></i>Library Setting</a></li>
+                                <li><a href="@Url.Action("ReportIssue", "Library")"><i class="sub-icon fa fa-file-text-o"></i>Issue Report</a></li>
+                                <li><a href="@Url.Action("ReportOverdue", "Library")"><i class="sub-icon fa fa-exclamation-triangle"></i>Overdue Report</a></li>
+                                <li><a href="@Url.Action("ReportBookStock", "Library")"><i class="sub-icon fa fa-bar-chart"></i>Book Stock Report</a></li>
+                                <li><a href="@Url.Action("ReportMemberWise", "Library")"><i class="sub-icon fa fa-user"></i>Member Wise Report</a></li>
                             </ul>
                         </li>
                         <li class="sub-menu">
