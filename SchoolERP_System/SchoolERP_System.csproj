@@ -1339,6 +1339,13 @@
     <Content Include="Views\Transaction\StudentFeesCollectionList_Bengali.cshtml" />
     <Content Include="Views\Messaging\ManualSMS.cshtml" />
     <Content Include="Views\Transaction\StudentFeesCollection_Automapper.cshtml" />
+    <Content Include="Views\Library\CategoryList.cshtml" />
+    <Content Include="Views\Library\LibrarySetting.cshtml" />
+    <Content Include="Views\Library\MemberList.cshtml" />
+    <Content Include="Views\Library\ReportBookStock.cshtml" />
+    <Content Include="Views\Library\ReportIssue.cshtml" />
+    <Content Include="Views\Library\ReportMemberWise.cshtml" />
+    <Content Include="Views\Library\ReportOverdue.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
